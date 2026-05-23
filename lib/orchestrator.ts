@@ -12,9 +12,9 @@
 import { invokeAgent } from "./claude";
 import { AgentKey, resolveAgentId } from "./agents";
 
-function agentIsConfigured(key: AgentKey): boolean {
+function agentIsConfigured(key: string): boolean {
   try {
-    resolveAgentId(key);
+    resolveAgentId(key as AgentKey);
     return true;
   } catch {
     return false;
@@ -111,8 +111,8 @@ export async function runScoping(jobId: string) {
     ? scope.assignedAgents
     : (["professional_editor", "research_support", "research_intelligence"] as AgentKey[]);
 
-  const fanout = preferred.filter(agentIsConfigured);
-  const effective = fanout.length > 0 ? fanout : (["research_intelligence"] as AgentKey[]);
+  const fanout = (preferred as string[]).filter(agentIsConfigured) as AgentKey[];
+  const effective: AgentKey[] = fanout.length > 0 ? fanout : ["research_intelligence"];
 
   for (const agent of effective) {
     await queue(QUEUE_NAMES.review).add("review", { jobId, agent });
