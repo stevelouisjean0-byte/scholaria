@@ -10,7 +10,16 @@
  * Every transition is durable, replayable, and observable.
  */
 import { invokeAgent } from "./claude";
-import { AgentKey } from "./agents";
+import { AgentKey, resolveAgentId } from "./agents";
+
+function agentIsConfigured(key: AgentKey): boolean {
+  try {
+    resolveAgentId(key);
+    return true;
+  } catch {
+    return false;
+  }
+}
 import {
   AgentReview,
   FinalReport,
@@ -91,13 +100,25 @@ export async function runScoping(jobId: string) {
   await recordWorkflowEvent(jobId, "scope.complete", scope);
 
   await setStage(jobId, "reviewing");
-  const fanout = scope.assignedAgents.length
+
+  // Default fanout — every reviewing agent we know about. Graceful
+  // degradation: filter to whatever the runtime has resolvable IDs for,
+  // so the platform works whether the user has built 1 agent or all of
+  // them. If nothing is configured, fall through to research_intelligence
+  // (we always treat that as the canonical baseline reviewer once an
+  // API key is present) so the workflow never queues zero reviewers.
+  const preferred = scope.assignedAgents.length
     ? scope.assignedAgents
-    : ["professional_editor", "research_support", "research_intelligence"];
-  for (const agent of fanout) {
+    : (["professional_editor", "research_support", "research_intelligence"] as AgentKey[]);
+
+  const fanout = preferred.filter(agentIsConfigured);
+  const effective = fanout.length > 0 ? fanout : (["research_intelligence"] as AgentKey[]);
+
+  for (const agent of effective) {
     await queue(QUEUE_NAMES.review).add("review", { jobId, agent });
   }
-  await db.query("update jobs set reviews_expected=$2 where id=$1", [jobId, fanout.length]);
+  await db.query("update jobs set reviews_expected=$2 where id=$1", [jobId, effective.length]);
+  await recordWorkflowEvent(jobId, "fanout.assigned", { effective });
 }
 
 const reviewSchema = z.object({
