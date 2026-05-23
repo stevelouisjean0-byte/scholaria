@@ -31,19 +31,23 @@ export async function parseDocument(buffer: Buffer, filename: string): Promise<P
 }
 
 async function parsePdf(buffer: Buffer): Promise<ParsedDocument> {
-  // Dynamic import — pdf-parse has heavy side effects on import.
-  const pdf = (await import("pdf-parse")).default as (b: Buffer) => Promise<{
-    text: string;
-    numpages: number;
-  }>;
-  const result = await pdf(buffer);
+  // pdf-parse@2 exposes a PDFParse class (no default export). Dynamic import
+  // keeps the heavy PDF.js init out of the cold path until a PDF arrives.
+  const { PDFParse } = (await import("pdf-parse")) as {
+    PDFParse: new (opts: { data: Buffer | Uint8Array }) => {
+      getText(): Promise<{ text: string; numpages?: number; pages?: unknown[] }>;
+    };
+  };
+  const parser = new PDFParse({ data: buffer });
+  const result = await parser.getText();
   const text = normalise(result.text);
+  const pageCount = result.numpages ?? result.pages?.length ?? 0;
   return {
     kind: "pdf",
     text,
     excerpt: text.slice(0, EXCERPT_LEN),
     wordCount: wordCountOf(text),
-    pageCount: result.numpages,
+    pageCount,
     rawLength: result.text.length
   };
 }
