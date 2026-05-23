@@ -44,7 +44,10 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
   const system = buildSystemPrompt(def.role, input.system, input.cacheable);
   const userBlocks = buildUserMessage(input.task, input.context);
 
-  const response = await client.messages.create(
+  // Cast away the `Message | Stream` union — we never set `stream: true` so
+  // the SDK always returns a `Message`. Narrowing here keeps the call site
+  // typed without forcing every caller to handle the streaming branch.
+  const response = (await client.messages.create(
     {
       model: DEFAULT_MODEL,
       max_tokens: input.maxTokens ?? 4096,
@@ -58,11 +61,11 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
       // when this header is present.
       headers: { "anthropic-managed-agent": agentId }
     }
-  );
+  )) as Anthropic.Message;
 
   const text = response.content
-    .filter((b): b is Anthropic.TextBlock => b.type === "text")
-    .map((b) => b.text)
+    .filter((b: Anthropic.ContentBlock): b is Anthropic.TextBlock => b.type === "text")
+    .map((b: Anthropic.TextBlock) => b.text)
     .join("\n\n");
 
   const usage = response.usage as Anthropic.Usage & {
