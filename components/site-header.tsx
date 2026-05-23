@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { ClerkHeaderAuth } from "@/components/auth/clerk-header-auth";
 
 const NAV = [
   ["Dissertation Intelligence", "/dissertation-intelligence"],
@@ -45,13 +46,7 @@ export function SiteHeader() {
             <Link key={href} href={href} className="hover:text-ink-950">{label}</Link>
           ))}
           <span className="h-4 w-px bg-ink-200" />
-          <Link href="/signin" className="text-ink-700 hover:text-ink-950">Sign in</Link>
-          <Link
-            href="/signup"
-            className="inline-flex items-center h-8 px-3.5 rounded-full bg-ink-900 text-white hover:bg-ink-800 transition text-[13px]"
-          >
-            Get started
-          </Link>
+          <ClerkHeaderAuth />
         </nav>
 
         <button

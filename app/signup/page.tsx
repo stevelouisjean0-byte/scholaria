@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/auth/auth-form";
+import { ClerkSignUp } from "@/components/auth/clerk-mounts";
 import { PAGE_HEROES } from "@/lib/media";
+import { clerkEnabled } from "@/lib/clerk-config";
 
 export const metadata: Metadata = {
   title: "Request early access",
@@ -15,7 +17,7 @@ export default function SignUpPage() {
   return (
     <section className="min-h-screen bg-canvas grid lg:grid-cols-2">
       <div className="flex items-center justify-center p-6 lg:p-10">
-        <AuthForm mode="signup" />
+        {clerkEnabled ? <ClerkSignUp /> : <AuthForm mode="signup" />}
       </div>
       <aside className="hidden lg:block relative">
         <Image

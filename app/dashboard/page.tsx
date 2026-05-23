@@ -1,7 +1,27 @@
 import Link from "next/link";
 import { FileText, Upload, Clock, ArrowRight, Sparkles } from "lucide-react";
+import { clerkEnabled } from "@/lib/clerk-config";
 
-export default function StudentDashboard() {
+async function getSignedInUser() {
+  if (!clerkEnabled) return null;
+  try {
+    const { currentUser } = await import("@clerk/nextjs/server");
+    return await currentUser();
+  } catch {
+    return null;
+  }
+}
+
+export default async function StudentDashboard() {
+  const user = await getSignedInUser();
+  const displayName =
+    user?.firstName
+      ? `${user.firstName}${user.lastName ? " " + user.lastName : ""}`
+      : user?.emailAddresses?.[0]?.emailAddress?.split("@")[0]
+      ?? "Dr. Patel";
+  const greetingSubtitle = user
+    ? user.emailAddresses?.[0]?.emailAddress ?? "Signed in to Scholaria"
+    : "Ed.D. · Educational Leadership · Doctoral plan";
   const manuscripts = [
     { id: "ms_pra72", title: "Dissertation Ch. 3 — Methodology", stage: "Reviewing", progress: 64, readiness: 84 },
     { id: "ms_la2k0", title: "Literature Review v4", stage: "Delivered", progress: 100, readiness: 92 },
@@ -14,8 +34,8 @@ export default function StudentDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <div className="eyebrow">Student dashboard</div>
-            <h1 className="font-serif text-3xl text-ink-900 mt-2">Welcome back, Dr. Patel.</h1>
-            <p className="text-[14px] text-ink-600 mt-1">Ed.D. · Educational Leadership · Doctoral plan</p>
+            <h1 className="font-serif text-3xl text-ink-900 mt-2">Welcome back, {displayName}.</h1>
+            <p className="text-[14px] text-ink-600 mt-1">{greetingSubtitle}</p>
           </div>
           <Link href="/upload" className="btn-primary">
             <Upload className="h-4 w-4" />

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/auth/auth-form";
+import { ClerkSignIn } from "@/components/auth/clerk-mounts";
 import { HERO_FIGURE } from "@/lib/media";
+import { clerkEnabled } from "@/lib/clerk-config";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -15,7 +17,7 @@ export default function SignInPage() {
   return (
     <section className="min-h-screen bg-canvas grid lg:grid-cols-2">
       <div className="flex items-center justify-center p-6 lg:p-10">
-        <AuthForm mode="signin" />
+        {clerkEnabled ? <ClerkSignIn /> : <AuthForm mode="signin" />}
       </div>
       <aside className="hidden lg:block relative">
         <Image

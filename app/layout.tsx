@@ -5,6 +5,8 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { siteGraph } from "@/lib/jsonld";
+import { clerkEnabled } from "@/lib/clerk-config";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
+  const shell = (
     <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable}`}>
       <body>
         <a href="#content" className="skip-link">Skip to content</a>
@@ -87,4 +89,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
+
+  // When Clerk is configured, wrap the entire app in <ClerkProvider> so
+  // useUser(), <SignedIn>, <SignedOut>, and <UserButton> work everywhere.
+  // When it is not configured, ship the same shell — the placeholder
+  // <AuthForm> on /signin / /signup handles the unauth flow gracefully.
+  return clerkEnabled ? <ClerkProvider>{shell}</ClerkProvider> : shell;
 }
