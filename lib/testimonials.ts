@@ -69,7 +69,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "Nashville, TN",
     quote:
       "The submission readiness score is decomposed in a way that makes it useful, not theatrical. I could see exactly which sub-score was holding the chapter back and what would move it. My chair noticed the difference.",
-    highlight: "readiness"
+    highlight: "readiness",
+    portrait: PORTRAITS.thompson
   },
   {
     id: "chen-stanford",
@@ -79,7 +80,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "Stanford, CA",
     quote:
       "I was sceptical of any AI tool touching a dissertation. The Research Support Agent flagged a missing voice in my literature review — a citation pattern across three studies that I'd missed — and that scepticism evaporated. The platform critiques. It does not write.",
-    highlight: "synthesis"
+    highlight: "synthesis",
+    portrait: PORTRAITS.chen
   },
   {
     id: "ramirez-jhu",
@@ -89,7 +91,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "Baltimore, MD",
     quote:
       "Capstone deadline pressure is real. Scholaria turned a 28-page chapter around in under a day with editorial notes my faculty advisor said were 'more useful than the last writing-center review I sent her.' I have not stopped recommending it to my cohort.",
-    highlight: "support"
+    highlight: "support",
+    portrait: PORTRAITS.ramirez
   },
   {
     id: "williams-usc",
@@ -99,7 +102,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "Los Angeles, CA",
     quote:
       "The tone scoring did exactly what I needed. The chapter had drifted into colloquial register in three places, and the agent named the exact paragraphs without rewriting them for me. I edited from a position of knowing what to fix.",
-    highlight: "tone"
+    highlight: "tone",
+    portrait: PORTRAITS.williams
   },
   {
     id: "ndiaye-michigan",
@@ -109,7 +113,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "Ann Arbor, MI",
     quote:
       "The methodology alignment audit was worth the entire subscription. The agent named a question-design misalignment a committee member would have asked me about on Day One of my defence. I revised it before they had the chance to.",
-    highlight: "methodology"
+    highlight: "methodology",
+    portrait: PORTRAITS.ndiaye
   },
   {
     id: "park-teachers-college",
@@ -119,7 +124,8 @@ export const TESTIMONIALS: Testimonial[] = [
     city: "New York, NY",
     quote:
       "I was working from a chapter that had been reviewed three times by humans and once by another AI tool. Scholaria still found two genuine improvements — a transition that read as a non-sequitur and a theme that overlapped with another one. That is the standard I was looking for.",
-    highlight: "synthesis"
+    highlight: "synthesis",
+    portrait: PORTRAITS.park
   }
 ];
 

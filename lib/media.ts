@@ -206,6 +206,48 @@ export const PORTRAITS: Record<string, Photo> = {
     credit: "Christina @ wocintechchat.com — Unsplash",
     width: 600,
     height: 600
+  },
+  thompson: {
+    src: u("photo-1487412720507-e7ab37603c6f", 600),
+    alt: "Portrait of a woman with dark hair photographed in soft daylight.",
+    credit: "Tamara Bellis — Unsplash",
+    width: 600,
+    height: 600
+  },
+  chen: {
+    src: u("photo-1535713875002-d1d0cf377fde", 600),
+    alt: "Portrait of a man in a sweater photographed in even daylight.",
+    credit: "Anastasia Vityukova — Unsplash",
+    width: 600,
+    height: 600
+  },
+  ramirez: {
+    src: u("photo-1607746882042-944635dfe10e", 600),
+    alt: "Portrait of a woman with curly hair smiling slightly, daylight portrait.",
+    credit: "Andrea Piacquadio — Unsplash",
+    width: 600,
+    height: 600
+  },
+  williams: {
+    src: u("photo-1500648767791-00dcc994a43e", 600),
+    alt: "Portrait of a man with a beard photographed in soft daylight.",
+    credit: "Erik Lucatero — Unsplash",
+    width: 600,
+    height: 600
+  },
+  ndiaye: {
+    src: u("photo-1542178243-bc20204b769f", 600),
+    alt: "Portrait of a man in a collared shirt photographed in indoor daylight.",
+    credit: "Tachina Lee — Unsplash",
+    width: 600,
+    height: 600
+  },
+  park: {
+    src: u("photo-1521119989659-a83eee488004", 600),
+    alt: "Portrait of an Asian woman with dark hair photographed in soft daylight.",
+    credit: "Joanna Nix-Walkup — Unsplash",
+    width: 600,
+    height: 600
   }
 };
 
