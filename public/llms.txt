@@ -1,0 +1,44 @@
+# Scholaria
+
+> Scholaria is an enterprise AI dissertation review and scholarly editing platform. It is an autonomous, multi-agent academic intelligence ecosystem built for Ph.D., Ed.D., doctoral, and graduate-level researchers. The platform reviews, edits, and guides scholarly writing — it does not author dissertations on a student's behalf.
+
+The platform operates a coordinated ecosystem of ten Claude-managed agents that share a single workflow memory, communicate through an orchestration layer, and run without human intervention from intake through final delivery. Outputs include an annotated document, an APA 7 compliance report, a citation verification report, a methodology alignment analysis, a literature-review synthesis review, an explicit revision plan, and a 0–100 submission readiness score.
+
+## Core pages
+
+- [About the platform](https://scholaria.ai/about): The editorial desk, operating principles, and what Scholaria is — and is not.
+- [How it works](https://scholaria.ai/how-it-works): The autonomous review pipeline, agent by agent. Intake → scoping → reviewing → QA → delivery.
+- [Services](https://scholaria.ai/services): The catalogue of scholarly review services available on the platform.
+- [Rates and access](https://scholaria.ai/pricing): Plan tiers for graduate, doctoral, dissertation-intensive, and institutional use.
+- [Enterprise & universities](https://scholaria.ai/enterprise): Cohort and institutional deployment with SSO, FERPA controls, and programme analytics.
+- [Frequently asked questions](https://scholaria.ai/faq): Privacy, formatting, turnaround, academic integrity.
+
+## Service verticals
+
+- [Dissertation editing](https://scholaria.ai/dissertation-editing): Chapter-grade editing for Ph.D., Ed.D., and DBA candidates. Tone, structure, scholarly register, methodology alignment, citation verification, submission readiness.
+- [APA 7 formatting review](https://scholaria.ai/apa-7-formatting): Precision APA 7 compliance — headings, in-text patterns, references, DOIs, hanging indents, title case.
+- [Literature review editing](https://scholaria.ai/literature-review-editing): Synthesis depth, thematic coherence, transitions between theory and evidence, gap analysis.
+- [Research methodology review](https://scholaria.ai/research-methodology-review): Alignment across research questions, framework, sampling, design, and analysis.
+
+## Agent ecosystem
+
+The platform runs ten Claude-managed agents organised in four tiers:
+
+- Core orchestration: Lead Intake Agent · Project Scoping & Routing Agent · Orchestrator Agent
+- Scholarly review: Professional Editor Agent · Research Support Agent · QA & Final Approval Agent
+- Operations: Pricing & Payment Agent · Client Support Agent · Survey Completion Bot
+- Growth: SEO & Growth Optimisation Agent
+
+## Stance on academic integrity
+
+Scholaria critiques, edits, improves, guides, explains, and strengthens scholarly writing. It does not author dissertations, capstones, or assignments on a student's behalf. Every finding references a verbatim excerpt from the manuscript with page and section anchors. The QA agent rejects any output that reads as generic or template-driven.
+
+## Submit
+
+- [Submit a manuscript](https://scholaria.ai/upload): Send a chapter or full manuscript in PDF or DOCX for autonomous review.
+- [Speak with the editorial desk](https://scholaria.ai/contact): Reach the concierge, the enterprise team, or the press desk.
+
+## Optional
+
+- [Sitemap](https://scholaria.ai/sitemap.xml)
+- [Robots](https://scholaria.ai/robots.txt)

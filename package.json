@@ -1,0 +1,48 @@
+{
+  "name": "scholaria",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scholaria — Enterprise AI Dissertation Review and Scholarly Editing Platform. An autonomous multi-agent academic intelligence ecosystem for Ph.D., Ed.D., doctoral, and graduate-level researchers.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "worker": "tsx server/worker.ts",
+    "orchestrator": "tsx server/orchestrator-daemon.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "bullmq": "^5.12.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.5.0",
+    "ioredis": "^5.4.1",
+    "lucide-react": "^0.446.0",
+    "nanoid": "^5.0.7",
+    "next": "14.2.13",
+    "pg": "^8.12.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "stripe": "^16.10.0",
+    "tailwind-merge": "^2.5.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.13",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}

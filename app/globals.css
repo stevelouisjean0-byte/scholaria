@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", "Source Serif 4", "Georgia", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo", monospace;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11", "cv02";
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-ink-800 font-sans selection:bg-accent-100 selection:text-accent-800;
+}
+
+/* Visible focus for keyboard users only — keeps mouse interactions clean. */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid theme("colors.ink.900");
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Keyboard-only skip link. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: theme("colors.ink.900");
+  color: white;
+  font-size: 13px;
+  transform: translateY(-200%);
+  transition: transform 160ms ease;
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* Tabular figures for any numeric display. */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Display headlines should never orphan a single word. */
+.balance { text-wrap: balance; }
+.pretty  { text-wrap: pretty; }
+
+/* Film-grain overlay used by sections that would otherwise feel flat. */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.10  0 0 0 0 0.14  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.grain > * { position: relative; z-index: 1; }
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* Eyebrow / kicker text used across sections. */
+/* Eyebrow is now treated as a journal "running head" rather than a UI label. */
+.eyebrow {
+  @apply text-[11px] uppercase tracking-[0.32em] text-ink-500 font-medium;
+}
+.eyebrow-serif {
+  @apply font-serif italic text-[15px] text-ink-500;
+}
+
+.headline {
+  @apply font-serif text-display-xl text-ink-900 balance;
+}
+
+/* Chapter marker used to introduce a section — looks like an article header
+   in a printed journal: Roman numeral, hairline, label. */
+.chapter {
+  @apply flex items-baseline gap-4 border-t border-ink-900/90 pt-5 mb-10;
+}
+.chapter .roman {
+  @apply font-serif text-[18px] text-ink-900;
+}
+.chapter .label {
+  @apply text-[11px] uppercase tracking-[0.32em] text-ink-500;
+}
+
+/* Drop cap for editorial opening paragraphs. */
+.dropcap::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 4.8em;
+  line-height: 0.92;
+  padding: 0.06em 0.14em 0 0;
+  font-weight: 400;
+  color: theme("colors.ink.900");
+}
+
+/* Journal rule — a 2-line hairline separator (thick + thin) used between
+   marquee sections. Reads as "end of article". */
+.journal-rule {
+  @apply border-0 h-px bg-ink-900/90 relative;
+}
+.journal-rule::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 4px;
+  height: 1px;
+  background: theme("colors.ink.200");
+}
+
+/* Asterism — three asterisks used as a soft section divider in journals. */
+.asterism {
+  @apply flex items-center justify-center gap-2 text-ink-400 font-serif text-[18px] tracking-[0.5em] py-10;
+}
+
+.kbd {
+  @apply inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded border border-ink-200 bg-white text-[11px] font-mono text-ink-500 shadow-elev1;
+}
+
+.hairline {
+  @apply border-t border-ink-200;
+}
+
+/* Optical asymmetry: bottom padding slightly greater than top reads as
+   "balanced" once you account for headline mass at the top of a section. */
+.section {
+  @apply pt-24 pb-28 sm:pt-28 sm:pb-32 lg:pt-32 lg:pb-36;
+}
+
+/* Dotted academic grid backdrop used behind hero and dashboards. */
+.bg-paper {
+  background-color: #fbfaf7;
+  background-image:
+    radial-gradient(rgba(11, 14, 22, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(11, 14, 22, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+.bg-rule {
+  background-image: linear-gradient(to right, rgba(11, 14, 22, 0.06) 1px, transparent 1px);
+  background-size: 80px 100%;
+}
+
+/* Card-like surfaces. */
+.card {
+  @apply bg-white rounded-2xl shadow-elev2 ring-1 ring-ink-100;
+}
+
+.card-quiet {
+  @apply bg-white rounded-2xl ring-1 ring-ink-100;
+}
+
+/* Buttons. */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full text-sm font-medium ring-1 ring-transparent transition-[transform,background-color,box-shadow,color] duration-200 active:scale-[.985];
+}
+.btn-primary {
+  @apply btn bg-ink-900 text-white hover:bg-ink-800 shadow-elev2 hover:shadow-elev3;
+}
+.btn-secondary {
+  @apply btn bg-white text-ink-900 ring-ink-200 hover:ring-ink-400 hover:bg-ink-50/60;
+}
+.btn-ghost {
+  @apply btn text-ink-700 hover:bg-ink-50;
+}
+
+/* Status pills. */
+.pill {
+  @apply inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full text-[11px] font-medium ring-1;
+}
+.pill-neutral { @apply pill bg-ink-50 text-ink-700 ring-ink-200; }
+.pill-accent  { @apply pill bg-accent-50 text-accent-700 ring-accent-200; }
+.pill-success { @apply pill bg-emerald-50 text-emerald-700 ring-emerald-200; }
+.pill-warn    { @apply pill bg-amber-50 text-amber-700 ring-amber-200; }
+
+/* Subtle marquee logos row. */
+.logo-row {
+  @apply grid grid-cols-2 md:grid-cols-6 gap-x-10 gap-y-6 items-center opacity-80;
+}
+
+.prose-academic p { @apply text-[15.5px] leading-7 text-ink-700; }
+.prose-academic h2 { @apply font-serif text-2xl text-ink-900 mt-10 mb-3; }
+.prose-academic h3 { @apply font-serif text-xl text-ink-900 mt-8 mb-2; }
+.prose-academic ul { @apply list-disc pl-5 space-y-1.5 text-ink-700; }
