@@ -45,7 +45,13 @@ export function SiteHeader() {
             <Link key={href} href={href} className="hover:text-ink-950">{label}</Link>
           ))}
           <span className="h-4 w-px bg-ink-200" />
-          <Link href="/dashboard" className="text-ink-700 hover:text-ink-950">Sign in</Link>
+          <Link href="/signin" className="text-ink-700 hover:text-ink-950">Sign in</Link>
+          <Link
+            href="/signup"
+            className="inline-flex items-center h-8 px-3.5 rounded-full bg-ink-900 text-white hover:bg-ink-800 transition text-[13px]"
+          >
+            Get started
+          </Link>
         </nav>
 
         <button
@@ -65,8 +71,15 @@ export function SiteHeader() {
                 {label}
               </Link>
             ))}
-            <Link href="/dashboard" onClick={() => setOpen(false)} className="py-2.5 text-[14px] text-ink-800 border-t border-ink-100">
+            <Link href="/signin" onClick={() => setOpen(false)} className="py-2.5 text-[14px] text-ink-800 border-t border-ink-100">
               Sign in
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center h-10 rounded-full bg-ink-900 text-white text-[14px]"
+            >
+              Get started
             </Link>
           </div>
         </div>
