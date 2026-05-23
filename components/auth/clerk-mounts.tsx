@@ -34,12 +34,24 @@ const APPEARANCE = {
 
 export function ClerkSignIn() {
   return (
-    <SignIn appearance={APPEARANCE} signUpUrl="/signup" afterSignInUrl="/dashboard" />
+    <SignIn
+      appearance={APPEARANCE}
+      path="/signin"
+      routing="path"
+      signUpUrl="/signup"
+      fallbackRedirectUrl="/dashboard"
+    />
   );
 }
 
 export function ClerkSignUp() {
   return (
-    <SignUp appearance={APPEARANCE} signInUrl="/signin" afterSignUpUrl="/dashboard" />
+    <SignUp
+      appearance={APPEARANCE}
+      path="/signup"
+      routing="path"
+      signInUrl="/signin"
+      fallbackRedirectUrl="/dashboard"
+    />
   );
 }
