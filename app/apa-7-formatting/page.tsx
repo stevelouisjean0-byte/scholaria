@@ -46,6 +46,7 @@ export default function APA7Page() {
         { q: "Will my chair recognise the report?", a: "Yes — the APA report is structured the way committees read APA feedback: by section, by issue, with verbatim excerpts and severity." },
         { q: "Does this replace a writing center?", a: "It complements one. Many programs route students to Scholaria for the APA pass and to the writing center for substantive thinking work." }
       ]}
+      testimonialFilter={["apa", "tone"]}
       ctaTitle="Send your manuscript for an APA 7 pass."
       ctaBody="The APA report typically lands within 24 hours on Doctoral, and within 12 hours on Dissertation Intensive."
       jsonLd={{

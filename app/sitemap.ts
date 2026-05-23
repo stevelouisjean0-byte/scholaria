@@ -18,7 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/apa-7-formatting",
     "/literature-review-editing",
     "/research-methodology-review",
-    "/preview/sample-report"
+    "/preview/sample-report",
+    "/reviews",
+    "/security",
+    "/academic-integrity"
   ];
   return routes.map((r) => ({
     url: `${base}${r}`,

@@ -1,30 +1,29 @@
 import { Hero } from "@/components/sections/hero";
 import { TrustStrip } from "@/components/sections/trust-strip";
-import { WorkflowViz } from "@/components/sections/workflow-viz";
-import { AgentEcosystem } from "@/components/sections/agent-ecosystem";
-import { ScoringPreview } from "@/components/sections/scoring-preview";
-import { BeforeAfter } from "@/components/sections/before-after";
-import { WhyDifferent } from "@/components/sections/why-different";
-import { SecurityIntegrity } from "@/components/sections/security-integrity";
-import { PricingPreview } from "@/components/sections/pricing-preview";
+import { LeadInCards } from "@/components/sections/lead-in-cards";
 import { Testimonials } from "@/components/sections/testimonials";
-import { FAQ } from "@/components/sections/faq";
 import { ClosingCTA } from "@/components/sections/closing-cta";
 
+/**
+ * Homepage — kept deliberately brief. Five sections only.
+ *
+ *   1. Hero — masthead, headline, three CTAs, live product card
+ *   2. Trust strip — security & cohort credibility
+ *   3. Lead-in cards — three doors into the platform
+ *   4. Testimonials — three voices from R1 institutions
+ *   5. Closing CTA
+ *
+ * The dense sections (workflow, agent ecosystem, scoring, before/after,
+ * why-different, security, integrity, full pricing, FAQ) live on the pages
+ * where they belong. Open the lead-in cards or the nav to find them.
+ */
 export default function HomePage() {
   return (
     <>
       <Hero />
       <TrustStrip />
-      <WorkflowViz />
-      <AgentEcosystem />
-      <ScoringPreview />
-      <BeforeAfter />
-      <WhyDifferent />
-      <SecurityIntegrity />
-      <PricingPreview />
-      <Testimonials />
-      <FAQ />
+      <LeadInCards />
+      <Testimonials limit={3} tone="white" />
       <ClosingCTA />
     </>
   );

@@ -66,6 +66,7 @@ export default function DissertationEditing() {
           a: "No. Scholaria critiques and guides — it does not author your dissertation. That distinction is the platform's first principle."
         }
       ]}
+      testimonialFilter={["synthesis", "tone", "readiness"]}
       ctaTitle="Upload your chapter or full manuscript."
       ctaBody="The autonomous review pipeline begins the moment your file is received."
       jsonLd={{

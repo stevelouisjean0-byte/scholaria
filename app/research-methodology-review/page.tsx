@@ -45,6 +45,7 @@ export default function MethodologyPage() {
         { q: "Does it work for qualitative, quantitative, and mixed-methods?", a: "Yes — the Research Support Agent adapts review depth to the design described in the chapter." },
         { q: "Will you propose a new research question for me?", a: "No. The agent surfaces alignment issues and recommends scoping moves; the student decides whether to refine the question or the design." }
       ]}
+      testimonialFilter={["methodology", "readiness"]}
       ctaTitle="Send your methodology chapter."
       ctaBody="A methods-grade review typically lands within 24 hours on Doctoral."
       jsonLd={{

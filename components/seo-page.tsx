@@ -2,6 +2,7 @@ import Link from "next/link";
 import Script from "next/script";
 import type { Photo } from "@/lib/media";
 import { PageMasthead } from "@/components/page-masthead";
+import { Testimonials } from "@/components/sections/testimonials";
 
 export interface SeoPageProps {
   number: string;
@@ -13,6 +14,8 @@ export interface SeoPageProps {
   pillars: { title: string; body: string }[];
   comparison: { left: string; right: string }[];
   faq: { q: string; a: string }[];
+  /** Filter testimonials shown on this service page by highlight category. */
+  testimonialFilter?: ("synthesis" | "apa" | "methodology" | "tone" | "readiness" | "support")[];
   ctaTitle: string;
   ctaBody: string;
   ctaHref?: string;
@@ -116,6 +119,14 @@ export function SeoPage(p: SeoPageProps) {
           </div>
         </div>
       </section>
+
+      <Testimonials
+        filter={p.testimonialFilter}
+        limit={3}
+        tone="white"
+        eyebrow="Reviews · from the cohort"
+        heading="Doctoral candidates who used this service."
+      />
 
       <section className="section bg-paper">
         <div className="container">

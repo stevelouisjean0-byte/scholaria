@@ -45,6 +45,7 @@ export default function LitReviewPage() {
         { q: "Do you check that my sources are real?", a: "Yes — every cited reference is verified against the reference list, and APA 7 entry structure is checked. Source quality and relevance are scored by the Research Support Agent." },
         { q: "Will you rewrite paragraphs for me?", a: "No. Scholaria recommends changes for you to apply. Authorial voice and intellectual ownership remain with the student." }
       ]}
+      testimonialFilter={["synthesis", "support"]}
       ctaTitle="Send your literature review."
       ctaBody="The Research Support Agent activates the moment the file arrives."
       jsonLd={{

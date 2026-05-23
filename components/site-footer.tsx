@@ -37,10 +37,12 @@ export function SiteFooter() {
         ]} />
         <Column className="col-span-12 md:col-span-6 lg:col-span-3" title="Editorial desk" links={[
           ["About", "/about"],
+          ["Reviews", "/reviews"],
           ["Enterprise & universities", "/enterprise"],
-          ["Correspondence", "/contact"],
+          ["Security & privacy", "/security"],
+          ["Academic integrity", "/academic-integrity"],
           ["FAQ", "/faq"],
-          ["Submit a manuscript", "/upload"]
+          ["Correspondence", "/contact"]
         ]} />
       </div>
 

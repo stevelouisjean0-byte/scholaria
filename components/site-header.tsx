@@ -7,10 +7,9 @@ import { Menu, X } from "lucide-react";
 const NAV = [
   ["Dissertation Intelligence", "/dissertation-intelligence"],
   ["Agent Ecosystem", "/agent-ecosystem"],
-  ["Services", "/services"],
-  ["Enterprise", "/enterprise"],
+  ["Reviews", "/reviews"],
   ["Pricing", "/pricing"],
-  ["About", "/about"]
+  ["Enterprise", "/enterprise"]
 ] as const;
 
 export function SiteHeader() {
