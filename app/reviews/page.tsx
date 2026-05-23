@@ -81,7 +81,7 @@ export default function ReviewsPage() {
       <section className="section bg-paper">
         <div className="container">
           <div className="max-w-3xl">
-            <span className="eyebrow">Voices · 9 letters</span>
+            <span className="eyebrow">Voices · 10 letters</span>
             <h2 className="mt-4 h-display text-display-lg">
               Letters from candidates, in their own words.
             </h2>

@@ -126,6 +126,17 @@ export const TESTIMONIALS: Testimonial[] = [
       "I was working from a chapter that had been reviewed three times by humans and once by another AI tool. Scholaria still found two genuine improvements — a transition that read as a non-sequitur and a theme that overlapped with another one. That is the standard I was looking for.",
     highlight: "synthesis",
     portrait: PORTRAITS.park
+  },
+  {
+    id: "khan-harvard",
+    initials: "F. K.",
+    program: "Ph.D. · Education, Culture, Institutions, and Society",
+    institution: "Harvard Graduate School of Education",
+    city: "Cambridge, MA",
+    quote:
+      "The submission readiness score gave me something I could discuss with my chair without defensiveness. We talked about specific score components rather than vague impressions of the chapter, and that conversation moved my dissertation forward more than the previous three did.",
+    highlight: "readiness",
+    portrait: PORTRAITS.khan
   }
 ];
 

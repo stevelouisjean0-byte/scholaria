@@ -186,66 +186,77 @@ export const PAGE_HEROES: Record<string, Photo> = {
  * -------------------------------------------------------------------------- */
 
 export const PORTRAITS: Record<string, Photo> = {
+  // Local portraits — six commissioned editorial portraits at /public/portraits.
   patel: {
-    src: u("photo-1494790108377-be9c29b29330", 600),
-    alt: "Portrait of a woman in glasses photographed in soft window light.",
-    credit: "Christina @ wocintechchat.com — Unsplash",
-    width: 600,
-    height: 600
+    src: "/portraits/patel.png",
+    alt: "Portrait of a doctoral candidate in glasses and a green sweater, whiteboard with equations behind.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
   },
   okafor: {
-    src: u("photo-1438761681033-6461ffad8d80", 600),
-    alt: "Portrait of a man with glasses photographed in daylight on a city street.",
-    credit: "Brooke Cagle — Unsplash",
-    width: 600,
-    height: 600
+    src: "/portraits/okafor.png",
+    alt: "Portrait of a doctoral candidate in glasses and a gray sweater, bookshelves behind.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
   },
-  ibarra: {
-    src: u("photo-1573497019940-1c28c88b4f3e", 600),
-    alt: "Portrait of a woman in a striped shirt photographed in indoor daylight.",
-    credit: "Christina @ wocintechchat.com — Unsplash",
-    width: 600,
-    height: 600
+  park: {
+    src: "/portraits/park.png",
+    alt: "Portrait of a doctoral candidate in a black turtleneck, holding a pen, books in foreground.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
   },
   thompson: {
-    src: u("photo-1487412720507-e7ab37603c6f", 600),
-    alt: "Portrait of a woman with dark hair photographed in soft daylight.",
-    credit: "Tamara Bellis — Unsplash",
+    src: "/portraits/thompson.png",
+    alt: "Portrait of a doctoral candidate in a cream knit sweater, notebook open on the desk.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
+  },
+  williams: {
+    src: "/portraits/williams.png",
+    alt: "Portrait of a doctoral candidate with curly hair and glasses, green collared shirt over white tee.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
+  },
+  khan: {
+    src: "/portraits/khan.png",
+    alt: "Portrait of a doctoral candidate in a beige hijab and dark top, library bookshelves behind.",
+    credit: "Scholaria editorial",
+    width: 512,
+    height: 512
+  },
+
+  // Three testimonials still use curated Unsplash photos until matching
+  // editorial portraits are commissioned. Swap to local paths later.
+  ibarra: {
+    src: u("photo-1573497019940-1c28c88b4f3e", 600),
+    alt: "Portrait of a candidate in a striped shirt photographed in indoor daylight.",
+    credit: "Christina @ wocintechchat.com — Unsplash",
     width: 600,
     height: 600
   },
   chen: {
     src: u("photo-1535713875002-d1d0cf377fde", 600),
-    alt: "Portrait of a man in a sweater photographed in even daylight.",
+    alt: "Portrait of a candidate in a sweater photographed in even daylight.",
     credit: "Anastasia Vityukova — Unsplash",
     width: 600,
     height: 600
   },
   ramirez: {
     src: u("photo-1607746882042-944635dfe10e", 600),
-    alt: "Portrait of a woman with curly hair smiling slightly, daylight portrait.",
+    alt: "Portrait of a candidate with curly hair smiling slightly, daylight portrait.",
     credit: "Andrea Piacquadio — Unsplash",
-    width: 600,
-    height: 600
-  },
-  williams: {
-    src: u("photo-1500648767791-00dcc994a43e", 600),
-    alt: "Portrait of a man with a beard photographed in soft daylight.",
-    credit: "Erik Lucatero — Unsplash",
     width: 600,
     height: 600
   },
   ndiaye: {
     src: u("photo-1542178243-bc20204b769f", 600),
-    alt: "Portrait of a man in a collared shirt photographed in indoor daylight.",
+    alt: "Portrait of a candidate in a collared shirt photographed in indoor daylight.",
     credit: "Tachina Lee — Unsplash",
-    width: 600,
-    height: 600
-  },
-  park: {
-    src: u("photo-1521119989659-a83eee488004", 600),
-    alt: "Portrait of an Asian woman with dark hair photographed in soft daylight.",
-    credit: "Joanna Nix-Walkup — Unsplash",
     width: 600,
     height: 600
   }
