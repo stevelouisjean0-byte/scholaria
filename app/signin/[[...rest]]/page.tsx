@@ -39,7 +39,7 @@ export default function SignInPage() {
             “The feedback read like notes from a methodologist who actually sat with the chapter.”
           </p>
           <p className="mt-4 text-[12.5px] uppercase tracking-[0.24em] text-white/70">
-            M. P. · Ed.D. · Vanderbilt Peabody College
+            M. P. · Ed.D. · NYU Steinhardt
           </p>
         </div>
       </aside>

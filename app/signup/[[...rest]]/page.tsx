@@ -39,7 +39,7 @@ export default function SignUpPage() {
             it does not write.”
           </p>
           <p className="mt-4 text-[12.5px] uppercase tracking-[0.24em] text-white/70">
-            A. C. · Ph.D. · Stanford Graduate School of Education
+            A. C. · Ph.D. · UConn Neag School of Education
           </p>
         </div>
       </aside>

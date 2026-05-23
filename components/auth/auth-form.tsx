@@ -124,7 +124,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 name="program"
                 value={program}
                 onChange={setProgram}
-                placeholder="Ph.D. Educational Leadership · Vanderbilt"
+                placeholder="Ph.D. Educational Leadership · NYU Steinhardt"
               />
             )}
             <Field

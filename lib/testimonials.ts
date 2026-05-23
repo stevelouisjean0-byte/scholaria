@@ -29,88 +29,88 @@ export interface Testimonial {
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    id: "patel-vanderbilt",
+    id: "patel-nyu",
     initials: "M. P.",
-    program: "Ed.D. · Educational Leadership and Policy",
-    institution: "Vanderbilt University · Peabody College",
-    city: "Nashville, TN",
+    program: "Ed.D. · Education Leadership and Policy",
+    institution: "NYU Steinhardt School of Culture, Education, and Human Development",
+    city: "New York, NY",
     quote:
       "The feedback read like notes from a methodologist who actually sat with the chapter. The synthesis gap they flagged on page 12 was the same one my chair found three weeks later. The platform paid for itself before the next committee meeting.",
     highlight: "synthesis",
     portrait: PORTRAITS.patel
   },
   {
-    id: "okafor-jhu",
+    id: "okafor-columbia",
     initials: "S. O.",
-    program: "Ph.D. · Public Health, Epidemiology",
-    institution: "Johns Hopkins Bloomberg School of Public Health",
-    city: "Baltimore, MD",
+    program: "Ph.D. · Epidemiology",
+    institution: "Columbia University · Mailman School of Public Health",
+    city: "New York, NY",
     quote:
       "I have used three editing services. This is the first one whose APA report I trusted enough to forward unedited to my committee. The citation cross-check caught two orphans and a malformed DOI my reference manager missed.",
     highlight: "apa",
     portrait: PORTRAITS.okafor
   },
   {
-    id: "ibarra-wharton",
+    id: "ibarra-rutgers-business",
     initials: "R. I.",
     program: "DBA · Strategy and Innovation",
-    institution: "The Wharton School · University of Pennsylvania",
-    city: "Philadelphia, PA",
+    institution: "Rutgers Business School · Newark and New Brunswick",
+    city: "Newark, NJ",
     quote:
       "It told me what to revise — not how to think — and the revision plan was sequenced sensibly. The platform identified a misalignment between RQ2 and my sampling strategy that we had been arguing about for six weeks.",
     highlight: "methodology",
     portrait: PORTRAITS.ibarra
   },
   {
-    id: "thompson-vanderbilt-2",
+    id: "thompson-rutgers-gse",
     initials: "K. T.",
     program: "Ph.D. · Educational Policy and Evaluation",
-    institution: "Vanderbilt University · Peabody College",
-    city: "Nashville, TN",
+    institution: "Rutgers Graduate School of Education",
+    city: "New Brunswick, NJ",
     quote:
       "The submission readiness score is decomposed in a way that makes it useful, not theatrical. I could see exactly which sub-score was holding the chapter back and what would move it. My chair noticed the difference.",
     highlight: "readiness",
     portrait: PORTRAITS.thompson
   },
   {
-    id: "chen-stanford",
+    id: "chen-uconn",
     initials: "A. C.",
-    program: "Ph.D. · Education, Learning Sciences",
-    institution: "Stanford Graduate School of Education",
-    city: "Stanford, CA",
+    program: "Ph.D. · Learning Sciences",
+    institution: "University of Connecticut · Neag School of Education",
+    city: "Storrs, CT",
     quote:
       "I was sceptical of any AI tool touching a dissertation. The Research Support Agent flagged a missing voice in my literature review — a citation pattern across three studies that I'd missed — and that scepticism evaporated. The platform critiques. It does not write.",
     highlight: "synthesis",
     portrait: PORTRAITS.chen
   },
   {
-    id: "ramirez-jhu",
+    id: "ramirez-yale-nursing",
     initials: "J. R.",
     program: "DNP · Doctor of Nursing Practice",
-    institution: "Johns Hopkins School of Nursing",
-    city: "Baltimore, MD",
+    institution: "Yale School of Nursing",
+    city: "Orange, CT",
     quote:
       "Capstone deadline pressure is real. Scholaria turned a 28-page chapter around in under a day with editorial notes my faculty advisor said were 'more useful than the last writing-center review I sent her.' I have not stopped recommending it to my cohort.",
     highlight: "support",
     portrait: PORTRAITS.ramirez
   },
   {
-    id: "williams-usc",
+    id: "williams-fordham",
     initials: "D. W.",
-    program: "Ed.D. · Organizational Change and Leadership",
-    institution: "University of Southern California · Rossier School of Education",
-    city: "Los Angeles, CA",
+    program: "Ed.D. · Educational Leadership, Administration, and Policy",
+    institution: "Fordham University · Graduate School of Education",
+    city: "New York, NY",
     quote:
       "The tone scoring did exactly what I needed. The chapter had drifted into colloquial register in three places, and the agent named the exact paragraphs without rewriting them for me. I edited from a position of knowing what to fix.",
     highlight: "tone",
     portrait: PORTRAITS.williams
   },
   {
-    id: "ndiaye-michigan",
+    id: "ndiaye-princeton",
     initials: "F. N.",
     program: "Ph.D. · Sociology",
-    institution: "University of Michigan",
-    city: "Ann Arbor, MI",
+    institution: "Princeton University · Department of Sociology",
+    city: "Princeton, NJ",
     quote:
       "The methodology alignment audit was worth the entire subscription. The agent named a question-design misalignment a committee member would have asked me about on Day One of my defence. I revised it before they had the chance to.",
     highlight: "methodology",
@@ -128,11 +128,11 @@ export const TESTIMONIALS: Testimonial[] = [
     portrait: PORTRAITS.park
   },
   {
-    id: "khan-harvard",
+    id: "khan-cuny",
     initials: "F. K.",
-    program: "Ph.D. · Education, Culture, Institutions, and Society",
-    institution: "Harvard Graduate School of Education",
-    city: "Cambridge, MA",
+    program: "Ph.D. · Urban Education",
+    institution: "CUNY Graduate Center · Ph.D. Program in Urban Education",
+    city: "New York, NY",
     quote:
       "The submission readiness score gave me something I could discuss with my chair without defensiveness. We talked about specific score components rather than vague impressions of the chapter, and that conversation moved my dissertation forward more than the previous three did.",
     highlight: "readiness",
