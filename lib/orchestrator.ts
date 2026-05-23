@@ -91,7 +91,9 @@ export async function runScoping(jobId: string) {
   await recordWorkflowEvent(jobId, "scope.complete", scope);
 
   await setStage(jobId, "reviewing");
-  const fanout = scope.assignedAgents.length ? scope.assignedAgents : ["professional_editor", "research_support"];
+  const fanout = scope.assignedAgents.length
+    ? scope.assignedAgents
+    : ["professional_editor", "research_support", "research_intelligence"];
   for (const agent of fanout) {
     await queue(QUEUE_NAMES.review).add("review", { jobId, agent });
   }
@@ -232,6 +234,13 @@ function reviewTaskFor(agent: AgentKey): string {
         "Score synthesis, methodology alignment, and citation accuracy.",
         "Identify gaps, weak transitions between theory and literature, missing or inconsistent references,",
         "and thematic organisation issues — with verbatim excerpts and explicit recommendations."
+      ].join(" ");
+    case "research_intelligence":
+      return [
+        "Run a research-intelligence pass over this manuscript: discover whether the cited literature is",
+        "current and peer-reviewed, identify peer-reviewed sources the chapter is missing, verify reference",
+        "list entries against scholarly databases, and surface gaps in the literature that the chapter",
+        "should address. Score literatureSynthesis, methodologyAlignment, and citationAccuracy."
       ].join(" ");
     default:
       return "Produce a structured scholarly review of this manuscript.";

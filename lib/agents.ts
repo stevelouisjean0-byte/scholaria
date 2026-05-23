@@ -13,6 +13,7 @@ export type AgentKey =
   | "orchestrator"
   | "professional_editor"
   | "research_support"
+  | "research_intelligence"
   | "pricing_payment"
   | "qa_final"
   | "client_support"
@@ -117,6 +118,23 @@ const REGISTRY: Record<AgentKey, AgentDefinition> = {
     ],
     publicSummary:
       "Evaluates the depth, synthesis, and thematic coherence of literature reviews and flags gaps in the scholarly conversation."
+  },
+  research_intelligence: {
+    key: "research_intelligence",
+    name: "Dissertation Research Intelligence Agent",
+    tier: "review",
+    envPrimary: "AGENT_RESEARCH_INTELLIGENCE",
+    role: "Scholarly literature discovery, verification, organisation, and synthesis.",
+    responsibilities: [
+      "Peer-reviewed source discovery",
+      "Source verification across Semantic Scholar, PubMed, Crossref, OpenAlex, ERIC, CORE, DOAJ",
+      "Theoretical framework mapping",
+      "APA 7 reference verification",
+      "Thematic synthesis",
+      "Gap-in-the-literature surfacing"
+    ],
+    publicSummary:
+      "An autonomous scholarly research intelligence engine that discovers, verifies, organises, and synthesises peer-reviewed academic literature aligned with APA 7 and dissertation research standards."
   },
   pricing_payment: {
     key: "pricing_payment",
