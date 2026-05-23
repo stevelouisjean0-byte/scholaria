@@ -1,69 +1,231 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowUpRight, ShieldCheck, Sparkles, FileText, Lock, Building2 } from "lucide-react";
 import { HERO_FIGURE } from "@/lib/media";
 
 export function Hero() {
   return (
-    <section className="bg-white">
-      <div className="container pt-10 pb-16 lg:pt-14 lg:pb-20">
-        {/* Imprint line. */}
-        <div className="grid grid-cols-12 items-baseline gap-6 text-[11.5px] uppercase tracking-[0.28em] text-ink-500">
-          <span className="col-span-6">Established for the doctoral cohort</span>
-          <span className="col-span-6 text-right">Issue I · An autonomous review</span>
-        </div>
+    <section className="bg-hero">
+      <div className="container pt-16 pb-20 lg:pt-24 lg:pb-28">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
+          className="max-w-5xl"
+        >
+          <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-white/80 ring-1 ring-ink-200 backdrop-blur text-[12px] text-ink-700">
+            <Sparkles className="h-3.5 w-3.5 text-accent-500" />
+            <span>An autonomous AI operating system for doctoral research</span>
+            <span className="text-ink-300">·</span>
+            <span className="text-ink-500">Powered by Claude</span>
+          </div>
 
-        <hr className="journal-rule mt-3" />
-
-        {/* Headline + dek. The headline carries weight; the dek carries
-            substance. No forced line breaks — the type sets itself. */}
-        <div className="mt-10 lg:mt-12 max-w-5xl">
-          <h1 className="font-serif text-ink-900 leading-[1.02] tracking-[-0.03em] text-[clamp(2.25rem,4.8vw,4.5rem)] balance">
-            A scholarly review of doctoral writing.
+          <h1 className="mt-7 h-display text-display-2xl">
+            Enterprise AI Dissertation Intelligence Platform
           </h1>
-          <p className="mt-5 font-serif italic text-[clamp(1.05rem,1.6vw,1.4rem)] leading-[1.45] text-ink-600 max-w-3xl balance">
-            Enterprise dissertation review and scholarly editing for Ph.D., Ed.D., and graduate researchers
-            — run by a coordinated ecosystem of autonomous review agents.
-          </p>
-        </div>
 
-        <hr className="border-t border-ink-200 mt-10" />
-
-        {/* Two-column foot: abstract on the left, two primary links on the right. */}
-        <div className="mt-10 grid grid-cols-12 gap-x-10 gap-y-6">
-          <p className="col-span-12 lg:col-span-8 text-[16.5px] leading-[1.7] text-ink-800 max-w-[44rem]">
-            Scholaria reviews dissertations, literature reviews, capstones, and graduate research papers with
-            the precision of a senior committee member and the patience of an editorial desk that never
-            closes. The platform critiques, edits, and guides scholarly writing — it does not author
-            dissertations on the student's behalf, and that distinction is its first principle.
+          <p className="mt-6 max-w-3xl text-[18px] leading-[1.55] text-ink-600 pretty">
+            Upload your dissertation, capstone, literature review, or graduate research paper and receive
+            explicit scholarly feedback from autonomous AI academic review agents built specifically for
+            doctoral and graduate-level writing.
           </p>
-          <div className="col-span-12 lg:col-span-4 lg:border-l lg:border-ink-200 lg:pl-8 flex flex-col gap-3 self-start">
-            <Link href="/upload" className="text-ink-900 underline underline-offset-[6px] decoration-1 hover:decoration-2 text-[15px]">
-              Submit a manuscript →
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <Link href="/upload" className="btn-primary">
+              Upload Your Paper
+              <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/how-it-works" className="text-ink-700 hover:text-ink-900 text-[15px]">
-              Read the editorial process →
+            <Link href="/how-it-works" className="btn-accent">
+              Start AI Review
+            </Link>
+            <Link href="/services" className="btn-secondary">
+              View Dissertation Services
             </Link>
           </div>
-        </div>
 
-        {/* Frontispiece — one large daylight photograph. */}
-        <figure className="mt-14">
-          <div className="relative w-full aspect-[21/9] overflow-hidden ring-1 ring-ink-200">
-            <Image
-              src={HERO_FIGURE.src}
-              alt={HERO_FIGURE.alt}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
+          {/* Trust microbar */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-ink-600">
+            <span className="inline-flex items-center gap-2">
+              <Lock className="h-4 w-4 text-ink-400" />
+              Encrypted uploads · FERPA-aware
+            </span>
+            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-ink-400" />
+              Academic integrity first
+            </span>
+            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
+            <span className="inline-flex items-center gap-2">
+              <FileText className="h-4 w-4 text-ink-400" />
+              PDF &amp; DOCX
+            </span>
+            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
+            <span className="inline-flex items-center gap-2">
+              <Building2 className="h-4 w-4 text-ink-400" />
+              Institutional SSO available
+            </span>
           </div>
-          <figcaption className="mt-3 flex items-baseline justify-between gap-6 text-[12.5px]">
-            <span className="font-serif italic text-ink-700">Doctoral work, kept under steady editorial light.</span>
-            <span className="text-ink-500">Photograph · {HERO_FIGURE.credit}</span>
-          </figcaption>
-        </figure>
+        </motion.div>
+
+        {/* Hero product card */}
+        <HeroProductCard />
       </div>
     </section>
+  );
+}
+
+function HeroProductCard() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.15, ease: [0.2, 0.7, 0.2, 1] }}
+      className="mt-14 lg:mt-20 relative"
+    >
+      <div className="card overflow-hidden">
+        <div className="grid grid-cols-12">
+          {/* Left rail — workflow status */}
+          <aside className="col-span-12 lg:col-span-3 border-r border-ink-100 bg-ink-50/60 p-6">
+            <div className="eyebrow-soft">Active review</div>
+            <div className="mt-2 font-mono text-[12px] text-ink-500">ms_pra72example</div>
+            <h3 className="mt-4 font-semibold text-[15.5px] text-ink-900 leading-snug">
+              Dissertation Ch. 3 — Methodology
+            </h3>
+            <p className="text-[12.5px] text-ink-500 mt-1">M. Patel · Ed.D. · 32 pages</p>
+
+            <div className="mt-6">
+              <div className="flex items-baseline justify-between text-[12px] text-ink-600">
+                <span>Pipeline progress</span>
+                <span className="tabular text-ink-900 font-semibold">84%</span>
+              </div>
+              <div className="mt-2 h-1.5 rounded-full bg-ink-100 overflow-hidden">
+                <div className="h-full bg-accent-500" style={{ width: "84%" }} />
+              </div>
+            </div>
+
+            <ul className="mt-6 space-y-2.5">
+              {[
+                ["Lead Intake", "complete", "success"],
+                ["Project Scoping", "complete", "success"],
+                ["Professional Editor", "9 findings", "live"],
+                ["Research Support", "in progress", "live"],
+                ["QA & Final Approval", "queued", "idle"]
+              ].map(([name, status, kind]) => (
+                <li key={name as string} className="flex items-center justify-between">
+                  <span className="text-[13px] text-ink-800">{name}</span>
+                  <span className="flex items-center gap-1.5 text-[11.5px] text-ink-500">
+                    <span
+                      className={
+                        kind === "success" ? "dot-live bg-emerald-500" :
+                        kind === "live" ? "dot-live" :
+                        "dot-idle"
+                      }
+                    />
+                    {status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </aside>
+
+          {/* Center — annotated manuscript page */}
+          <article className="col-span-12 lg:col-span-6 p-6 lg:p-8 border-r border-ink-100">
+            <div className="flex items-center justify-between">
+              <div className="eyebrow-soft">Manuscript · p. 12</div>
+              <span className="pill-warn">1 major · 2 moderate</span>
+            </div>
+            <h3 className="mt-3 font-serif text-[22px] text-ink-900 leading-snug">
+              Transformational Leadership and Adaptive Capacity in Hybrid Schools
+            </h3>
+
+            <div className="mt-6 space-y-4 text-[14.5px] leading-[1.7] text-ink-800">
+              <p>
+                Although the framework introduced in Chapter 1 anchors the inquiry in transformational
+                leadership theory,{" "}
+                <mark className="bg-amber-100 ring-1 ring-amber-500/30 rounded px-1 py-0.5">
+                  the present chapter shifts to a thematic treatment of empirical studies
+                </mark>{" "}
+                without re-stating how the framework should organise the synthesis that follows.
+              </p>
+              <p>
+                The themes presented in §2.4 and §2.6 perform similar analytical work and are labelled
+                differently; consolidation would tighten the chapter and remove the appearance of redundancy.
+                A{" "}
+                <mark className="bg-accent-100 ring-1 ring-accent-300 rounded px-1 py-0.5">
+                  citation introduced on page 17
+                </mark>{" "}
+                appears in the narrative without a corresponding entry in the reference list.
+              </p>
+            </div>
+
+            <div className="mt-7 rounded-xl ring-1 ring-ink-100 bg-ink-50/50 p-4">
+              <div className="flex items-baseline justify-between">
+                <div className="eyebrow-soft">Editor's note</div>
+                <span className="pill-accent">major · synthesis</span>
+              </div>
+              <p className="mt-2 text-[14px] leading-[1.65] text-ink-900">
+                Add a bridging paragraph between the framework and the literature review that explicitly
+                explains how transformational leadership theory organises the themes that follow.
+              </p>
+            </div>
+          </article>
+
+          {/* Right rail — scores */}
+          <aside className="col-span-12 lg:col-span-3 p-6">
+            <div className="eyebrow-soft">Dissertation readiness</div>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="font-semibold tabular text-5xl text-ink-900">84</span>
+              <span className="text-ink-400">/100</span>
+            </div>
+            <p className="mt-1 text-[12.5px] text-ink-500 italic">Committee-ready with minor revisions</p>
+
+            <div className="mt-7 space-y-3">
+              {[
+                ["Scholarly tone", 86],
+                ["APA 7 compliance", 91],
+                ["Synthesis depth", 78],
+                ["Methodology alignment", 84],
+                ["Citation accuracy", 88]
+              ].map(([k, v]) => (
+                <div key={k as string}>
+                  <div className="flex items-baseline justify-between text-[12.5px]">
+                    <span className="text-ink-600">{k}</span>
+                    <span className="tabular text-ink-900 font-semibold">{v}</span>
+                  </div>
+                  <div className="mt-1 h-1 rounded-full bg-ink-100 overflow-hidden">
+                    <div className="h-full bg-ink-900" style={{ width: `${v}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-ink-100">
+              <div className="eyebrow-soft">Findings</div>
+              <p className="mt-1 text-[13px] text-ink-700">7 across 2 agents</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      {/* Photographic frontispiece (smaller, side bar feel) */}
+      <div className="mt-10 grid grid-cols-12 gap-6 items-center">
+        <figure className="col-span-12 lg:col-span-7 relative aspect-[21/9] overflow-hidden ring-1 ring-ink-200 rounded-xl">
+          <Image
+            src={HERO_FIGURE.src}
+            alt={HERO_FIGURE.alt}
+            fill
+            priority
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            className="object-cover"
+          />
+        </figure>
+        <p className="col-span-12 lg:col-span-5 font-serif italic text-[18px] leading-[1.5] text-ink-700 balance">
+          Built for doctoral students navigating complex committee feedback, dissertation revisions, and
+          the long final stretch before defense.
+        </p>
+      </div>
+    </motion.div>
   );
 }

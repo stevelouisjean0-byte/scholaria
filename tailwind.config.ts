@@ -15,16 +15,17 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
-          50: "#f7f8fa",
+          50: "#f8f9fb",
           100: "#eef0f4",
-          200: "#dadfe8",
-          300: "#b9c1d0",
+          200: "#dee2ea",
+          300: "#bcc3d1",
           400: "#8a94a7",
           500: "#5b6478",
           600: "#3d4557",
           700: "#272d3c",
           800: "#171b27",
-          900: "#0b0e16"
+          900: "#0b0e16",
+          950: "#06070d"
         },
         sand: {
           50: "#faf8f3",
@@ -35,20 +36,35 @@ const config: Config = {
           500: "#9a7f4b"
         },
         accent: {
-          50: "#eef4ff",
-          100: "#dbe6ff",
-          200: "#b8ccff",
-          300: "#8aa9ff",
-          400: "#5b82f5",
-          500: "#3a5fd9",
-          600: "#2b48b3",
-          700: "#22398f",
-          800: "#1c2f72",
-          900: "#152559"
+          50: "#eef2ff",
+          100: "#dfe6ff",
+          200: "#bccaff",
+          300: "#8da5ff",
+          400: "#5b7af0",
+          500: "#3854d1",
+          600: "#2a3fa9",
+          700: "#22338a",
+          800: "#1c2a72",
+          900: "#16225a"
         },
         emerald: {
+          50: "#ecfdf4",
+          100: "#d2f9e0",
           500: "#1f8a6d",
-          600: "#196f57"
+          600: "#196f57",
+          700: "#15584a"
+        },
+        amber: {
+          50: "#fff8eb",
+          100: "#feefce",
+          500: "#c08a25",
+          700: "#92691a"
+        },
+        rose: {
+          50: "#fef2f4",
+          100: "#fde2e7",
+          500: "#c63b50",
+          700: "#922a3b"
         }
       },
       fontFamily: {
@@ -57,27 +73,28 @@ const config: Config = {
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular"]
       },
       fontSize: {
-        "display-2xl": ["clamp(3.5rem, 6vw, 5.5rem)", { lineHeight: "1.02", letterSpacing: "-0.04em" }],
-        "display-xl": ["clamp(2.75rem, 5vw, 4.25rem)", { lineHeight: "1.04", letterSpacing: "-0.035em" }],
-        "display-lg": ["clamp(2.25rem, 4vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.03em" }]
+        "display-2xl": ["clamp(2.75rem, 5.5vw, 4.75rem)", { lineHeight: "1.04", letterSpacing: "-0.035em" }],
+        "display-xl":  ["clamp(2.25rem, 4.5vw, 3.75rem)", { lineHeight: "1.06", letterSpacing: "-0.03em" }],
+        "display-lg":  ["clamp(1.875rem, 3.5vw, 2.75rem)", { lineHeight: "1.1",  letterSpacing: "-0.025em" }]
       },
       boxShadow: {
-        // Ink-tinted shadows — slightly warmer than pure black so they sit
-        // inside the sand/paper palette instead of fighting it.
         elev1: "0 1px 1px rgba(23,27,39,.04), 0 1px 2px rgba(23,27,39,.05)",
         elev2: "0 1px 2px rgba(23,27,39,.04), 0 8px 22px -10px rgba(23,27,39,.10)",
-        elev3:
-          "0 1px 2px rgba(23,27,39,.04), 0 24px 60px -22px rgba(23,27,39,.18), 0 8px 18px -10px rgba(23,27,39,.08)",
+        elev3: "0 1px 2px rgba(23,27,39,.04), 0 24px 60px -22px rgba(23,27,39,.18), 0 8px 18px -10px rgba(23,27,39,.08)",
         rim: "inset 0 0 0 1px rgba(23,27,39,.06)",
-        inkInset: "inset 0 -1px 0 rgba(23,27,39,.06)"
+        glow: "0 0 0 6px rgba(56,84,209,.08)"
       },
       backgroundImage: {
         "grid-fade":
-          "linear-gradient(to bottom, rgba(11,14,22,.04) 1px, transparent 1px), linear-gradient(to right, rgba(11,14,22,.04) 1px, transparent 1px)"
+          "linear-gradient(to bottom, rgba(11,14,22,.04) 1px, transparent 1px), linear-gradient(to right, rgba(11,14,22,.04) 1px, transparent 1px)",
+        "radial-fade":
+          "radial-gradient(900px 500px at 50% 0%, rgba(56,84,209,.06), transparent 60%)"
       },
       animation: {
         "fade-up": "fadeUp .8s cubic-bezier(.2,.7,.2,1) both",
-        "shimmer": "shimmer 2.4s linear infinite"
+        "shimmer": "shimmer 2.4s linear infinite",
+        "pulse-soft": "pulseSoft 3s ease-in-out infinite",
+        "dash-flow": "dashFlow 4s linear infinite"
       },
       keyframes: {
         fadeUp: {
@@ -87,6 +104,13 @@ const config: Config = {
         shimmer: {
           "0%": { backgroundPosition: "-400px 0" },
           "100%": { backgroundPosition: "400px 0" }
+        },
+        pulseSoft: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.55" }
+        },
+        dashFlow: {
+          to: { strokeDashoffset: "-100" }
         }
       }
     }

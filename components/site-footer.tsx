@@ -22,12 +22,12 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <Column className="col-span-6 md:col-span-3 lg:col-span-2" title="Sections" links={[
-          ["I. Ecosystem", "/how-it-works"],
-          ["II. Workflow", "/how-it-works"],
-          ["III. Examined", "/services"],
-          ["IV. Excerpts", "/dissertation-editing"],
-          ["V. Rates", "/pricing"]
+        <Column className="col-span-6 md:col-span-3 lg:col-span-2" title="Platform" links={[
+          ["Dissertation Intelligence", "/dissertation-intelligence"],
+          ["Agent Ecosystem", "/agent-ecosystem"],
+          ["How it works", "/how-it-works"],
+          ["Upload paper", "/upload"],
+          ["Pricing", "/pricing"]
         ]} />
         <Column className="col-span-6 md:col-span-3 lg:col-span-2" title="Services" links={[
           ["Dissertation editing", "/dissertation-editing"],

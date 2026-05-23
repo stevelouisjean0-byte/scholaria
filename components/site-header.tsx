@@ -5,12 +5,12 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
+  ["Dissertation Intelligence", "/dissertation-intelligence"],
+  ["Agent Ecosystem", "/agent-ecosystem"],
   ["Services", "/services"],
-  ["How it works", "/how-it-works"],
   ["Enterprise", "/enterprise"],
   ["Pricing", "/pricing"],
-  ["About", "/about"],
-  ["FAQ", "/faq"]
+  ["About", "/about"]
 ] as const;
 
 export function SiteHeader() {
