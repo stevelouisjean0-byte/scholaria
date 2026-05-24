@@ -9,15 +9,12 @@ const databaseConfigured = Boolean(process.env.DATABASE_URL);
 const redisConfigured = Boolean(process.env.REDIS_URL);
 
 /**
- * Upload endpoint with graceful degradation.
+ * Upload endpoint with graduated capability levels.
  *
- * Full mode (DATABASE_URL + REDIS_URL set):
- *   - persist job row, enqueue intake, autonomous pipeline runs
- *
- * Demo mode (no DB / Redis):
- *   - still parse the document and return real stats
- *   - return demoMode: true so the client can show a meaningful state
- *   - never crash on missing infrastructure
+ *   No DB, no Redis     → demo mode (parse only, return stats, no persistence)
+ *   DB only             → persists job to Postgres; orchestrator skipped
+ *                         (review pipeline activates when Redis added)
+ *   DB + Redis          → full mode (persist + enqueue full review pipeline)
  */
 export async function POST(req: NextRequest) {
   const form = await req.formData();
@@ -33,7 +30,6 @@ export async function POST(req: NextRequest) {
   const buf = Buffer.from(await file.arrayBuffer());
   const sizeBytes = buf.byteLength;
 
-  // Parse the manuscript — this works regardless of DB/Redis.
   let parsed;
   try {
     parsed = await parseDocument(buf, file.name);
@@ -57,27 +53,25 @@ export async function POST(req: NextRequest) {
     sizeBytes
   };
 
-  // Demo mode — infrastructure not yet provisioned.
-  if (!databaseConfigured || !redisConfigured) {
+  // No database at all — pure demo mode.
+  if (!databaseConfigured) {
     return NextResponse.json({
       jobId,
       stage: "received",
       demoMode: true,
-      missing: {
-        database: !databaseConfigured,
-        redis: !redisConfigured
-      },
+      missing: { database: true, redis: !redisConfigured },
       document: documentInfo,
       message:
-        "Your manuscript was parsed successfully. The autonomous review pipeline activates once the platform's database and queue are provisioned — until then, the file is held in session memory only."
+        "Manuscript parsed successfully. The autonomous pipeline activates once the platform's database and queue are provisioned."
     });
   }
 
-  // Full mode — persist + enqueue
+  // Database is set — persist the job. Try/catch keeps the route up even if
+  // the DB call fails (bad credentials, network blip, etc.).
+  let persisted = false;
+  let persistError: string | null = null;
   try {
     const { db } = await import("@/lib/db");
-    const { enqueueIntake } = await import("@/lib/orchestrator");
-
     await db.query(
       `insert into jobs
          (id, user_id, filename, mime, size_bytes, stage, document, text_full, text_excerpt, word_count, upload_meta, reviews_expected, reviews_received, memory)
@@ -101,25 +95,43 @@ export async function POST(req: NextRequest) {
         }
       ]
     );
-
-    await enqueueIntake(jobId);
+    persisted = true;
   } catch (err) {
+    persistError = err instanceof Error ? err.message : "Database write failed";
+  }
+
+  if (!persisted) {
     return NextResponse.json(
       {
-        error: "infrastructure_error",
-        detail: err instanceof Error ? err.message : "Database or queue write failed.",
-        jobId,
+        error: "database_error",
+        detail: persistError ?? "Unknown",
+        hint: "DATABASE_URL is configured but writes are failing. Check Vercel logs.",
         document: documentInfo
       },
       { status: 503 }
     );
   }
 
+  // Try to enqueue the review pipeline if Redis is also configured.
+  let enqueued = false;
+  if (redisConfigured) {
+    try {
+      const { enqueueIntake } = await import("@/lib/orchestrator");
+      await enqueueIntake(jobId);
+      enqueued = true;
+    } catch (err) {
+      console.warn("[upload] enqueue failed (job is persisted, will be retried):", err);
+    }
+  }
+
   return NextResponse.json({
     jobId,
-    stage: "uploaded",
+    stage: enqueued ? "uploaded" : "queued-pending-worker",
+    persisted: true,
+    pipelineActive: enqueued,
     document: documentInfo,
-    message:
-      "Manuscript received and parsed. The Lead Intake Agent has been engaged and the autonomous review pipeline is starting."
+    message: enqueued
+      ? "Manuscript received and persisted. The Lead Intake Agent has been engaged and the autonomous review pipeline is starting."
+      : "Manuscript persisted to the job ledger. The autonomous review pipeline will activate the moment the queue worker (Redis) is provisioned — this job will then run automatically."
   });
 }

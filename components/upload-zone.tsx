@@ -18,6 +18,8 @@ interface UploadResult {
   jobId: string;
   stage: string;
   demoMode?: boolean;
+  persisted?: boolean;
+  pipelineActive?: boolean;
   document?: UploadDocument;
   message?: string;
 }
@@ -131,18 +133,37 @@ export function UploadZone() {
             <div className="rounded-xl bg-amber-50 ring-1 ring-amber-700/15 p-5 flex gap-3">
               <Info className="h-4.5 w-4.5 text-amber-700 mt-0.5 shrink-0" />
               <div className="text-[13.5px] text-amber-900 leading-relaxed">
-                <strong className="font-semibold">Demo mode.</strong> Your manuscript was parsed
-                successfully, but the autonomous review pipeline requires a database and queue
-                worker to persist jobs. Once the platform's Postgres + Redis infrastructure is
-                provisioned, uploads run through the full 11-agent pipeline automatically.
+                <strong className="font-semibold">Demo mode.</strong> Manuscript parsed
+                successfully, but the platform's database is not yet provisioned, so the job is
+                held only in session memory.
                 <div className="mt-2 text-[12.5px] text-amber-800/80 font-mono">
                   Session job id: {result.jobId}
                 </div>
               </div>
             </div>
+          ) : result.persisted && !result.pipelineActive ? (
+            <>
+              <div className="rounded-xl bg-ink-900 text-white px-5 py-4">
+                <div className="text-[11px] uppercase tracking-[0.18em] text-ink-300">Job persisted</div>
+                <div className="font-mono text-[13.5px]">{result.jobId}</div>
+                <p className="mt-2 text-[13px] text-ink-200">
+                  Your manuscript is now in the platform's job ledger.
+                </p>
+                <a href="/dashboard" className="mt-3 inline-block text-[13px] underline underline-offset-4">
+                  Open dashboard →
+                </a>
+              </div>
+              <div className="rounded-xl bg-amber-50 ring-1 ring-amber-700/15 p-4 flex gap-3 text-[13px] text-amber-900">
+                <Info className="h-4 w-4 mt-0.5 shrink-0" />
+                <div>
+                  <strong className="font-semibold">Queue worker pending.</strong>{" "}
+                  The autonomous review pipeline activates automatically once the queue worker (Redis) is provisioned. This job will then run.
+                </div>
+              </div>
+            </>
           ) : (
             <div className="rounded-xl bg-ink-900 text-white px-5 py-4">
-              <div className="text-[11px] uppercase tracking-[0.18em] text-ink-300">Job created</div>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-ink-300">Job created · pipeline active</div>
               <div className="font-mono text-[13.5px]">{result.jobId}</div>
               <p className="mt-2 text-[13px] text-ink-200">
                 {result.message ??
