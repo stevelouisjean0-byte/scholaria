@@ -72,6 +72,14 @@ export async function POST(req: NextRequest) {
   let persistError: string | null = null;
   try {
     const { db } = await import("@/lib/db");
+    // Anonymous uploads need a placeholder users row to satisfy jobs.user_id FK.
+    if (userId === "anonymous") {
+      await db.query(
+        `insert into users (id, email, full_name, plan)
+         values ('anonymous', 'anonymous@scholaria.local', 'Anonymous Upload', 'trial')
+         on conflict (id) do nothing`
+      );
+    }
     await db.query(
       `insert into jobs
          (id, user_id, filename, mime, size_bytes, stage, document, text_full, text_excerpt, word_count, upload_meta, reviews_expected, reviews_received, memory)
