@@ -120,26 +120,57 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Try to enqueue the review pipeline if Redis is also configured.
-  let enqueued = false;
+  // Mark the job as ready for the autonomous pipeline. The serverless cron at
+  // /api/cron/tick reads `jobs.stage` from Postgres and advances each row one
+  // stage per invocation — so as long as DATABASE_URL is set, the Agentic AI
+  // Agents will run, even if Redis is missing.
+  try {
+    await (await import("@/lib/db")).db.query(
+      "update jobs set stage='intake', updated_at=now() where id=$1",
+      [jobId]
+    );
+  } catch (err) {
+    console.warn("[upload] failed to advance stage to intake:", err);
+  }
+
+  // Best-effort: also push into the Redis BullMQ queue for observability/parity
+  // with the standalone worker. Cron is authoritative; this is non-blocking.
   if (redisConfigured) {
     try {
       const { enqueueIntake } = await import("@/lib/orchestrator");
       await enqueueIntake(jobId);
-      enqueued = true;
     } catch (err) {
-      console.warn("[upload] enqueue failed (job is persisted, will be retried):", err);
+      console.warn("[upload] enqueue to Redis failed (cron will still pick it up):", err);
     }
+  }
+
+  // Trigger the cron immediately so the Lead Intake Agent runs within seconds,
+  // not at the top of the next minute. Fire-and-forget — the upload response
+  // returns straight away, and the cron handler runs to completion in its own
+  // serverless invocation.
+  try {
+    const proto = req.headers.get("x-forwarded-proto") ?? "https";
+    const host = req.headers.get("host");
+    if (host) {
+      const cronUrl = `${proto}://${host}/api/cron/tick`;
+      const cronSecret = process.env.CRON_SECRET;
+      // Do not await — fetch is fire-and-forget so the upload returns fast.
+      fetch(cronUrl, {
+        method: "POST",
+        headers: cronSecret ? { authorization: `Bearer ${cronSecret}` } : undefined
+      }).catch(() => undefined);
+    }
+  } catch {
+    // Non-fatal: cron runs every minute regardless.
   }
 
   return NextResponse.json({
     jobId,
-    stage: enqueued ? "uploaded" : "queued-pending-worker",
+    stage: "intake",
     persisted: true,
-    pipelineActive: enqueued,
+    pipelineActive: true,
     document: documentInfo,
-    message: enqueued
-      ? "Manuscript received and persisted. The Lead Intake Agent has been engaged and the autonomous review pipeline is starting."
-      : "Manuscript persisted to the job ledger. The autonomous review pipeline will activate the moment the queue worker (Redis) is provisioned — this job will then run automatically."
+    message:
+      "Manuscript received and persisted. The Lead Intake Agent has been engaged and the autonomous review pipeline is starting."
   });
 }
