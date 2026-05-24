@@ -121,28 +121,67 @@ export async function runScoping(jobId: string) {
   await recordWorkflowEvent(jobId, "fanout.assigned", { effective });
 }
 
-const reviewSchema = z.object({
-  agentKey: z.string(),
-  scholarlyTone: z.number().min(0).max(100),
-  clarity: z.number().min(0).max(100),
-  apaCompliance: z.number().min(0).max(100).optional(),
-  literatureSynthesis: z.number().min(0).max(100).optional(),
-  methodologyAlignment: z.number().min(0).max(100).optional(),
-  citationAccuracy: z.number().min(0).max(100).optional(),
-  findings: z.array(
-    z.object({
-      id: z.string(),
-      page: z.number().optional(),
-      section: z.string().optional(),
-      excerpt: z.string(),
-      issue: z.string(),
-      recommendation: z.string(),
-      severity: z.enum(["minor", "moderate", "major"]),
-      type: z.enum(["tone", "clarity", "formatting", "citation", "synthesis", "methodology", "structure"])
-    })
-  ),
-  summary: z.string()
-});
+// Coerces a few well-known variations the model sometimes returns so we accept
+// the review even if it strayed slightly from the canonical schema.
+const severitySchema = z
+  .union([z.enum(["minor", "moderate", "major"]), z.string()])
+  .transform((v) => {
+    const s = String(v).toLowerCase();
+    if (["blocker", "critical", "high", "severe"].includes(s)) return "major" as const;
+    if (["medium", "med", "warn", "warning"].includes(s)) return "moderate" as const;
+    if (["low", "info", "trivial", "nit"].includes(s)) return "minor" as const;
+    if (["minor", "moderate", "major"].includes(s)) return s as "minor" | "moderate" | "major";
+    return "moderate" as const;
+  });
+
+const typeSchema = z
+  .union([
+    z.enum(["tone", "clarity", "formatting", "citation", "synthesis", "methodology", "structure"]),
+    z.string()
+  ])
+  .transform((v) => {
+    const s = String(v).toLowerCase();
+    const allowed = ["tone", "clarity", "formatting", "citation", "synthesis", "methodology", "structure"] as const;
+    if ((allowed as readonly string[]).includes(s)) return s as (typeof allowed)[number];
+    if (s.includes("cit")) return "citation";
+    if (s.includes("method")) return "methodology";
+    if (s.includes("synth") || s.includes("literature")) return "synthesis";
+    if (s.includes("struct") || s.includes("organiz") || s.includes("organis")) return "structure";
+    if (s.includes("apa") || s.includes("format")) return "formatting";
+    if (s.includes("clarity") || s.includes("clear")) return "clarity";
+    return "tone";
+  });
+
+const findingSchema = z
+  .object({
+    id: z.union([z.string(), z.number()]).optional(),
+    page: z.union([z.number(), z.string()]).optional(),
+    section: z.string().optional(),
+    excerpt: z.string().optional().default(""),
+    issue: z.string().optional().default(""),
+    recommendation: z.string().optional().default(""),
+    severity: severitySchema.optional().default("moderate"),
+    type: typeSchema.optional().default("tone")
+  })
+  .transform((f, ctx) => ({
+    ...f,
+    id: f.id !== undefined ? String(f.id) : `f-${ctx.path.join("-")}-${Math.random().toString(36).slice(2, 8)}`,
+    page: typeof f.page === "string" ? parseInt(f.page, 10) || undefined : f.page
+  }));
+
+const reviewSchema = z
+  .object({
+    agentKey: z.string().optional(),
+    scholarlyTone: z.number().min(0).max(100).optional().default(0),
+    clarity: z.number().min(0).max(100).optional().default(0),
+    apaCompliance: z.number().min(0).max(100).optional(),
+    literatureSynthesis: z.number().min(0).max(100).optional(),
+    methodologyAlignment: z.number().min(0).max(100).optional(),
+    citationAccuracy: z.number().min(0).max(100).optional(),
+    findings: z.array(findingSchema).default([]),
+    summary: z.string().optional().default("")
+  })
+  .passthrough();
 
 export async function runReview(jobId: string, agent: AgentKey) {
   const job = await loadJob(jobId);
@@ -169,7 +208,8 @@ export async function runReview(jobId: string, agent: AgentKey) {
     maxTokens: 6000
   });
 
-  const review = reviewSchema.parse(parseJson<AgentReview>(out.text));
+  const parsed = reviewSchema.parse(parseJson<AgentReview>(out.text));
+  const review = { ...parsed, agentKey: parsed.agentKey ?? agent } as AgentReview;
   await writeMemory(jobId, { reviews: { [agent]: review } });
   await recordWorkflowEvent(jobId, "review.complete", { agent });
 
