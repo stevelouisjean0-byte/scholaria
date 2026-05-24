@@ -13,9 +13,10 @@ export function SiteFooter() {
             a review of doctoral writing
           </div>
           <p className="mt-6 max-w-md text-[14.5px] leading-7 text-ink-700">
-            An autonomous AI review and scholarly editing platform for Ph.D., Ed.D., doctoral, and graduate
-            researchers. Scholaria critiques, edits, and guides scholarly writing — it does not author
-            dissertations on a student's behalf.
+            An Agentic AI operating system for doctoral research. Coordinated Agentic AI Agents
+            validate scholarly workflows for Ph.D., Ed.D., doctoral, and graduate researchers —
+            designed to reduce human error and improve research accuracy. Scholaria critiques,
+            edits, and guides; it does not author dissertations on a student's behalf.
           </p>
           <p className="mt-8 text-[12px] uppercase tracking-[0.3em] text-ink-500">
             Est. mmxxvi · Issued continuously · Open to scholars
@@ -24,7 +25,7 @@ export function SiteFooter() {
 
         <Column className="col-span-6 md:col-span-3 lg:col-span-2" title="Platform" links={[
           ["Dissertation Intelligence", "/dissertation-intelligence"],
-          ["Agent Ecosystem", "/agent-ecosystem"],
+          ["Agentic AI Agents", "/agent-ecosystem"],
           ["How it works", "/how-it-works"],
           ["Upload paper", "/upload"],
           ["Pricing", "/pricing"]

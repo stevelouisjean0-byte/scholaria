@@ -28,15 +28,16 @@ export function AgentEcosystem() {
       <div className="container">
         <div className="grid grid-cols-12 gap-10 items-end">
           <div className="col-span-12 lg:col-span-7">
-            <span className="eyebrow">AI agent ecosystem</span>
+            <span className="eyebrow">Agentic AI Agent ecosystem</span>
             <h2 className="mt-4 h-display text-display-xl">
-              Ten interconnected agents. One orchestration layer.
+              Ten interconnected Agentic AI Agents. One orchestration layer.
             </h2>
           </div>
           <p className="col-span-12 lg:col-span-5 text-[15.5px] leading-[1.7] text-ink-600 lg:pl-8 lg:border-l lg:border-ink-200">
-            Scholaria is not a chain of disconnected prompts. The Orchestrator coordinates every reviewing
-            agent through shared memory, durable state, and event triggers — operating without human
-            intervention from intake to delivery.
+            Scholaria is not a chain of disconnected prompts. The Orchestrator coordinates every
+            Agentic AI Agent through shared memory, durable state, and event triggers —
+            autonomous execution from intake to delivery, with intelligent multi-step verification
+            at every transition.
           </p>
         </div>
 

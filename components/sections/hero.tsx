@@ -17,19 +17,20 @@ export function Hero() {
         >
           <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-white/80 ring-1 ring-ink-200 backdrop-blur text-[12px] text-ink-700">
             <Sparkles className="h-3.5 w-3.5 text-accent-500" />
-            <span>An autonomous AI operating system for doctoral research</span>
+            <span>An Agentic AI operating system for doctoral research</span>
             <span className="text-ink-300">·</span>
             <span className="text-ink-500">Powered by Claude</span>
           </div>
 
           <h1 className="mt-7 h-display text-display-2xl">
-            Enterprise AI Dissertation Intelligence Platform
+            Agentic AI Agents for advanced academic and research workflows.
           </h1>
 
           <p className="mt-6 max-w-3xl text-[18px] leading-[1.55] text-ink-600 pretty">
-            Upload your dissertation, capstone, literature review, or graduate research paper and receive
-            explicit scholarly feedback from autonomous AI academic review agents built specifically for
-            doctoral and graduate-level writing.
+            Upload your dissertation, capstone, literature review, or graduate research paper. A
+            coordinated ensemble of Agentic AI Agents validates your workflow end-to-end —
+            designed to reduce human error, improve accuracy, and deliver research-grade
+            consistency at every step.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -222,8 +223,8 @@ function HeroProductCard() {
           />
         </figure>
         <p className="col-span-12 lg:col-span-5 font-serif italic text-[18px] leading-[1.5] text-ink-700 balance">
-          Built for doctoral students navigating complex committee feedback, dissertation revisions, and
-          the long final stretch before defense.
+          A precision-driven multi-agent system that validates research workflows and reduces the
+          oversight burden on doctoral candidates, committees, and program directors.
         </p>
       </div>
     </motion.div>

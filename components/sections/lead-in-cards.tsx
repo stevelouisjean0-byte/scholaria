@@ -8,15 +8,15 @@ const CARDS = [
     eyebrow: "The product",
     title: "Dissertation Intelligence",
     body:
-      "The operating system for doctoral writing — nine examinations, decomposed scores, and an editorial pipeline that runs without human routing."
+      "An Agentic AI operating system for doctoral research — nine intelligent examinations and a validation pipeline designed to reduce human error and improve scholarly accuracy."
   },
   {
     href: "/agent-ecosystem",
     icon: Network,
     eyebrow: "The platform",
-    title: "AI Agent Ecosystem",
+    title: "Agentic AI Agent Ecosystem",
     body:
-      "Eleven Claude-managed agents coordinated through shared memory and durable workflow state. Every agent is named, audited, and replaceable."
+      "Eleven Claude-managed Agentic AI Agents coordinated through shared memory and durable workflow state. Each agent is auditable, deterministic, and built for precision-driven validation."
   },
   {
     href: "/how-it-works",
@@ -24,7 +24,7 @@ const CARDS = [
     eyebrow: "The pipeline",
     title: "How it works",
     body:
-      "From upload to delivery, every step is an agent. Eleven durable transitions. QA-gated. No human in the loop, by design."
+      "Autonomous execution from upload to delivery. Eleven QA-gated transitions, intelligent multi-step verification, and zero routing overhead — by architecture, not by promise."
   }
 ];
 
@@ -35,11 +35,12 @@ export function LeadInCards() {
         <div className="max-w-3xl">
           <span className="eyebrow">Where to go next</span>
           <h2 className="mt-4 h-display text-display-lg">
-            Three doors into the platform.
+            Three doors into the operating system.
           </h2>
           <p className="mt-4 text-[15.5px] leading-[1.65] text-ink-600">
-            The homepage is deliberately brief. Open any of these for the full editorial brief on what the
-            product does, who runs it, and how a manuscript moves through the pipeline.
+            The homepage is deliberately brief. Open any of these for the full architectural brief
+            on what the platform validates, how the Agentic AI Agents coordinate, and how a
+            manuscript moves through autonomous review.
           </p>
         </div>
 

@@ -7,7 +7,7 @@ import { ClerkHeaderAuth } from "@/components/auth/clerk-header-auth";
 
 const NAV = [
   ["Dissertation Intelligence", "/dissertation-intelligence"],
-  ["Agent Ecosystem", "/agent-ecosystem"],
+  ["Agentic AI Agents", "/agent-ecosystem"],
   ["Reviews", "/reviews"],
   ["Pricing", "/pricing"],
   ["Enterprise", "/enterprise"]

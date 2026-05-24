@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 const STEPS = [
   ["01", "Manuscript uploaded", "PDF or DOCX is received over an encrypted channel, hashed, and registered in the job ledger."],
   ["02", "Lead Intake Agent", "Captures degree level, paper type, deadline, formatting style, professor feedback, and stated concerns."],
-  ["03", "Project Scoping & Routing", "Scores academic complexity, classifies the paper, and selects the precise review path and priority tier."],
-  ["04", "Orchestrator Agent", "Assigns reviewing agents, maintains the shared memory document, and drives state transitions."],
-  ["05", "Reviews in parallel", "Professional Editor and Research Support agents review the manuscript independently and post explicit findings."],
+  ["03", "Project Scoping & Routing", "Scores academic complexity, classifies the paper, and selects the precise validation path and priority tier."],
+  ["04", "Orchestrator Agent", "Assigns reviewing Agentic AI Agents, maintains the shared memory document, and drives deterministic state transitions."],
+  ["05", "Validation in parallel", "Professional Editor and Research Support Agents validate the manuscript independently and post explicit, verifiable findings."],
   ["06", "Shared memory merge", "Findings are deduplicated, ranked by severity, and merged into a single canonical revision document."],
-  ["07", "QA & Final Approval", "Validates every output, scores submission readiness, and rejects any review that is not actionable."],
+  ["07", "QA & Final Approval", "Intelligent multi-step verification, scored submission readiness, and rejection of any review that is not actionable."],
   ["08", "Final scholarly package", "Executive summary, annotated document, APA report, citation verification, and a downloadable revision package."],
   ["09", "Automatic delivery", "The student is notified in a calm, scholarly voice with their report, scores, and recommended next steps."]
 ] as const;
@@ -24,11 +24,11 @@ export function Workflow() {
 
         <div className="grid grid-cols-12 gap-x-10 gap-y-6 items-end">
           <h2 className="col-span-12 lg:col-span-7 font-serif text-[40px] lg:text-[56px] leading-[1.04] tracking-[-0.025em] text-ink-900 balance">
-            From upload to publication-quality package — without a single manual hand-off.
+            From upload to publication-quality package — autonomous execution, no manual hand-off.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
-            Every step below is executed by a named agent. Every transition is durable. Every output is
-            reviewed by the QA agent before it ever reaches a student.
+            Every step below is executed by a named Agentic AI Agent. Every transition is durable.
+            Every output passes intelligent multi-step verification before it ever reaches a student.
           </p>
         </div>
 

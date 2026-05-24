@@ -114,12 +114,13 @@ export function WhyDifferent() {
         <div className="max-w-3xl">
           <span className="eyebrow">Why Scholaria is different</span>
           <h2 className="mt-4 h-display text-display-xl">
-            An autonomous dissertation intelligence ecosystem — not a generic AI writing assistant.
+            An Agentic AI operating system for doctoral research — not a generic AI writing assistant.
           </h2>
           <p className="mt-5 text-[16px] leading-[1.65] text-ink-600">
-            Scholaria was engineered specifically for the editorial work doctoral and graduate students
-            actually have to do. The platform reviews scholarly writing; it never writes the dissertation
-            on the student's behalf. That distinction is the first principle.
+            Scholaria was engineered for the intelligent validation work doctoral and graduate
+            students actually have to do. Agentic AI Agents review, verify, and harden scholarly
+            writing through multi-step examination — they never author the dissertation on the
+            student's behalf. That distinction is the first principle of the architecture.
           </p>
         </div>
 

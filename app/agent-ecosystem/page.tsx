@@ -7,22 +7,22 @@ import { PAGE_HEROES } from "@/lib/media";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "AI Agent Ecosystem — ten interconnected agents",
+  title: "Agentic AI Agent Ecosystem — ten interconnected agents",
   description:
-    "Scholaria's autonomous AI agent ecosystem — ten Claude Managed Agents organised in four tiers and coordinated by the Orchestrator through shared workflow memory.",
+    "Scholaria's Agentic AI Agent ecosystem — ten Claude Managed Agents organised in four tiers and coordinated by the Orchestrator through shared workflow memory. Designed for autonomous execution, intelligent validation, and research-grade precision.",
   alternates: { canonical: "/agent-ecosystem" }
 };
 
 const TIER_ORDER = ["core", "review", "operations", "growth"] as const;
 const TIER_LABEL: Record<string, string> = {
   core: "Core orchestration",
-  review: "Scholarly review",
+  review: "Scholarly validation",
   operations: "Revenue operations & support",
   growth: "Growth & discovery"
 };
 const TIER_DESC: Record<string, string> = {
-  core: "Intake, routing, and the central conductor that runs the platform end-to-end.",
-  review: "The agents that read, critique, and elevate the manuscript itself.",
+  core: "Intake, routing, and the central conductor that runs autonomous execution end-to-end.",
+  review: "The Agentic AI Agents that read, validate, and elevate the manuscript itself.",
   operations: "Billing, support, and feedback — handled without a help desk.",
   growth: "Visibility across Google, ChatGPT, and Gemini, optimised continuously."
 };
@@ -34,9 +34,9 @@ export default function Page() {
     <>
       <PageMasthead
         number="III"
-        eyebrow="AI agent ecosystem"
-        title="Ten interconnected agents. One operating system."
-        dek="Every agent in Scholaria reads from and writes to a single shared memory document, coordinated by the Orchestrator through durable workflow state."
+        eyebrow="Agentic AI Agent ecosystem"
+        title="Ten interconnected Agentic AI Agents. One operating system."
+        dek="Every Agentic AI Agent in Scholaria reads from and writes to a single shared memory document, coordinated by the Orchestrator through durable workflow state — autonomous execution with intelligent multi-step verification at every transition."
         photo={PAGE_HEROES.enterprise}
         ctas={[
           { label: "Submit a manuscript", href: "/upload", primary: true },
@@ -51,12 +51,13 @@ export default function Page() {
           <div className="max-w-3xl">
             <span className="eyebrow">Reference</span>
             <h2 className="mt-4 h-display text-display-lg">
-              Every agent, in detail.
+              Every Agentic AI Agent, in detail.
             </h2>
             <p className="mt-4 text-[15.5px] leading-[1.7] text-ink-600">
-              The platform runs the ten agents below. Each is a specialised Claude Managed Agent with its
-              own role, responsibilities, and tier. Pricing &amp; QA each carry a backup ID for redundancy
-              — they are the two paths where a stuck call would block billing or block delivery.
+              The platform runs the ten Agentic AI Agents below. Each is a specialised Claude
+              Managed Agent with its own role, responsibilities, and tier. Pricing &amp; QA each
+              carry a backup ID — deterministic redundancy on the two paths where a stuck call
+              would block billing or block delivery.
             </p>
           </div>
 
@@ -97,7 +98,8 @@ export default function Page() {
         <div className="container max-w-4xl">
           <span className="eyebrow text-accent-200">Autonomous revenue operations</span>
           <h2 className="mt-4 h-display text-display-lg text-white">
-            A dedicated agent runs your billing without a human in the loop.
+            A dedicated Agentic AI Agent runs your billing — designed for autonomous execution,
+            with intelligent multi-step verification on every transaction.
           </h2>
           <div className="mt-8 grid grid-cols-12 gap-6">
             {[

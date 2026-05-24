@@ -15,27 +15,29 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://scholaria.ai"),
   title: {
-    default: "Scholaria — Enterprise AI Dissertation Review & Scholarly Editing Platform",
+    default: "Scholaria — Agentic AI Operating System for Doctoral Research & Academic Workflows",
     template: "%s · Scholaria"
   },
   description:
-    "Autonomous AI dissertation intelligence and scholarly editing for Ph.D., Ed.D., doctoral, and graduate-level researchers. Upload your manuscript and receive explicit, publication-quality feedback from a coordinated ecosystem of academic review agents.",
+    "An Agentic AI operating system for doctoral research. Coordinated Agentic AI Agents validate scholarly workflows, perform intelligent multi-step verification, and reduce human error across dissertation review, literature synthesis, methodology alignment, and citation integrity.",
   keywords: [
+    "agentic AI agents",
+    "agentic AI for research",
+    "autonomous academic assistance",
+    "research-grade workflow automation",
     "dissertation editing",
+    "doctoral research validation",
     "PhD editing",
     "EdD editing",
-    "APA 7 formatting",
-    "literature review editing",
-    "doctoral paper review",
-    "dissertation proofreading",
-    "research methodology review",
+    "APA 7 verification",
+    "multi-agent academic review",
     "citation verification",
-    "scholarly editing services"
+    "precision-driven AI systems"
   ],
   openGraph: {
-    title: "Scholaria — Enterprise AI Dissertation Review Platform",
+    title: "Scholaria — Agentic AI Operating System for Doctoral Research",
     description:
-      "An autonomous, multi-agent scholarly editing ecosystem for doctoral students and graduate researchers.",
+      "Coordinated Agentic AI Agents that validate research workflows, reduce human error, and deliver research-grade consistency for doctoral and graduate-level scholarship.",
     type: "website",
     siteName: "Scholaria",
     locale: "en_US",
@@ -44,15 +46,15 @@ export const metadata: Metadata = {
         url: "/og/default.png",
         width: 1200,
         height: 630,
-        alt: "Scholaria — A scholarly review of doctoral writing."
+        alt: "Scholaria — Agentic AI Agents for doctoral research."
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Scholaria — Enterprise AI Dissertation Review Platform",
+    title: "Scholaria — Agentic AI Operating System for Doctoral Research",
     description:
-      "An autonomous, multi-agent scholarly editing ecosystem for doctoral students and graduate researchers.",
+      "Coordinated Agentic AI Agents that validate research workflows, reduce human error, and deliver research-grade consistency.",
     images: ["/og/default.png"]
   },
   alternates: { canonical: "/" },

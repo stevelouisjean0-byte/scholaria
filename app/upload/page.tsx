@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Upload your paper",
-  description: "Upload a dissertation, literature review, capstone, or graduate paper for autonomous scholarly review.",
+  description: "Upload a dissertation, literature review, capstone, or graduate paper for autonomous validation by Scholaria's Agentic AI Agents.",
   alternates: { canonical: "/upload" }
 };
 
@@ -15,8 +15,8 @@ export default function UploadPage() {
       <PageMasthead
         number="IV"
         eyebrow="Submission desk"
-        title="Send your manuscript to the platform."
-        dek="The Lead Intake Agent activates the moment your file arrives. Within seconds, the routing layer assigns your manuscript to the correct review track and begins coordinating the reviewing agents."
+        title="Send your manuscript to the operating system."
+        dek="The Lead Intake Agent activates the moment your file arrives. Within seconds, the routing layer assigns your manuscript to the correct validation track and the reviewing Agentic AI Agents begin coordinated execution."
         photo={PAGE_HEROES.upload}
       />
 
@@ -30,17 +30,18 @@ export default function UploadPage() {
               <div className="eyebrow">What happens next</div>
               <ol className="mt-4 space-y-3 text-[14px] text-ink-700 list-decimal pl-5 border-l border-ink-200 ml-2 pl-6">
                 <li>Lead Intake captures degree level, paper type, deadline, formatting style, and concerns.</li>
-                <li>Project Scoping &amp; Routing scores complexity and selects the review track.</li>
-                <li>Reviewing agents post explicit findings into a shared memory document.</li>
-                <li>QA &amp; Final Approval validates outputs and scores submission readiness.</li>
+                <li>Project Scoping &amp; Routing scores complexity and selects the validation track.</li>
+                <li>Reviewing Agentic AI Agents post explicit findings into a shared memory document.</li>
+                <li>QA &amp; Final Approval performs intelligent multi-step verification and scores submission readiness.</li>
                 <li>You receive an annotated document, an APA report, and a prioritised revision plan.</li>
               </ol>
             </div>
             <div className="pt-6 border-t border-ink-200">
               <div className="eyebrow">What we will not do</div>
               <p className="mt-3 text-[14px] leading-[1.7] text-ink-700">
-                Scholaria reviews, edits, and guides scholarly writing. It will not author your dissertation,
-                assignment, or capstone on your behalf. Academic integrity is a first-class platform value.
+                Scholaria validates, edits, and guides scholarly writing. It will not author your
+                dissertation, assignment, or capstone on your behalf. Academic integrity is a
+                first-class architectural constraint.
               </p>
             </div>
             <div className="pt-6 border-t border-ink-200">

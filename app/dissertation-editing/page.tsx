@@ -5,15 +5,16 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Dissertation Editing — Ph.D., Ed.D., and DBA candidates",
   description:
-    "Autonomous AI dissertation editing built for Ph.D., Ed.D., and DBA candidates. Chapter-by-chapter review, methodology alignment, citation verification, and submission readiness scoring.",
+    "Agentic AI Agents for dissertation editing built for Ph.D., Ed.D., and DBA candidates. Chapter-by-chapter validation, methodology alignment, citation verification, and submission readiness scoring — designed to reduce human error and improve research accuracy.",
   alternates: { canonical: "/dissertation-editing" },
   keywords: [
+    "agentic AI dissertation editing",
     "dissertation editing",
     "PhD editing",
     "EdD editing",
-    "doctoral paper review",
-    "dissertation proofreading",
-    "scholarly editing services"
+    "doctoral paper validation",
+    "multi-agent dissertation review",
+    "research-grade workflow automation"
   ]
 };
 
@@ -26,15 +27,15 @@ export default function DissertationEditing() {
       heading="Chapter-grade dissertation editing for Ph.D., Ed.D., and DBA candidates."
       subheading="Tone, structure, scholarly register, methodology alignment, and submission readiness — scored and explained across every chapter."
       intro={[
-        "A dissertation does not get rejected because its sentences are bad. It gets sent back because a transition is weak, a synthesis is shallow, a citation is missing, or a methodological choice is not defended. Scholaria reviews your manuscript the way a methodologist on your committee would — explicitly, specifically, and with the page numbers attached.",
-        "Doctoral and Ed.D. candidates work with Scholaria in two modes. Some upload a single chapter and ask for a fast, targeted pass before a chair meeting. Others run the platform across the entire manuscript, with multi-chapter coherence enabled, in the final weeks before defense.",
-        "In both cases the platform is identical underneath. The Lead Intake Agent captures your context. The Project Scoping & Routing Agent picks the precise review path. The reviewing agents post findings against a shared memory document. The QA & Final Approval Agent refuses to release anything that reads as generic or template-driven. You receive an annotated document, an APA report, a citation cross-check, and a prioritised revision plan — without a single human touching the work in between."
+        "A dissertation does not get rejected because its sentences are bad. It gets sent back because a transition is weak, a synthesis is shallow, a citation is missing, or a methodological choice is not defended. Scholaria validates your manuscript the way a methodologist on your committee would — explicitly, specifically, and with the page numbers attached.",
+        "Doctoral and Ed.D. candidates work with Scholaria in two modes. Some upload a single chapter and ask for a fast, targeted validation before a chair meeting. Others run the system across the entire manuscript, with multi-chapter coherence enabled, in the final weeks before defense.",
+        "In both cases the architecture is identical underneath. The Lead Intake Agent captures your context. The Project Scoping & Routing Agent picks the precise review path. The reviewing Agentic AI Agents post findings against a shared memory document. The QA & Final Approval Agent performs intelligent multi-step verification and refuses to release anything that reads as generic or template-driven. You receive an annotated document, an APA report, a citation cross-check, and a prioritised revision plan — autonomous execution from upload to delivery."
       ]}
       pillars={[
-        { title: "Chapter-by-chapter review", body: "Tone, structure, and scholarly register scored at the chapter and section level — not as a single number for the whole manuscript." },
+        { title: "Chapter-by-chapter validation", body: "Tone, structure, and scholarly register scored at the chapter and section level — not as a single number for the whole manuscript." },
         { title: "Methodology alignment", body: "Research questions, framework, sampling, design, and analysis examined for internal coherence and methodological defensibility." },
-        { title: "Citation verification", body: "Every in-text citation matched to its reference list entry. Orphans, malformed DOIs, and APA edge cases flagged with page numbers." },
-        { title: "Cross-chapter coherence", body: "On Dissertation Intensive, the platform reads across chapters to surface drift in voice, framework, and key term definitions." },
+        { title: "Citation verification", body: "Every in-text citation matched to its reference list entry. Orphans, malformed DOIs, and APA edge cases flagged with page numbers — intelligent multi-step verification, not a spot-check." },
+        { title: "Cross-chapter coherence", body: "On Dissertation Intensive, the system reads across chapters to surface drift in voice, framework, and key term definitions — designed to reduce human oversight requirements." },
         { title: "Defense readiness package", body: "Committee-ready exports — annotated PDF, APA report, citation report, revision plan, and the submission readiness score that drove the recommendation." },
         { title: "Concierge channel", body: "Dissertation Intensive includes a dedicated concierge channel for the final weeks before defense." }
       ]}
@@ -68,7 +69,7 @@ export default function DissertationEditing() {
       ]}
       testimonialFilter={["synthesis", "tone", "readiness"]}
       ctaTitle="Upload your chapter or full manuscript."
-      ctaBody="The autonomous review pipeline begins the moment your file is received."
+      ctaBody="The Agentic AI Agents engage the moment your file is received — autonomous validation, no routing overhead."
       jsonLd={{
         "@context": "https://schema.org",
         "@graph": [

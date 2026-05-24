@@ -9,7 +9,7 @@ import { CheckoutButton } from "@/components/checkout-button";
 export const metadata: Metadata = {
   title: "Pricing — Graduate, Doctoral, Dissertation Intensive, Enterprise",
   description:
-    "Plans built around real academic timelines — from a free sample review to institution-wide enterprise deployment.",
+    "Plans built around real academic timelines. Every tier runs on the same Agentic AI Agent architecture — higher tiers unlock more reviewing agents, faster autonomous execution, and cross-chapter coherence.",
   alternates: { canonical: "/pricing" }
 };
 
@@ -20,7 +20,7 @@ export default function PricingPage() {
         number="V"
         eyebrow="Rates & access"
         title="Choose the plan that matches the work in front of you."
-        dek="All plans run on the same autonomous agent ecosystem. Higher tiers unlock more reviewing agents, faster turnaround, and cross-chapter coherence."
+        dek="All plans run on the same Agentic AI Agent ecosystem. Higher tiers unlock more reviewing agents, faster autonomous execution, deeper intelligent verification, and cross-chapter coherence."
         photo={PAGE_HEROES.pricing}
       />
 

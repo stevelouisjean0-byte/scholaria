@@ -29,14 +29,17 @@ export function siteGraph() {
         logo: `${APP_URL}/logo.png`,
         sameAs: [],
         description:
-          "Enterprise AI dissertation review and scholarly editing platform — an autonomous, multi-agent academic intelligence ecosystem for Ph.D., Ed.D., doctoral, and graduate-level researchers.",
+          "Agentic AI operating system for doctoral research. A coordinated ecosystem of Agentic AI Agents that validate scholarly workflows, perform intelligent multi-step verification, and reduce human error across dissertation review, literature synthesis, methodology alignment, and citation integrity.",
         knowsAbout: [
-          "Dissertation editing",
-          "APA 7 formatting",
+          "Agentic AI Agents",
+          "Autonomous academic assistance",
+          "Research-grade workflow automation",
+          "Dissertation validation",
+          "APA 7 verification",
           "Literature review analysis",
-          "Research methodology review",
+          "Research methodology alignment",
           "Citation verification",
-          "Scholarly editing",
+          "Precision-driven AI systems",
           "Doctoral writing support"
         ],
         areaServed: "Worldwide"
@@ -57,7 +60,7 @@ export function siteGraph() {
       {
         "@type": "Service",
         "@id": `${APP_URL}/#service`,
-        serviceType: "Scholarly editing and dissertation review",
+        serviceType: "Agentic AI validation for doctoral research and scholarly editing",
         provider: { "@id": ORG_ID },
         audience: {
           "@type": "EducationalAudience",

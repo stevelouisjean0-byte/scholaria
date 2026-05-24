@@ -5,7 +5,7 @@ const ENTRIES: { roman: string; title: string; href: string; line: string }[] = 
     roman: "I.",
     title: "How it works",
     href: "/how-it-works",
-    line: "The autonomous review pipeline, agent by agent — intake, scoping, review, QA, delivery."
+    line: "The Agentic AI validation pipeline, agent by agent — intake, scoping, review, QA, delivery."
   },
   {
     roman: "II.",

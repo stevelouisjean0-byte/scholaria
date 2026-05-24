@@ -1,10 +1,10 @@
 const ITEMS: [string, string][] = [
-  ["Explicit, verbatim findings", "Every comment references the exact passage with page, section, and severity — never vague critique."],
-  ["Human-grade prose", "Editing recommendations are written to read as a senior consultant would write them. AI-detection patterns are explicitly suppressed."],
+  ["Explicit, verbatim findings", "Every comment references the exact passage with page, section, and severity — verifiable, never vague."],
+  ["Human-grade prose", "Editing recommendations are written to read as a senior consultant would write them. Generic AI patterns are explicitly suppressed by the QA agent."],
   ["Scholarly register", "Tone is calibrated for committees, chairs, and peer reviewers — not generic SaaS friendliness."],
-  ["No ghostwriting", "Scholaria critiques, edits, and guides. It does not author your dissertation. That is the point."],
-  ["Reproducible scores", "Submission readiness and tone scores are decomposed so you can see what would move the number."],
-  ["Audit trail", "Every agent invocation, finding, and revision is durable, replayable, and exportable."]
+  ["No ghostwriting", "Scholaria validates, edits, and guides. It does not author your dissertation. That is the architectural first principle."],
+  ["Reproducible scores", "Submission readiness and tone scores are decomposed so you can see what would move the number — precision and consistency over opaque metrics."],
+  ["Audit trail", "Every Agentic AI Agent invocation, finding, and revision is durable, replayable, and exportable — research-grade workflow automation."]
 ];
 
 export function QualityFeatures() {
@@ -18,11 +18,12 @@ export function QualityFeatures() {
 
         <div className="grid grid-cols-12 gap-x-10 gap-y-6 items-end">
           <h2 className="col-span-12 lg:col-span-7 font-serif text-[40px] lg:text-[56px] leading-[1.04] tracking-[-0.025em] text-ink-900 balance">
-            Publication-quality, every time. By design.
+            Publication-quality output. By architecture, not by promise.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
-            The platform is engineered so the output never feels generic, robotic, or template-driven —
-            from the first finding to the final delivery email.
+            Every output passes intelligent multi-step verification before it reaches you — designed
+            to reduce human error and improve scholarly accuracy from the first finding to the final
+            delivery email.
           </p>
         </div>
 

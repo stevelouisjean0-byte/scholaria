@@ -8,17 +8,18 @@ export function Ecosystem() {
       <div className="container">
         <header className="chapter">
           <span className="roman">I.</span>
-          <span className="label">The reviewing ecosystem</span>
+          <span className="label">The Agentic AI Agent ecosystem</span>
         </header>
 
         <div className="grid grid-cols-12 gap-x-10 gap-y-8">
           <h2 className="col-span-12 lg:col-span-7 font-serif text-[40px] lg:text-[56px] leading-[1.04] tracking-[-0.025em] text-ink-900 balance">
-            Ten specialised agents. One coordinated review.
+            Ten specialised Agentic AI Agents. One coordinated validation.
           </h2>
           <div className="col-span-12 lg:col-span-5 lg:border-l lg:border-ink-200 lg:pl-8 text-[15px] leading-[1.75] text-ink-700">
-            Scholaria is not a single prompt or a chain of disconnected tools. Every agent reads from and
-            writes to a shared workflow memory, communicates through the orchestration layer, and operates
-            without human intervention from intake through final delivery.
+            Scholaria is not a single prompt or a chain of disconnected tools. Every Agentic AI Agent
+            reads from and writes to a shared workflow memory, communicates through the orchestration
+            layer, and operates with autonomous execution from intake through final delivery —
+            designed to reduce human oversight requirements.
           </div>
         </div>
 
