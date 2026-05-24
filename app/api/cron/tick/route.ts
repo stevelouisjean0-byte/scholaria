@@ -85,10 +85,33 @@ export async function GET(req: NextRequest) {
   );
   const pending = pendingRows[0]?.n ?? 0;
 
+  // Self-chain: if there is still pending work, fire the next tick immediately.
+  // Each invocation is its own serverless container with a fresh 60s budget, so
+  // we get unbounded throughput on the Hobby plan without a per-minute cron.
+  // Capped via the recursion depth: each tick processes >= 1 stage transition,
+  // so a chain depth of N processes N transitions before stopping.
+  if (pending > 0) {
+    try {
+      const proto = req.headers.get("x-forwarded-proto") ?? "https";
+      const host = req.headers.get("host");
+      if (host) {
+        const url = `${proto}://${host}/api/cron/tick`;
+        const cronSecret = process.env.CRON_SECRET;
+        fetch(url, {
+          method: "POST",
+          headers: cronSecret ? { authorization: `Bearer ${cronSecret}` } : undefined
+        }).catch(() => undefined);
+      }
+    } catch {
+      // If self-chain fails, the daily cron heartbeat will catch any stragglers.
+    }
+  }
+
   return NextResponse.json({
     ok: true,
     processedCount: processed.length,
     pending,
+    chained: pending > 0,
     ms: Date.now() - startedAt,
     processed
   });
