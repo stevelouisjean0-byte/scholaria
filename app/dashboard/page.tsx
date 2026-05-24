@@ -37,10 +37,13 @@ export default async function StudentDashboard() {
             <h1 className="font-serif text-3xl text-ink-900 mt-2">Welcome back, {displayName}.</h1>
             <p className="text-[14px] text-ink-600 mt-1">{greetingSubtitle}</p>
           </div>
-          <Link href="/upload" className="btn-primary">
-            <Upload className="h-4 w-4" />
-            Upload manuscript
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/dashboard/billing" className="btn-secondary">Billing</Link>
+            <Link href="/upload" className="btn-primary">
+              <Upload className="h-4 w-4" />
+              Upload manuscript
+            </Link>
+          </div>
         </div>
 
         <div className="mt-8 grid grid-cols-12 gap-4">

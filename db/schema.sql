@@ -113,6 +113,30 @@ create table if not exists billing_events (
 );
 
 -- ----------------------------------------------------------------------------
+-- Subscriptions — the canonical entitlement table. Written by the Stripe
+-- webhook handler. Joins to users via clerk_user_id (no FK so signups via
+-- Checkout-first flow still work before a Clerk profile is hydrated).
+-- ----------------------------------------------------------------------------
+create table if not exists subscriptions (
+  stripe_subscription_id text primary key,
+  stripe_customer_id     text,
+  clerk_user_id          text,
+  email                  text,
+  plan                   text,                       -- "graduate" | "doctoral" | "dissertation"
+  cadence                text,                       -- "monthly" | "annual"
+  price_id               text,
+  status                 text,                       -- active|trialing|past_due|canceled|incomplete|...
+  current_period_end     timestamptz,
+  cancel_at_period_end   boolean default false,
+  raw                    jsonb,
+  created_at             timestamptz default now(),
+  updated_at             timestamptz default now()
+);
+create index if not exists subscriptions_clerk_idx    on subscriptions(clerk_user_id);
+create index if not exists subscriptions_customer_idx on subscriptions(stripe_customer_id);
+create index if not exists subscriptions_status_idx   on subscriptions(status);
+
+-- ----------------------------------------------------------------------------
 -- Support — conversational history with the Client Support Agent.
 -- ----------------------------------------------------------------------------
 create table if not exists support_threads (

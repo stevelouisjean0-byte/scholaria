@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import type { Metadata } from "next";
 import { PageMasthead } from "@/components/page-masthead";
 import { PAGE_HEROES } from "@/lib/media";
+import { CheckoutButton } from "@/components/checkout-button";
 
 export const metadata: Metadata = {
   title: "Pricing — Graduate, Doctoral, Dissertation Intensive, Enterprise",
@@ -64,9 +65,20 @@ export default function PricingPage() {
                   ))}
                 </ul>
               </div>
-              <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
-                {p.cta.label}
-              </Link>
+              {p.id === "graduate" || p.id === "doctoral" || p.id === "dissertation" ? (
+                <div className="mt-7">
+                  <CheckoutButton
+                    plan={p.id}
+                    cadence="monthly"
+                    label={p.cta.label}
+                    className={p.recommended ? "btn-primary w-full" : "btn-secondary w-full"}
+                  />
+                </div>
+              ) : (
+                <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
+                  {p.cta.label}
+                </Link>
+              )}
             </div>
           ))}
         </div>
