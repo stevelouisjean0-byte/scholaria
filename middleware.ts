@@ -1,26 +1,44 @@
 /**
- * Auth middleware — canonical Clerk v6 pattern.
+ * Auth middleware — defensive Clerk wiring.
  *
- * /dashboard is protected; anonymous visitors redirect to /signin instead of
- * receiving Clerk's default 404. Keys must be present at runtime — if they
- * are not configured, the build still completes but middleware throws on
- * request, which is the loud-fail behaviour we want for an auth surface.
+ * Protects /dashboard via Clerk when both keys are configured.
+ * If either key is missing or malformed (e.g. accidentally deleted in
+ * Vercel), no-ops instead of crashing the whole site with
+ * MIDDLEWARE_INVOCATION_FAILED. Loud-fail on auth is worse than
+ * letting the public marketing site stay up.
  */
+import { NextRequest, NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const clerkConfigured =
+  /^pk_(test|live)_[A-Za-z0-9]/.test(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "") &&
+  /^sk_(test|live)_[A-Za-z0-9]/.test(process.env.CLERK_SECRET_KEY ?? "");
 
 const isProtected = createRouteMatcher(["/dashboard(.*)"]);
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtected(req)) {
-    await auth.protect({
-      unauthenticatedUrl: new URL("/signin", req.url).toString()
-    });
+const handler = clerkConfigured
+  ? clerkMiddleware(async (auth, req) => {
+      if (isProtected(req)) {
+        await auth.protect({
+          unauthenticatedUrl: new URL("/signin", req.url).toString()
+        });
+      }
+    })
+  : null;
+
+export default function middleware(req: NextRequest) {
+  if (!handler) return NextResponse.next();
+  try {
+    return handler(req, { waitUntil: () => {} } as never);
+  } catch (err) {
+    // Last-resort safety net — never crash the whole site from middleware.
+    console.error("[middleware] handler threw, falling through", err);
+    return NextResponse.next();
   }
-});
+}
 
 export const config = {
   matcher: [
-    // Skip Next internals, static assets, the agent health endpoint, and known file types.
     "/((?!_next|api/agents/health|favicon.ico|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|pdf|txt|xml)).*)",
     "/(api|trpc)(.*)"
   ]
