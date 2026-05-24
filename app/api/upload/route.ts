@@ -1,12 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-import { db } from "@/lib/db";
-import { enqueueIntake } from "@/lib/orchestrator";
 import { parseDocument } from "@/lib/document";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+const databaseConfigured = Boolean(process.env.DATABASE_URL);
+const redisConfigured = Boolean(process.env.REDIS_URL);
+
+/**
+ * Upload endpoint with graceful degradation.
+ *
+ * Full mode (DATABASE_URL + REDIS_URL set):
+ *   - persist job row, enqueue intake, autonomous pipeline runs
+ *
+ * Demo mode (no DB / Redis):
+ *   - still parse the document and return real stats
+ *   - return demoMode: true so the client can show a meaningful state
+ *   - never crash on missing infrastructure
+ */
 export async function POST(req: NextRequest) {
   const form = await req.formData();
   const file = form.get("file") as File | null;
@@ -18,13 +30,10 @@ export async function POST(req: NextRequest) {
 
   const userId = (form.get("userId") as string | null) ?? "anonymous";
   const jobId = nanoid(14);
-
   const buf = Buffer.from(await file.arrayBuffer());
   const sizeBytes = buf.byteLength;
 
-  // Extract text up front so the agents see real content immediately.
-  // If parsing fails (corrupt file, scanned image PDF, etc.) we still
-  // accept the upload — the orchestrator will surface that gracefully.
+  // Parse the manuscript — this works regardless of DB/Redis.
   let parsed;
   try {
     parsed = await parseDocument(buf, file.name);
@@ -40,41 +49,76 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  await db.query(
-    `insert into jobs
-       (id, user_id, filename, mime, size_bytes, stage, document, text_full, text_excerpt, word_count, upload_meta, reviews_expected, reviews_received, memory)
-     values ($1,$2,$3,$4,$5,'uploaded',$6,$7,$8,$9,$10,0,0,'{"reviews":{}}'::jsonb)`,
-    [
-      jobId,
-      userId,
-      file.name,
-      file.type,
-      sizeBytes,
-      buf,
-      parsed.text,
-      parsed.excerpt,
-      parsed.wordCount,
-      {
-        sourceIp: req.headers.get("x-forwarded-for") ?? null,
-        userAgent: req.headers.get("user-agent") ?? null,
-        receivedAt: new Date().toISOString(),
-        documentKind: parsed.kind,
-        pageCount: parsed.pageCount
-      }
-    ]
-  );
+  const documentInfo = {
+    kind: parsed.kind,
+    wordCount: parsed.wordCount,
+    pageCount: parsed.pageCount,
+    excerpt: parsed.excerpt.slice(0, 280),
+    sizeBytes
+  };
 
-  await enqueueIntake(jobId);
+  // Demo mode — infrastructure not yet provisioned.
+  if (!databaseConfigured || !redisConfigured) {
+    return NextResponse.json({
+      jobId,
+      stage: "received",
+      demoMode: true,
+      missing: {
+        database: !databaseConfigured,
+        redis: !redisConfigured
+      },
+      document: documentInfo,
+      message:
+        "Your manuscript was parsed successfully. The autonomous review pipeline activates once the platform's database and queue are provisioned — until then, the file is held in session memory only."
+    });
+  }
+
+  // Full mode — persist + enqueue
+  try {
+    const { db } = await import("@/lib/db");
+    const { enqueueIntake } = await import("@/lib/orchestrator");
+
+    await db.query(
+      `insert into jobs
+         (id, user_id, filename, mime, size_bytes, stage, document, text_full, text_excerpt, word_count, upload_meta, reviews_expected, reviews_received, memory)
+       values ($1,$2,$3,$4,$5,'uploaded',$6,$7,$8,$9,$10,0,0,'{"reviews":{}}'::jsonb)`,
+      [
+        jobId,
+        userId,
+        file.name,
+        file.type,
+        sizeBytes,
+        buf,
+        parsed.text,
+        parsed.excerpt,
+        parsed.wordCount,
+        {
+          sourceIp: req.headers.get("x-forwarded-for") ?? null,
+          userAgent: req.headers.get("user-agent") ?? null,
+          receivedAt: new Date().toISOString(),
+          documentKind: parsed.kind,
+          pageCount: parsed.pageCount
+        }
+      ]
+    );
+
+    await enqueueIntake(jobId);
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "infrastructure_error",
+        detail: err instanceof Error ? err.message : "Database or queue write failed.",
+        jobId,
+        document: documentInfo
+      },
+      { status: 503 }
+    );
+  }
 
   return NextResponse.json({
     jobId,
     stage: "uploaded",
-    document: {
-      kind: parsed.kind,
-      wordCount: parsed.wordCount,
-      pageCount: parsed.pageCount,
-      excerpt: parsed.excerpt.slice(0, 280)
-    },
+    document: documentInfo,
     message:
       "Manuscript received and parsed. The Lead Intake Agent has been engaged and the autonomous review pipeline is starting."
   });
