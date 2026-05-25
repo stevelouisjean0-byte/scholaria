@@ -20,6 +20,8 @@ export interface AgentInvocationInput {
   system?: string;
   maxTokens?: number;
   cacheable?: boolean;
+  /** Override the default model for this single call (e.g. fast Sonnet on the review hot path). */
+  model?: string;
 }
 
 export interface AgentInvocationResult {
@@ -49,7 +51,7 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
   // typed without forcing every caller to handle the streaming branch.
   const response = (await client.messages.create(
     {
-      model: DEFAULT_MODEL,
+      model: input.model ?? DEFAULT_MODEL,
       max_tokens: input.maxTokens ?? 4096,
       metadata: { user_id: input.jobId },
       system,
