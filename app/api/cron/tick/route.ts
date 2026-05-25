@@ -38,9 +38,12 @@ export async function GET(req: NextRequest) {
   }
 
   const startedAt = Date.now();
-  const DEADLINE_MS = 50_000;
   const processed: Array<Record<string, unknown>> = [];
 
+  // One stage transition per invocation. The self-chain at the bottom fires
+  // the next tick immediately so the pipeline progresses as fast as Vercel
+  // can dispatch new containers — and a long review can never starve a fast
+  // intake stage running in another job.
   const stagesInOrder: WorkflowStage[] = [
     "delivering",
     "qa",
@@ -50,20 +53,17 @@ export async function GET(req: NextRequest) {
     "uploaded"
   ];
 
-  for (const stage of stagesInOrder) {
-    if (Date.now() - startedAt > DEADLINE_MS) break;
-
+  outer: for (const stage of stagesInOrder) {
     const { rows } = await db.query(
       `select id from jobs
         where stage = $1
-          and (updated_at is null or updated_at < now() - interval '30 seconds')
+          and (updated_at is null or updated_at < now() - interval '20 seconds')
         order by updated_at asc nulls first
-        limit 5`,
+        limit 1`,
       [stage]
     );
 
     for (const { id } of rows) {
-      if (Date.now() - startedAt > DEADLINE_MS) break;
       const t0 = Date.now();
       try {
         const result = await advance(id, stage);
@@ -77,6 +77,7 @@ export async function GET(req: NextRequest) {
           [id, JSON.stringify({ stage, message })]
         );
       }
+      break outer; // exactly one stage transition per invocation
     }
   }
 
