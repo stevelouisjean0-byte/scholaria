@@ -204,8 +204,9 @@ export async function runReview(jobId: string, agent: AgentKey) {
       "Respond with a single JSON object conforming exactly to the review schema. " +
       "Every finding must reference a real excerpt from the manuscript verbatim. " +
       "Write findings in a calm, scholarly, executive register — explicit, specific, and actionable. " +
-      "Do not write replacement prose for entire sections; recommend changes the student should make.",
-    maxTokens: 6000
+      "Do not write replacement prose for entire sections; recommend changes the student should make. " +
+      "Limit yourself to the 8 highest-severity findings per pass to keep responses compact.",
+    maxTokens: 3500
   });
 
   const parsed = reviewSchema.parse(parseJson<AgentReview>(out.text));
