@@ -209,8 +209,8 @@ export async function runReview(jobId: string, agent: AgentKey) {
       "Write findings in a calm, scholarly, executive register — explicit, specific, and actionable. " +
       "Do not write replacement prose for entire sections; recommend changes the student should make. " +
       "Limit yourself to the 8 highest-severity findings per pass to keep responses compact.",
-    maxTokens: 3500,
-    model: process.env.ANTHROPIC_REVIEW_MODEL ?? "claude-sonnet-4-6",
+    maxTokens: 2000,
+    model: process.env.ANTHROPIC_REVIEW_MODEL ?? "claude-haiku-4-5-20251001",
     bypassManagedAgent: true
   });
 

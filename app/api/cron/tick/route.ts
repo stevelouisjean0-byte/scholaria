@@ -140,6 +140,33 @@ async function advance(jobId: string, stage: WorkflowStage): Promise<string> {
           : (["professional_editor", "research_support"] as AgentKey[]);
       const completed = Object.keys(mem.reviews ?? {});
       const remaining = assigned.find((a) => !completed.includes(a));
+
+      // Recovery: if at least one review has succeeded but a remaining agent
+      // has timed out repeatedly, advance to QA with what we have rather than
+      // looping forever. Count prior cron.error events for this job at this
+      // stage to decide.
+      if (remaining && completed.length > 0) {
+        const { rows: errCount } = await db.query(
+          `select count(*)::int as n
+             from workflow_events
+            where job_id = $1
+              and event = 'cron.error'
+              and (payload->>'stage') = 'reviewing'`,
+          [jobId]
+        );
+        if ((errCount[0]?.n ?? 0) >= 2) {
+          await db.query(
+            `update jobs
+                set stage='qa',
+                    reviews_expected = reviews_received,
+                    updated_at = now()
+              where id=$1 and stage='reviewing'`,
+            [jobId]
+          );
+          return `advanced to qa (skipped ${remaining} after timeouts)`;
+        }
+      }
+
       if (remaining) {
         await runReview(jobId, remaining);
         return `review.complete (${remaining})`;
