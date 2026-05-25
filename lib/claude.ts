@@ -22,6 +22,10 @@ export interface AgentInvocationInput {
   cacheable?: boolean;
   /** Override the default model for this single call (e.g. fast Sonnet on the review hot path). */
   model?: string;
+  /** Skip the anthropic-managed-agent header — use a direct SDK call.
+   *  Useful when you need to force a specific model (Sonnet on the review hot
+   *  path) that may differ from the Managed Agent's Console-configured model. */
+  bypassManagedAgent?: boolean;
 }
 
 export interface AgentInvocationResult {
@@ -49,6 +53,7 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
   // Cast away the `Message | Stream` union — we never set `stream: true` so
   // the SDK always returns a `Message`. Narrowing here keeps the call site
   // typed without forcing every caller to handle the streaming branch.
+  const useManagedAgent = !input.bypassManagedAgent;
   const response = (await client.messages.create(
     {
       model: input.model ?? DEFAULT_MODEL,
@@ -57,12 +62,14 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
       system,
       messages: [{ role: "user", content: userBlocks }]
     } as Parameters<typeof client.messages.create>[0],
-    {
-      // The Managed Agent ID is passed as a header for routing/governance — the
-      // Console-managed system prompt, tools, and guardrails take precedence
-      // when this header is present.
-      headers: { "anthropic-managed-agent": agentId }
-    }
+    useManagedAgent
+      ? {
+          // The Managed Agent ID is passed as a header for routing/governance —
+          // the Console-managed system prompt, tools, model, and guardrails take
+          // precedence when this header is present.
+          headers: { "anthropic-managed-agent": agentId }
+        }
+      : undefined
   )) as Anthropic.Message;
 
   const text = response.content

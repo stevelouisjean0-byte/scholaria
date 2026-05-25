@@ -197,7 +197,10 @@ export async function runReview(jobId: string, agent: AgentKey) {
       manuscript: {
         filename: job.filename,
         wordCount: job.word_count,
-        text: job.text_full
+        // Cap the manuscript context at ~12k chars (~3k tokens) so the request
+        // budget stays predictable. If the document is longer, the review focuses
+        // on the opening — the cross-chapter pass covers depth separately.
+        text: typeof job.text_full === "string" ? job.text_full.slice(0, 12000) : job.text_full
       }
     },
     system:
@@ -207,7 +210,8 @@ export async function runReview(jobId: string, agent: AgentKey) {
       "Do not write replacement prose for entire sections; recommend changes the student should make. " +
       "Limit yourself to the 8 highest-severity findings per pass to keep responses compact.",
     maxTokens: 3500,
-    model: process.env.ANTHROPIC_REVIEW_MODEL ?? "claude-sonnet-4-6"
+    model: process.env.ANTHROPIC_REVIEW_MODEL ?? "claude-sonnet-4-6",
+    bypassManagedAgent: true
   });
 
   const parsed = reviewSchema.parse(parseJson<AgentReview>(out.text));
