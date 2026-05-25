@@ -50,9 +50,10 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
   const system = buildSystemPrompt(def.role, input.system, input.cacheable);
   const userBlocks = buildUserMessage(input.task, input.context);
 
-  // Cast away the `Message | Stream` union — we never set `stream: true` so
-  // the SDK always returns a `Message`. Narrowing here keeps the call site
-  // typed without forcing every caller to handle the streaming branch.
+  // Hard client-side timeout so a slow Anthropic response never starves the
+  // 60s serverless budget — leaving us no time to write back to Postgres.
+  // 45s gives the handler ~15s of headroom for the DB write + JSON parsing.
+  const REQUEST_TIMEOUT_MS = 45_000;
   const useManagedAgent = !input.bypassManagedAgent;
   const response = (await client.messages.create(
     {
@@ -62,14 +63,18 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
       system,
       messages: [{ role: "user", content: userBlocks }]
     } as Parameters<typeof client.messages.create>[0],
-    useManagedAgent
-      ? {
-          // The Managed Agent ID is passed as a header for routing/governance —
-          // the Console-managed system prompt, tools, model, and guardrails take
-          // precedence when this header is present.
-          headers: { "anthropic-managed-agent": agentId }
-        }
-      : undefined
+    {
+      ...(useManagedAgent
+        ? {
+            // The Managed Agent ID is passed as a header for routing/governance.
+            // When set, the Console-managed system prompt, tools, model, and
+            // guardrails take precedence over the SDK fields.
+            headers: { "anthropic-managed-agent": agentId }
+          }
+        : {}),
+      timeout: REQUEST_TIMEOUT_MS,
+      maxRetries: 0
+    }
   )) as Anthropic.Message;
 
   const text = response.content

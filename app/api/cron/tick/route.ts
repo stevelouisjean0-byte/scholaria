@@ -65,6 +65,9 @@ export async function GET(req: NextRequest) {
 
     for (const { id } of rows) {
       const t0 = Date.now();
+      // Touch updated_at so a slow or timing-out call doesn't immediately get
+      // re-picked. The 20-second exclusion window above relies on this.
+      await db.query("update jobs set updated_at=now() where id=$1", [id]);
       try {
         const result = await advance(id, stage);
         processed.push({ jobId: id, stage, result, ms: Date.now() - t0 });
