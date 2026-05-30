@@ -7,7 +7,7 @@
  */
 
 const RESEND_KEY = process.env.RESEND_API_KEY;
-const FROM_ADDR = process.env.RESEND_FROM_ADDRESS ?? "Dissertation Editing Center <slouisjean@nxaihorizon.com>";
+const FROM_ADDR = process.env.RESEND_FROM_ADDRESS ?? "Dissertation Editing Center <onboarding@resend.dev>";
 
 export interface MailInput {
   to: string;
@@ -100,7 +100,7 @@ export function uploadConfirmationEmail(opts: {
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;" />
 
   <p style="font-size: 13px; color: #6b7280;">
-    Questions? Reply to this email or contact founder Steve Louis-Jean at <a href="mailto:slouisjean@nxaihorizon.com" style="color: #1a1d2b;">slouisjean@nxaihorizon.com</a> · (407) 850-8823.<br />
+    Questions? Reply to this email or contact founder Steve Louis-Jean at <a href="mailto:concierge@dissertationeditingcenter.com" style="color: #1a1d2b;">concierge@dissertationeditingcenter.com</a> · (407) 850-8823.<br />
     14-day money-back guarantee · Cancel anytime
   </p>
 </body></html>`;
@@ -128,7 +128,7 @@ export function uploadConfirmationEmail(opts: {
     `Track your review: ${BASE}/status/${opts.jobId}`,
     "",
     "Questions? Reply to this email or contact founder Steve Louis-Jean directly:",
-    "  slouisjean@nxaihorizon.com  ·  (407) 850-8823",
+    "  concierge@dissertationeditingcenter.com  ·  (407) 850-8823",
     "",
     "14-day money-back guarantee. Cancel anytime."
   ].join("\n");
@@ -138,7 +138,7 @@ export function uploadConfirmationEmail(opts: {
     subject: `Submission confirmed — ${display}`,
     html,
     text,
-    replyTo: "slouisjean@nxaihorizon.com"
+    replyTo: "concierge@dissertationeditingcenter.com"
   };
 }
 

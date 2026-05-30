@@ -223,8 +223,8 @@ export default async function StatusPage({ params }: { params: { jobId: string }
               <ul className="mt-3 space-y-2 text-[13.5px] text-ink-800">
                 <li className="flex items-start gap-2">
                   <Mail className="h-4 w-4 mt-0.5 text-ink-500 shrink-0" />
-                  <a href="mailto:slouisjean@nxaihorizon.com" className="underline underline-offset-4">
-                    slouisjean@nxaihorizon.com
+                  <a href="mailto:concierge@dissertationeditingcenter.com" className="underline underline-offset-4">
+                    concierge@dissertationeditingcenter.com
                   </a>
                 </li>
                 <li className="flex items-start gap-2">

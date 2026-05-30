@@ -91,13 +91,13 @@ export default function ContactPage() {
               <div className="mt-4 text-[14px] text-ink-800">
                 <div className="text-ink-900 font-medium">Steve Louis-Jean</div>
                 <div className="text-[12.5px] text-ink-500 mt-0.5">
-                  AI Integration Engineer · Founder, Dissertation Editing Center
+                  Founder, Dissertation Editing Center
                 </div>
                 <div className="mt-3 text-[13.5px] space-y-1">
                   <div>
                     Direct:{" "}
-                    <a href="mailto:slouisjean@nxaihorizon.com" className="underline underline-offset-4">
-                      slouisjean@nxaihorizon.com
+                    <a href="mailto:founder@dissertationeditingcenter.com" className="underline underline-offset-4">
+                      founder@dissertationeditingcenter.com
                     </a>
                   </div>
                   <div>
@@ -111,28 +111,20 @@ export default function ContactPage() {
             </div>
 
             <div className="card-quiet p-6">
-              <div className="eyebrow">Operating entity</div>
+              <div className="eyebrow">Office</div>
               <ul className="mt-4 space-y-3 text-[14px] text-ink-800">
-                <li className="flex items-start gap-3">
-                  <Building2 className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
-                  <div>
-                    <div className="text-ink-900 font-medium">Nexus AI Horizon</div>
-                    <div className="text-[12.5px] text-ink-500 mt-0.5">
-                      Operator of Dissertation Editing Center ·{" "}
-                      <a href="https://nexusaihorizon.com" className="underline underline-offset-4">
-                        nexusaihorizon.com
-                      </a>
-                    </div>
-                  </div>
-                </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
                   <div>
+                    Dissertation Editing Center<br />
                     8315 Northern Blvd, Suite 2<br />
                     Jackson Heights, NY 11372
-                    <div className="text-[12.5px] text-ink-500 mt-0.5">
-                      Service area: NYC · NJ · CT and remote nationwide
-                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Building2 className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
+                  <div>
+                    Service area: NYC · NJ · CT and remote nationwide
                   </div>
                 </li>
               </ul>

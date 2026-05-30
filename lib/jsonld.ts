@@ -42,22 +42,15 @@ export function siteGraph() {
         founder: {
           "@type": "Person",
           name: "Steve Louis-Jean",
-          jobTitle: "AI Integration Engineer · Founder",
-          email: "slouisjean@nxaihorizon.com",
-          telephone: "+1-407-850-8823",
-          worksFor: { "@type": "Organization", name: "Nexus AI Horizon", url: "https://nexusaihorizon.com" }
-        },
-        parentOrganization: {
-          "@type": "Organization",
-          name: "Nexus AI Horizon",
-          url: "https://nexusaihorizon.com"
+          jobTitle: "Founder, Dissertation Editing Center",
+          telephone: "+1-407-850-8823"
         },
         contactPoint: [
           {
             "@type": "ContactPoint",
             contactType: "customer support",
             telephone: "+1-407-850-8823",
-            email: "slouisjean@nxaihorizon.com",
+            email: "concierge@dissertationeditingcenter.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
             availableLanguage: ["en"],
             hoursAvailable: "Mo-Fr 09:00-19:00, Sa 10:00-16:00 America/New_York"
@@ -66,7 +59,7 @@ export function siteGraph() {
             "@type": "ContactPoint",
             contactType: "sales",
             telephone: "+1-407-850-8823",
-            email: "slouisjean@nxaihorizon.com",
+            email: "enterprise@dissertationeditingcenter.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
             availableLanguage: ["en"]
           }

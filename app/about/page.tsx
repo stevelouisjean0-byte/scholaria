@@ -101,26 +101,19 @@ export default function AboutPage() {
           <div className="grid grid-cols-12 gap-x-10 gap-y-6">
             <div className="col-span-12 lg:col-span-7">
               <h2 className="font-serif text-[32px] lg:text-[40px] leading-tight text-ink-900">
-                Steve Louis-Jean — AI Integration Engineer
+                Steve Louis-Jean — Founder
               </h2>
               <p className="mt-4 text-[15px] leading-[1.7] text-ink-700">
-                Steve is the founder and operator of Dissertation Editing Center. He builds and
-                runs the underlying review platform, sets the editorial standards alongside the
-                board, and is the named human you reach when you have a question that's not
-                covered by the FAQ.
+                Steve founded Dissertation Editing Center to close a specific gap: doctoral
+                candidates produce 25–40 chapter revision passes during a program, traditional
+                editing services price each pass at $300–$900 with 7–10 day turnaround, and the
+                math doesn't work for a working teacher or full-time researcher on a five-year
+                clock.
               </p>
               <p className="mt-3 text-[15px] leading-[1.7] text-ink-700">
-                Dissertation Editing Center is operated by{" "}
-                <a
-                  href="https://nexusaihorizon.com"
-                  className="underline underline-offset-4"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Nexus AI Horizon
-                </a>
-                , a New York–based AI integration practice that designs and deploys agentic
-                systems for regulated and education-adjacent industries.
+                He builds and runs the underlying review platform, sets the editorial standards
+                alongside the board, and is the named human you reach when you have a question
+                that's not covered by the FAQ.
               </p>
             </div>
 
@@ -130,10 +123,10 @@ export default function AboutPage() {
                 <ul className="mt-3 space-y-2 text-[14px] text-ink-800">
                   <li>
                     <a
-                      href="mailto:slouisjean@nxaihorizon.com"
+                      href="mailto:founder@dissertationeditingcenter.com"
                       className="underline underline-offset-4"
                     >
-                      slouisjean@nxaihorizon.com
+                      founder@dissertationeditingcenter.com
                     </a>
                   </li>
                   <li>

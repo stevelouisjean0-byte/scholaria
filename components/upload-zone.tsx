@@ -363,7 +363,7 @@ function SuccessCard({
             <p className="mt-3 text-[12.5px] text-ink-300">
               📧 A confirmation email has been sent. If you don't see it within 5 minutes, check
               spam or write to{" "}
-              <span className="underline underline-offset-4">slouisjean@nxaihorizon.com</span>{" "}
+              <span className="underline underline-offset-4">concierge@dissertationeditingcenter.com</span>{" "}
               with your submission ID.
             </p>
             <div className="mt-4 flex flex-wrap gap-4">

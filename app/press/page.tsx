@@ -18,7 +18,7 @@ export default function PressPage() {
         number="X"
         eyebrow="Press & media"
         title="For journalists, editors, and program directors."
-        dek="Dissertation Editing Center is a New York–based platform operated by Nexus AI Horizon. Founder Steve Louis-Jean is available for interviews on agentic AI in education, academic integrity, and the architecture of a coordinated multi-agent review system."
+        dek="Dissertation Editing Center is a New York–based platform delivering chapter-grade dissertation review through a coordinated multi-agent review system. Founder Steve Louis-Jean is available for interviews on agentic AI in education, academic integrity, and the architecture of coordinated review systems."
         photo={PAGE_HEROES.about}
       />
 
@@ -50,31 +50,27 @@ export default function PressPage() {
 
           <h2>Founder</h2>
           <p>
-            <strong>Steve Louis-Jean</strong> — AI Integration Engineer; founder of Dissertation
-            Editing Center; principal at{" "}
-            <a href="https://nexusaihorizon.com" target="_blank" rel="noopener">
-              Nexus AI Horizon
-            </a>
-            . Builds and operates the underlying multi-agent review platform. Available for
-            commentary on agentic AI in higher education, academic integrity policy, and the
-            architecture of coordinated review systems.
+            <strong>Steve Louis-Jean</strong> — founder of Dissertation Editing Center. Builds and
+            operates the underlying multi-agent review platform. Available for commentary on
+            agentic AI in higher education, academic integrity policy, and the architecture of
+            coordinated review systems.
           </p>
 
           <h2>Direct contact</h2>
           <ul>
             <li>
-              Press &amp; founder:{" "}
-              <a href="mailto:slouisjean@nxaihorizon.com">slouisjean@nxaihorizon.com</a>
+              Press:{" "}
+              <a href="mailto:press@dissertationeditingcenter.com">press@dissertationeditingcenter.com</a>
+            </li>
+            <li>
+              Founder:{" "}
+              <a href="mailto:founder@dissertationeditingcenter.com">founder@dissertationeditingcenter.com</a>
             </li>
             <li>
               Phone: <a href="tel:+14078508823">(407) 850-8823</a>
             </li>
             <li>
-              Operating entity:{" "}
-              <a href="https://nexusaihorizon.com" target="_blank" rel="noopener">
-                Nexus AI Horizon
-              </a>{" "}
-              · 8315 Northern Blvd, Suite 2 · Jackson Heights, NY 11372
+              Office: 8315 Northern Blvd, Suite 2 · Jackson Heights, NY 11372
             </li>
             <li>Standard response window: same business day during operating hours</li>
           </ul>
@@ -82,12 +78,12 @@ export default function PressPage() {
           <h2>Press kit</h2>
           <p>
             Logo files, founder bio, headshots, and editorial-board credentials are available on
-            request. Email the founder directly with your outlet and deadline.
+            request. Email press with your outlet and deadline.
           </p>
 
           <div className="not-prose mt-10 flex flex-wrap gap-4">
             <a
-              href="mailto:slouisjean@nxaihorizon.com?subject=Press%20kit%20request%20%E2%80%94%20Dissertation%20Editing%20Center"
+              href="mailto:press@dissertationeditingcenter.com?subject=Press%20kit%20request%20%E2%80%94%20Dissertation%20Editing%20Center"
               className="btn-primary inline-flex items-center gap-2"
             >
               <Mail className="h-4 w-4" />
