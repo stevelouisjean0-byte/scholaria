@@ -619,8 +619,11 @@ export async function runDelivery(jobId: string) {
       // (maxDuration=120). On the cron tick (maxDuration=60) Vercel terminates
       // before this timeout fires, which is the desired behaviour — the next
       // tick will retry. Sonnet via env override yields higher prose polish.
-      maxTokens: 6000,
-      timeoutMs: 100_000,
+      // 8000 tokens accommodates the full 12-section response with prose
+      // for 5+ strengths / 5+ revisions without truncation. Truncated JSON
+      // is unrecoverable for a deeply nested schema.
+      maxTokens: 8000,
+      timeoutMs: 110_000,
       model: process.env.ANTHROPIC_REPORT_MODEL ?? "claude-haiku-4-5-20251001",
       bypassManagedAgent: true
     });
@@ -815,6 +818,54 @@ async function loadJob(jobId: string) {
  *   - text wrapped around JSON ("Here is the review: {...}")
  *   - single-key envelopes ({review: {...}}, {data: {...}}, etc.) — unwrapped
  */
+/**
+ * Best-effort repair for JSON that was truncated mid-value because the
+ * agent hit its max_tokens cap. Walks the string tracking string/escape
+ * state and brace depth, then truncates at the last balanced position and
+ * closes any remaining open containers. Returns null if no recoverable
+ * structure can be found.
+ */
+function repairTruncatedJson(raw: string): string | null {
+  if (!raw || (raw[0] !== "{" && raw[0] !== "[")) return null;
+
+  let inString = false;
+  let escape = false;
+  const stack: Array<"}" | "]"> = [];
+  let lastSafeIndex = -1;
+  let lastSafeStack: Array<"}" | "]"> = [];
+
+  for (let i = 0; i < raw.length; i++) {
+    const c = raw[i];
+    if (escape) {
+      escape = false;
+      continue;
+    }
+    if (c === "\\") {
+      escape = true;
+      continue;
+    }
+    if (c === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (inString) continue;
+
+    if (c === "{") stack.push("}");
+    else if (c === "[") stack.push("]");
+    else if (c === "}" || c === "]") {
+      stack.pop();
+    } else if (c === ",") {
+      // After a complete key:value pair at the top of the current container,
+      // it's safe to truncate here and close the remaining containers.
+      lastSafeIndex = i;
+      lastSafeStack = [...stack];
+    }
+  }
+
+  if (lastSafeIndex < 0) return null;
+  return raw.slice(0, lastSafeIndex) + lastSafeStack.reverse().join("");
+}
+
 function parseJson<T>(text: string): T {
   let raw = text.trim();
 
@@ -839,7 +890,21 @@ function parseJson<T>(text: string): T {
   try {
     parsed = JSON.parse(raw);
   } catch (err) {
-    throw new Error(`Agent did not return parseable JSON. First 200 chars: ${raw.slice(0, 200)}`);
+    // Last-resort repair: the response may have been truncated mid-value
+    // (max_tokens cap). Walk back to the last comma at the top level, drop
+    // anything after it, then close all open braces/brackets. This recovers
+    // partial output instead of escalating an entire 12-section deliverable
+    // because one field overflowed.
+    const repaired = repairTruncatedJson(raw);
+    if (repaired !== null) {
+      try {
+        parsed = JSON.parse(repaired);
+      } catch {
+        throw new Error(`Agent did not return parseable JSON. First 200 chars: ${raw.slice(0, 200)}`);
+      }
+    } else {
+      throw new Error(`Agent did not return parseable JSON. First 200 chars: ${raw.slice(0, 200)}`);
+    }
   }
 
   // Unwrap common single-key envelopes. Order matters: more specific keys first.
