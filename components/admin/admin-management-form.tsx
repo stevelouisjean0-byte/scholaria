@@ -3,8 +3,8 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import type { AdminRole } from "@/lib/admin";
-import { ADMIN_ROLE_LABEL } from "@/lib/admin";
+import type { AdminRole } from "@/lib/admin-roles";
+import { ADMIN_ROLE_LABEL } from "@/lib/admin-roles";
 
 type Mode = "create" | "manage";
 

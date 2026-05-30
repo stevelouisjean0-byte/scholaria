@@ -16,29 +16,9 @@
  */
 import { db } from "./db";
 import { clerkEnabled } from "./clerk-config";
-
-export type AdminRole =
-  | "super_admin"
-  | "business_owner"
-  | "ops_manager"
-  | "editor"
-  | "customer_support";
-
-export const ADMIN_ROLE_LABEL: Record<AdminRole, string> = {
-  super_admin: "Super Admin",
-  business_owner: "Business Owner",
-  ops_manager: "Operations Manager",
-  editor: "Editor",
-  customer_support: "Customer Support"
-};
-
-export const ADMIN_ROLES: AdminRole[] = [
-  "super_admin",
-  "business_owner",
-  "ops_manager",
-  "editor",
-  "customer_support"
-];
+import type { AdminRole } from "./admin-roles";
+export { ADMIN_ROLE_LABEL, ADMIN_ROLES } from "./admin-roles";
+export type { AdminRole } from "./admin-roles";
 
 export interface AdminContext {
   userId: string;
