@@ -65,28 +65,6 @@ export function Hero() {
             </span>
           </div>
 
-          {/* Trust microbar */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-ink-600">
-            <span className="inline-flex items-center gap-2">
-              <Lock className="h-4 w-4 text-ink-400" />
-              Encrypted uploads · FERPA-aware
-            </span>
-            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
-            <span className="inline-flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-ink-400" />
-              Academic integrity first
-            </span>
-            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
-            <span className="inline-flex items-center gap-2">
-              <FileText className="h-4 w-4 text-ink-400" />
-              PDF &amp; DOCX
-            </span>
-            <span className="hidden sm:inline-block w-px h-4 bg-ink-200" />
-            <span className="inline-flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-ink-400" />
-              Institutional SSO available
-            </span>
-          </div>
         </motion.div>
 
         {/* Hero product card */}
