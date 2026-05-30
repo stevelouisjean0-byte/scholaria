@@ -6,7 +6,7 @@ import { localBusiness } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Dissertation editor in Connecticut — chapter-grade review for Yale, UConn, and CT R1 candidates",
   description:
-    "Doctoral dissertation editing for Connecticut candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. Plans from $49/mo, 14-day money-back guarantee.",
+    "Doctoral dissertation editing for Connecticut candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. From $29 per review, 14-day money-back guarantee.",
   alternates: { canonical: "/connecticut" },
   keywords: [
     "dissertation editor Connecticut",

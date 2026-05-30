@@ -157,7 +157,7 @@ export default function ReviewsPage() {
             See exactly what you'd receive — then subscribe.
           </h2>
           <p className="mt-4 text-white/80 max-w-xl mx-auto">
-            Plans from $49/mo · 24-hour turnaround · 14-day money-back. View the public sample
+            From $29 per review · 24-hour turnaround · 14-day money-back. View the public sample
             annotated review before subscribing.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">

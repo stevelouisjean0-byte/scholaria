@@ -178,11 +178,11 @@ export default function SampleReviewPage() {
 
           <div className="mt-12 text-center">
             <Link href="/pricing" className="btn-primary">
-              Subscribe to upload your own
+              Order your own review
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <p className="mt-3 text-[12.5px] text-ink-500 italic">
-              Plans from $49/mo · 24-hour turnaround · 14-day money-back guarantee
+              Dissertation Chapter Review: $99 · 24-hour delivery · 14-day money-back
             </p>
           </div>
         </div>

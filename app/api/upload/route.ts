@@ -23,25 +23,48 @@ const OWNER_INBOX = process.env.OWNER_INBOX_ADDRESS ?? "support@doctoralediting.
  * Returns a sequential display ID (DEC-YYYY-NNNNNN) alongside the nanoid job id.
  */
 export async function POST(req: NextRequest) {
-  // Subscription gate — only active subscribers can upload. Prevents bypassing
-  // the UI gate by POSTing directly to this endpoint. Returns 402 with a
-  // clear path to /pricing so the client UI can route the user correctly.
-  const subscriptionCheck = await requireActiveSubscription();
-  if (!subscriptionCheck.allowed) {
+  const form = await req.formData();
+  const file = form.get("file") as File | null;
+  if (!file) return NextResponse.json({ error: "file required", hint: "Choose a PDF or DOCX file to upload." }, { status: 400 });
+
+  // Purchase gate — every upload requires a verified, unconsumed Stripe
+  // checkout session id. Prevents the multi-email free-trial abuse vector.
+  const purchaseSessionId = (form.get("purchaseSessionId") as string | null)?.trim();
+  if (!purchaseSessionId) {
     return NextResponse.json(
       {
-        error: "subscription_required",
-        detail: subscriptionCheck.reason,
-        hint: "Subscribe at /pricing to upload manuscripts.",
+        error: "purchase_required",
+        detail: "Every review requires a paid order on file.",
+        hint: "Order a review at /pricing — you'll be returned to /upload with the form unlocked after payment.",
         upgradeUrl: "/pricing"
       },
       { status: 402 }
     );
   }
-
-  const form = await req.formData();
-  const file = form.get("file") as File | null;
-  if (!file) return NextResponse.json({ error: "file required", hint: "Choose a PDF or DOCX file to upload." }, { status: 400 });
+  const { verifyPurchaseSession } = await import("@/lib/purchases");
+  const verified = await verifyPurchaseSession(purchaseSessionId);
+  if (!verified.ok || !verified.purchase) {
+    return NextResponse.json(
+      {
+        error: "purchase_invalid",
+        detail: verified.reason ?? "Purchase verification failed.",
+        hint: "Email support@doctoralediting.com with your Stripe receipt and we'll resolve it.",
+        upgradeUrl: "/pricing"
+      },
+      { status: 402 }
+    );
+  }
+  if (verified.purchase.consumed_at) {
+    return NextResponse.json(
+      {
+        error: "purchase_consumed",
+        detail: "That review credit has already been used on a previous upload.",
+        hint: "Order another review at /pricing.",
+        upgradeUrl: "/pricing"
+      },
+      { status: 402 }
+    );
+  }
 
   if (!/\.(pdf|docx)$/i.test(file.name)) {
     return NextResponse.json(
@@ -79,10 +102,7 @@ export async function POST(req: NextRequest) {
   };
   const fullName = [intake.firstName, intake.lastName].filter(Boolean).join(" ").trim();
 
-  const userId =
-    subscriptionCheck.allowed && subscriptionCheck.userId !== "anonymous"
-      ? subscriptionCheck.userId
-      : (form.get("userId") as string | null) ?? "anonymous";
+  const userId = (form.get("userId") as string | null) ?? "anonymous";
   const jobId = nanoid(14);
   const buf = Buffer.from(await file.arrayBuffer());
   const sizeBytes = buf.byteLength;
@@ -198,6 +218,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Mark the purchase consumed (idempotent — guards against double-uploads
+  // racing on the same session_id).
+  try {
+    const { consumePurchase } = await import("@/lib/purchases");
+    await consumePurchase(purchaseSessionId, jobId);
+  } catch (err) {
+    console.warn("[upload] purchase consume failed (job is still persisted):", err);
+  }
+
   // Advance to intake immediately so the cron picks it up.
   try {
     const { db } = await import("@/lib/db");
@@ -298,53 +327,6 @@ async function sendNotificationEmails(input: NotificationInput) {
     sendMail(ownerMail).catch(() => undefined);
   } catch (err) {
     console.warn("[upload] notification scaffolding failed:", err);
-  }
-}
-
-/**
- * Subscription gate. Returns { allowed: true, userId, plan } when the request
- * comes from a signed-in user with an active subscription, or
- * { allowed: false, reason } otherwise.
- *
- * In non-production environments (or when Clerk is disabled) this is a no-op
- * that allows uploads — keeps the dev/preview flow ergonomic.
- */
-async function requireActiveSubscription(): Promise<
-  | { allowed: true; userId: string; plan: string | null }
-  | { allowed: false; reason: string }
-> {
-  const { clerkEnabled } = await import("@/lib/clerk-config");
-  if (!clerkEnabled) {
-    return { allowed: true, userId: "anonymous", plan: null };
-  }
-
-  let userId: string | null = null;
-  try {
-    const { auth } = await import("@clerk/nextjs/server");
-    const a = await auth();
-    userId = a.userId ?? null;
-  } catch {
-    return { allowed: false, reason: "Sign in required to upload." };
-  }
-  if (!userId) {
-    return { allowed: false, reason: "Sign in required to upload." };
-  }
-
-  try {
-    const { db } = await import("@/lib/db");
-    const { rows } = await db.query(
-      `select plan from subscriptions
-        where clerk_user_id = $1 and status in ('active','trialing')
-        order by updated_at desc limit 1`,
-      [userId]
-    );
-    if (rows[0]) {
-      return { allowed: true, userId, plan: (rows[0].plan as string | null) ?? null };
-    }
-    return { allowed: false, reason: "No active subscription on your account. Subscribe to upload." };
-  } catch (err) {
-    console.warn("[upload] subscription check failed:", err);
-    return { allowed: false, reason: "Subscription verification unavailable. Please try again or contact support." };
   }
 }
 

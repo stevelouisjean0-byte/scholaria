@@ -7,7 +7,7 @@ import { faqPage } from "@/lib/jsonld";
 export const FAQ_ITEMS = [
   {
     q: "How much does it cost?",
-    a: "Plans start at $49/month for Graduate, $129/month for Doctoral (most chosen by Ph.D. and Ed.D. candidates), and $299/month for Dissertation Intensive. All plans include a 14-day money-back guarantee and you can cancel anytime. To see exactly what you would receive before subscribing, view the public sample annotated review at /sample-review."
+    a: "We charge per review — not per month. APA 7 Review is $29, Research Paper Review is $39, and Dissertation Chapter Review (the full multi-agent pass) is $99. One-time payment, no subscription. 14-day money-back guarantee on every order. To see exactly what you would receive before ordering, view the public sample annotated review at /sample-review."
   },
   {
     q: "What is your refund policy?",
@@ -43,7 +43,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Do I need an account to upload?",
-    a: "Yes — uploading requires an account and an active subscription. You can view a public sample annotated review at /sample-review without an account or credit card to see exactly what we deliver before subscribing."
+    a: "Each upload requires a paid order, but there's no account or subscription required — just a Stripe checkout. After payment, you're returned to /upload with the form unlocked. View the public sample annotated review at /sample-review to see exactly what we deliver before ordering."
   },
   {
     q: "Can my university deploy this for a cohort?",

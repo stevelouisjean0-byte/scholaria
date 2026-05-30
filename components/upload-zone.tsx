@@ -56,7 +56,13 @@ const CHAPTER_OPTIONS = [
   "Other (specify in notes)"
 ];
 
-export function UploadZone() {
+interface UploadZoneProps {
+  purchaseSessionId?: string;
+  prefilledEmail?: string;
+  maxWords?: number;
+}
+
+export function UploadZone({ purchaseSessionId, prefilledEmail, maxWords }: UploadZoneProps = {}) {
   const [stage, setStage] = useState<Stage>("idle");
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<UploadResult | null>(null);
@@ -103,6 +109,7 @@ export function UploadZone() {
 
     const fd = new FormData(e.currentTarget);
     fd.set("file", file);
+    if (purchaseSessionId) fd.set("purchaseSessionId", purchaseSessionId);
 
     try {
       const res = await fetch("/api/upload", { method: "POST", body: fd });
@@ -186,7 +193,7 @@ export function UploadZone() {
           <div className="grid sm:grid-cols-2 gap-3">
             <Field name="firstName" label="First name" required />
             <Field name="lastName" label="Last name" required />
-            <Field name="email" label="Email" type="email" required />
+            <Field name="email" label="Email for confirmation" type="email" required defaultValue={prefilledEmail} />
             <Field name="phone" label="Phone (optional)" type="tel" />
             <Field name="university" label="University" required placeholder="e.g. Columbia, NYU, Rutgers" />
             <Field name="degreeProgram" label="Degree program" required placeholder="e.g. Ed.D. Educational Leadership" />
@@ -249,13 +256,15 @@ function Field({
   label,
   type = "text",
   required,
-  placeholder
+  placeholder,
+  defaultValue
 }: {
   name: string;
   label: string;
   type?: string;
   required?: boolean;
   placeholder?: string;
+  defaultValue?: string;
 }) {
   return (
     <div>
@@ -268,6 +277,7 @@ function Field({
         type={type}
         required={required}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         className="w-full h-10 px-3 rounded-md bg-paper ring-1 ring-ink-200 focus:ring-ink-400 focus:outline-none text-[14px]"
       />
     </div>

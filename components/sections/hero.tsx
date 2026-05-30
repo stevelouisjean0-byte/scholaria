@@ -32,28 +32,28 @@ export function Hero() {
             Methodology alignment, APA&nbsp;7 verification, citation cross-check, and a 0–100
             submission readiness score — delivered overnight to your inbox.
             <span className="block mt-3 text-ink-900 font-medium">
-              Built for Ph.D., Ed.D., and DBA candidates. Plans from $49/month.
+              Pay per review. No subscription. From $29.
             </span>
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href="/sample-review" className="btn-primary">
-              See a sample review
+            <Link href="/pricing" className="btn-primary">
+              Order a review
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/pricing" className="btn-secondary">
-              Compare plans
+            <Link href="/sample-review" className="btn-secondary">
+              See a sample first
             </Link>
           </div>
 
           {/* Quiet reassurance row — three signals in a single line under the CTAs. */}
           <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-ink-600">
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">$49–$299</span>/month
+              <span className="font-medium text-ink-900">From $29</span> per review
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">24-hour</span> turnaround
+              <span className="font-medium text-ink-900">24-hour</span> delivery
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
@@ -61,7 +61,7 @@ export function Hero() {
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5 text-ink-500">
-              We critique, never author.
+              No subscription · no monthly commitment
             </span>
           </div>
 

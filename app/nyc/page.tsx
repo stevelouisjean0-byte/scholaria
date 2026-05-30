@@ -6,7 +6,7 @@ import { localBusiness } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Dissertation editor in NYC — chapter-grade review for Columbia, NYU, Fordham, CUNY candidates",
   description:
-    "Doctoral dissertation editing for New York City candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. Plans from $49/mo, 14-day money-back guarantee.",
+    "Doctoral dissertation editing for New York City candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. From $29 per review, 14-day money-back guarantee.",
   alternates: { canonical: "/nyc" },
   keywords: [
     "dissertation editor NYC",

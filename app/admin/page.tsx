@@ -28,6 +28,10 @@ interface KPIBlock {
   mrrCents: number;
   failedPayments: number;
   recentErrors: number;
+  ordersToday: number;
+  ordersWeek: number;
+  revenueWeekCents: number;
+  unconsumedOrders: number;
 }
 
 async function loadKPIs(): Promise<KPIBlock> {
@@ -41,7 +45,11 @@ async function loadKPIs(): Promise<KPIBlock> {
     activeSubscribers: 0,
     mrrCents: 0,
     failedPayments: 0,
-    recentErrors: 0
+    recentErrors: 0,
+    ordersToday: 0,
+    ordersWeek: 0,
+    revenueWeekCents: 0,
+    unconsumedOrders: 0
   };
   try {
     const { rows: u } = await db.query(`
@@ -90,6 +98,21 @@ async function loadKPIs(): Promise<KPIBlock> {
       `select count(*)::int as n from workflow_events where event = 'cron.error' and created_at >= now() - interval '24 hours'`
     );
     out.recentErrors = err[0]?.n ?? 0;
+  } catch {}
+
+  try {
+    const { rows: orders } = await db.query(`
+      select
+        count(*) filter (where created_at >= now() - interval '24 hours')::int as today,
+        count(*) filter (where created_at >= now() - interval '7 days')::int as week,
+        coalesce(sum(amount_cents) filter (where created_at >= now() - interval '7 days'), 0)::int as revenue_week,
+        count(*) filter (where consumed_at is null)::int as unconsumed
+        from purchases
+    `);
+    out.ordersToday = orders[0]?.today ?? 0;
+    out.ordersWeek = orders[0]?.week ?? 0;
+    out.revenueWeekCents = orders[0]?.revenue_week ?? 0;
+    out.unconsumedOrders = orders[0]?.unconsumed ?? 0;
   } catch {}
 
   return out;
@@ -169,7 +192,7 @@ export default async function AdminOverview() {
   const admin = await requireAdmin();
   if (!admin) return null; // layout already redirects
   const [kpi, recent, activity] = await Promise.all([loadKPIs(), loadRecentSubmissions(), loadRecentActivity()]);
-  const mrrDollars = (kpi.mrrCents / 100).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  void kpi.activeSubscribers; void kpi.mrrCents; // legacy subscription metrics — kept for backwards compat, not displayed
 
   return (
     <div className="px-6 lg:px-10 py-8 max-w-[1400px]">
@@ -199,11 +222,11 @@ export default async function AdminOverview() {
 
       {/* KPI grid */}
       <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <KPI label="Orders · today" value={kpi.ordersToday} sub={`${kpi.ordersWeek} this week`} />
+        <KPI label="Revenue · 7d" value={`$${Math.round(kpi.revenueWeekCents / 100).toLocaleString()}`} sub="from one-time orders" />
         <KPI label="Uploads · today" value={kpi.uploadsToday} sub={`${kpi.uploadsWeek} this week`} />
         <KPI label="Active reviews" value={kpi.activeReviews} sub={`${kpi.delivered} delivered`} />
-        <KPI label="Subscribers" value={kpi.activeSubscribers} sub="active + trialing" />
-        <KPI label="MRR" value={mrrDollars} sub="from active subs" />
-        <KPI label="Failed payments" value={kpi.failedPayments} sub="needs follow-up" tone={kpi.failedPayments > 0 ? "warn" : "ok"} />
+        <KPI label="Unused credits" value={kpi.unconsumedOrders} sub="paid · awaiting upload" tone={kpi.unconsumedOrders > 0 ? "warn" : "ok"} />
         <KPI label="Cron errors (24h)" value={kpi.recentErrors} sub="agent failures" tone={kpi.recentErrors > 0 ? "warn" : "ok"} />
       </div>
 
@@ -276,9 +299,9 @@ export default async function AdminOverview() {
       <div className="mt-10">
         <div className="eyebrow mb-4">Operations</div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <QuickCard href="/admin/submissions" icon={FileText} label="All submissions" sub={`${kpi.uploadsTotal} total`} />
-          <QuickCard href="/admin/users" icon={Users} label="Subscribers" sub={`${kpi.activeSubscribers} active`} />
-          <QuickCard href="/admin/payments" icon={CreditCard} label="Payments" sub={`${mrrDollars} MRR`} />
+          <QuickCard href="/admin/submissions" icon={FileText} label="Submissions" sub={`${kpi.uploadsTotal} total`} />
+          <QuickCard href="/admin/purchases" icon={CreditCard} label="Orders" sub="one-time purchases" />
+          <QuickCard href="/admin/users" icon={Users} label="Customers" sub="subscribers (legacy)" />
           <QuickCard href="/admin/activity" icon={Activity} label="Agent activity" sub="full event log" />
           <QuickCard href="/admin/admins" icon={Mail} label="Admin team" sub="manage roles" />
           <QuickCard href="/admin/system" icon={CheckCircle2} label="System health" sub="resend · cron · db" />

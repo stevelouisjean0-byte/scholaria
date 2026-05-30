@@ -20,7 +20,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-6 flex flex-wrap gap-2 text-[12px] text-ink-700">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-50 ring-1 ring-ink-200">
-              Plans from $49/mo
+              From $29 per review
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-50 ring-1 ring-ink-200">
               14-day money back
