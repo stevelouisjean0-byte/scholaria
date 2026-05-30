@@ -34,7 +34,7 @@ export default function VsEditage() {
           { capability: "Doctoral-credentialed editorial board", us: true, them: true },
           { capability: "Auditable, exportable review record", us: true, them: false },
           { capability: "Submission readiness score (0–100)", us: true, them: false },
-          { capability: "Free first review", us: true, them: false },
+          { capability: "Public sample annotated review (no signup)", us: true, them: false },
           { capability: "14-day money-back guarantee", us: true, them: "partial" }
         ]}
         verdict="Use Editage or Scribendi for the single, final pre-submission pass on a journal article or a finished dissertation. Use us across the writing cycle — chapter by chapter, revision by revision. The total cost difference is roughly 10x in our favour across a typical Ed.D. or Ph.D. timeline, and the speed difference is the difference between a sustainable revision cadence and a missed defence window."

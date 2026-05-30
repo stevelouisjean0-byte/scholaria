@@ -177,12 +177,12 @@ export default function SampleReviewPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link href="/upload" className="btn-primary">
-              Upload your chapter — free
+            <Link href="/pricing" className="btn-primary">
+              Subscribe to upload your own
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <p className="mt-3 text-[12.5px] text-ink-500 italic">
-              No credit card · 24-hour turnaround · 14-day money-back guarantee
+              Plans from $49/mo · 24-hour turnaround · 14-day money-back guarantee
             </p>
           </div>
         </div>

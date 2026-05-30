@@ -7,7 +7,7 @@ import { faqPage } from "@/lib/jsonld";
 export const FAQ_ITEMS = [
   {
     q: "How much does it cost?",
-    a: "Your first review is free with no credit card. Paid plans are $49/mo (Graduate), $129/mo (Doctoral), and $299/mo (Dissertation Intensive). All plans include 14-day money-back. See /pricing for the full breakdown."
+    a: "Plans start at $49/month for Graduate, $129/month for Doctoral (most chosen by Ph.D. and Ed.D. candidates), and $299/month for Dissertation Intensive. All plans include a 14-day money-back guarantee and you can cancel anytime. To see exactly what you would receive before subscribing, view the public sample annotated review at /sample-review."
   },
   {
     q: "What is your refund policy?",
@@ -42,8 +42,8 @@ export const FAQ_ITEMS = [
     a: "Documents are received over TLS 1.3, stored with AES-256 envelope encryption in single-tenant US-region Postgres, and accessible only to the reviewing agents. We do not send your manuscript to any third-party AI provider for training. Retention is plan-controlled (7 days on Free, 12 months on Graduate, candidate-controlled on Doctoral+). Hard-delete on demand. See /security for plain-language detail."
   },
   {
-    q: "Do I need an account to try it?",
-    a: "No — you can drop a chapter and supply an email for the confirmation receipt. An account lets you track multiple reviews from a dashboard and is required for paid plans."
+    q: "Do I need an account to upload?",
+    a: "Yes — uploading requires an account and an active subscription. You can view a public sample annotated review at /sample-review without an account or credit card to see exactly what we deliver before subscribing."
   },
   {
     q: "Can my university deploy this for a cohort?",

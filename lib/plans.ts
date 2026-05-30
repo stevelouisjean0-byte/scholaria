@@ -1,4 +1,4 @@
-export type PlanId = "trial" | "graduate" | "doctoral" | "dissertation" | "university";
+export type PlanId = "graduate" | "doctoral" | "dissertation" | "university";
 
 export interface Plan {
   id: PlanId;
@@ -17,20 +17,6 @@ export interface Plan {
 }
 
 export const PLANS: Plan[] = [
-  {
-    id: "trial",
-    name: "Free Trial",
-    priceMonthly: 0,
-    priceAnnual: 0,
-    audience: "Sample the platform",
-    positioning: "One full chapter review so you can see exactly what we deliver before you pay.",
-    uploadLimit: "1 manuscript · up to 4,000 words",
-    storage: "7-day retention",
-    turnaround: "Standard queue",
-    agentAccess: ["Lead Intake", "Project Scoping", "Professional Editor", "QA"],
-    highlights: ["Submission readiness score", "APA 7 summary", "No credit card required"],
-    cta: { label: "Try a sample review", href: "/upload?plan=trial" }
-  },
   {
     id: "graduate",
     name: "Graduate",

@@ -32,24 +32,24 @@ export function Hero() {
             Methodology alignment, APA&nbsp;7 verification, citation cross-check, and a 0–100
             submission readiness score — delivered overnight to your inbox.
             <span className="block mt-3 text-ink-900 font-medium">
-              First chapter review is free. For Ph.D., Ed.D., and DBA candidates.
+              Built for Ph.D., Ed.D., and DBA candidates. Plans from $49/month.
             </span>
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href="/upload" className="btn-primary">
-              Upload a chapter — free
+            <Link href="/sample-review" className="btn-primary">
+              See a sample review
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/sample-review" className="btn-secondary">
-              See a sample review
+            <Link href="/pricing" className="btn-secondary">
+              Compare plans
             </Link>
           </div>
 
           {/* Quiet reassurance row — three signals in a single line under the CTAs. */}
           <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-ink-600">
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">$0</span> first review
+              <span className="font-medium text-ink-900">$49–$299</span>/month
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
@@ -57,7 +57,7 @@ export function Hero() {
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">14-day</span> money-back guarantee
+              <span className="font-medium text-ink-900">14-day</span> money-back
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5 text-ink-500">

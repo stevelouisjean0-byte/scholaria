@@ -154,25 +154,25 @@ export default function ReviewsPage() {
       <section className="bg-ink-900 text-white">
         <div className="container py-16 max-w-3xl text-center">
           <h2 className="font-serif text-[32px] lg:text-[40px] leading-tight text-white balance">
-            Your first chapter review is free.
+            See exactly what you'd receive — then subscribe.
           </h2>
           <p className="mt-4 text-white/80 max-w-xl mx-auto">
-            No credit card. 24-hour turnaround. We email you the annotated PDF, APA report, and
-            revision plan.
+            Plans from $49/mo · 24-hour turnaround · 14-day money-back. View the public sample
+            annotated review before subscribing.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/upload"
+              href="/sample-review"
               className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full bg-white text-ink-900 text-[14px] font-medium hover:bg-ink-100 transition"
             >
-              Upload your chapter
+              See a sample review
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/sample-review"
+              href="/pricing"
               className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full ring-1 ring-white/30 text-white text-[14px] font-medium hover:bg-white/10 transition"
             >
-              See a sample review
+              Compare plans
             </Link>
           </div>
         </div>

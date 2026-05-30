@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s · Dissertation Editing Center"
   },
   description:
-    "Chapter-grade dissertation review for Ph.D., Ed.D., and DBA candidates. A coordinated multi-agent review system that critiques, never authors — methodology alignment, APA 7 verification, citation cross-check, and a submission readiness score in 24 hours. Free first review.",
+    "Chapter-grade dissertation review for Ph.D., Ed.D., and DBA candidates. A coordinated multi-agent review system that critiques, never authors — methodology alignment, APA 7 verification, citation cross-check, and a submission readiness score in 24 hours. View a public sample annotated review before subscribing.",
   keywords: [
     "dissertation editing",
     "PhD editing",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Dissertation Editing Center — Chapter-grade AI review for doctoral candidates",
     description:
-      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, and a readiness score in 24 hours. Free first review.",
+      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, and a readiness score in 24 hours. View a public sample annotated review before subscribing.",
     type: "website",
     siteName: "Dissertation Editing Center",
     locale: "en_US",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dissertation Editing Center — Chapter-grade AI review for doctoral candidates",
     description:
-      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, readiness score in 24 hours. Free first review.",
+      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, readiness score in 24 hours. View a public sample annotated review before subscribing.",
     images: ["/og/default.png"]
   },
   alternates: { canonical: "/" },

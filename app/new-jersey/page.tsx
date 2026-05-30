@@ -6,7 +6,7 @@ import { localBusiness } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Dissertation editor in New Jersey — chapter-grade review for Rutgers, Princeton, Seton Hall candidates",
   description:
-    "Doctoral dissertation editing for New Jersey candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. Free first review.",
+    "Doctoral dissertation editing for New Jersey candidates. Methodology alignment, APA 7 verification, citation cross-check, and a 0–100 readiness score in 24 hours. Plans from $49/mo, 14-day money-back guarantee.",
   alternates: { canonical: "/new-jersey" },
   keywords: [
     "dissertation editor New Jersey",

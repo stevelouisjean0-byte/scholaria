@@ -25,12 +25,12 @@ export function LocationPageBody(props: LocationPageProps) {
           <p className="mt-5 text-[16px] leading-[1.7] text-ink-700">{props.intro}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/upload" className="btn-primary">
-              Upload a chapter — free
+            <Link href="/sample-review" className="btn-primary">
+              See a sample review
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/sample-review" className="btn-secondary">
-              See a sample review
+            <Link href="/pricing" className="btn-secondary">
+              Compare plans
             </Link>
           </div>
         </div>
@@ -94,19 +94,25 @@ export function LocationPageBody(props: LocationPageProps) {
       <section className="bg-ink-900 text-white">
         <div className="container py-16 max-w-3xl text-center">
           <h2 className="font-serif text-[32px] lg:text-[40px] leading-tight text-white balance">
-            Free first review for every {props.region} doctoral candidate.
+            Chapter-grade review for every {props.region} doctoral candidate.
           </h2>
           <p className="mt-4 text-white/80 max-w-xl mx-auto">
-            No credit card. 24-hour turnaround. We'll email you the annotated PDF, APA report,
-            and revision plan.
+            Plans from $49/mo · 24-hour turnaround · 14-day money-back. View a public sample
+            annotated review before subscribing.
           </p>
-          <div className="mt-7">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/upload"
+              href="/sample-review"
               className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full bg-white text-ink-900 text-[14px] font-medium hover:bg-ink-100 transition"
             >
-              Upload your chapter
+              See a sample review
               <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full ring-1 ring-white/30 text-white text-[14px] font-medium hover:bg-white/10 transition"
+            >
+              Compare plans
             </Link>
           </div>
         </div>

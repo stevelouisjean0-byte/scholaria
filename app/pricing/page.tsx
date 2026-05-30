@@ -9,9 +9,9 @@ import { CheckoutButton } from "@/components/checkout-button";
 import { pricingOffers, dissertationService } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Pricing — Free, Graduate $49, Doctoral $129, Dissertation Intensive $299",
+  title: "Pricing — Graduate $49, Doctoral $129, Dissertation Intensive $299",
   description:
-    "Transparent monthly pricing for chapter-grade dissertation review. Free first review, no credit card. 14-day money-back guarantee on every paid plan. Cancel anytime.",
+    "Transparent monthly pricing for chapter-grade dissertation review. 14-day money-back guarantee on every plan, cancel anytime. View a sample annotated review before subscribing.",
   alternates: { canonical: "/pricing" }
 };
 
@@ -41,8 +41,22 @@ export default function PricingPage() {
         photo={PAGE_HEROES.pricing}
       />
 
+      {/* Sample-review CTA strip — the public quality-proof page is now the
+          primary "try before you buy" surface, replacing the free upload tier. */}
+      <section className="border-y border-ink-200 bg-paper">
+        <div className="container py-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="text-[14px] text-ink-800">
+            <strong className="font-medium text-ink-900">Want to see what we deliver first?</strong>{" "}
+            View a real annotated review — no signup, no card.
+          </div>
+          <Link href="/sample-review" className="btn-primary">
+            See a sample review →
+          </Link>
+        </div>
+      </section>
+
       <section className="section">
-        <div className="container grid lg:grid-cols-5 gap-4">
+        <div className="container grid lg:grid-cols-4 gap-4">
           {PLANS.map((p) => (
             <div
               key={p.id}
@@ -95,16 +109,9 @@ export default function PricingPage() {
                   </p>
                 </div>
               ) : (
-                <>
-                  <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
-                    {p.cta.label}
-                  </Link>
-                  {p.id === "trial" && (
-                    <p className="mt-2 text-[11.5px] text-ink-500 text-center">
-                      No credit card required
-                    </p>
-                  )}
-                </>
+                <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
+                  {p.cta.label}
+                </Link>
               )}
             </div>
           ))}
@@ -126,7 +133,7 @@ export default function PricingPage() {
           <span className="hidden sm:inline-block w-px h-4 bg-emerald-700/30" />
           <span className="inline-flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-emerald-700" />
-            Free first review · no card required
+            <Link href="/sample-review" className="underline underline-offset-4">View a sample review first</Link>
           </span>
         </div>
       </section>

@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Dissertation Editing — Ph.D., Ed.D., and DBA candidates",
   description:
-    "Chapter-grade dissertation editing for Ph.D., Ed.D., and DBA candidates. Methodology alignment, APA 7 verification, citation cross-check, and submission readiness scoring delivered in 24 hours. Free first review.",
+    "Chapter-grade dissertation editing for Ph.D., Ed.D., and DBA candidates. Methodology alignment, APA 7 verification, citation cross-check, and submission readiness scoring delivered in 24 hours. Plans from $49/mo · view a public sample review first.",
   alternates: { canonical: "/dissertation-editing" },
   keywords: [
     "agentic AI dissertation editing",

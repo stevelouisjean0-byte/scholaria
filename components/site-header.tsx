@@ -22,9 +22,9 @@ export function SiteHeader() {
       <div className="border-b border-ink-200">
         <div className="container py-1.5 flex items-center justify-between text-[11px] uppercase tracking-[0.28em] text-ink-500">
           <span>Dissertation Editing Center · NYC · NJ · CT</span>
-          <span className="hidden sm:inline">Free first review · 24-hour turnaround · 14-day money-back</span>
-          <Link href="/upload" className="text-ink-900 hover:underline underline-offset-4">
-            Upload a chapter →
+          <span className="hidden sm:inline">Plans from $49/mo · 24-hour turnaround · 14-day money-back</span>
+          <Link href="/sample-review" className="text-ink-900 hover:underline underline-offset-4">
+            See a sample review →
           </Link>
         </div>
       </div>
@@ -47,10 +47,10 @@ export function SiteHeader() {
           <span className="h-4 w-px bg-ink-200" />
           <ClerkHeaderAuth />
           <Link
-            href="/upload"
+            href="/pricing"
             className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-ink-900 text-white text-[13px] font-medium hover:bg-ink-950 transition"
           >
-            Upload chapter
+            Get started
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
         </nav>
@@ -76,11 +76,11 @@ export function SiteHeader() {
               Sign in
             </Link>
             <Link
-              href="/upload"
+              href="/pricing"
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex items-center justify-center h-10 rounded-full bg-ink-900 text-white text-[14px]"
             >
-              Upload chapter — free
+              Get started — see plans
             </Link>
           </div>
         </div>

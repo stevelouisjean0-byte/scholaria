@@ -23,6 +23,22 @@ const OWNER_INBOX = process.env.OWNER_INBOX_ADDRESS ?? "support@doctoralediting.
  * Returns a sequential display ID (DEC-YYYY-NNNNNN) alongside the nanoid job id.
  */
 export async function POST(req: NextRequest) {
+  // Subscription gate — only active subscribers can upload. Prevents bypassing
+  // the UI gate by POSTing directly to this endpoint. Returns 402 with a
+  // clear path to /pricing so the client UI can route the user correctly.
+  const subscriptionCheck = await requireActiveSubscription();
+  if (!subscriptionCheck.allowed) {
+    return NextResponse.json(
+      {
+        error: "subscription_required",
+        detail: subscriptionCheck.reason,
+        hint: "Subscribe at /pricing to upload manuscripts.",
+        upgradeUrl: "/pricing"
+      },
+      { status: 402 }
+    );
+  }
+
   const form = await req.formData();
   const file = form.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "file required", hint: "Choose a PDF or DOCX file to upload." }, { status: 400 });
@@ -63,7 +79,10 @@ export async function POST(req: NextRequest) {
   };
   const fullName = [intake.firstName, intake.lastName].filter(Boolean).join(" ").trim();
 
-  const userId = (form.get("userId") as string | null) ?? "anonymous";
+  const userId =
+    subscriptionCheck.allowed && subscriptionCheck.userId !== "anonymous"
+      ? subscriptionCheck.userId
+      : (form.get("userId") as string | null) ?? "anonymous";
   const jobId = nanoid(14);
   const buf = Buffer.from(await file.arrayBuffer());
   const sizeBytes = buf.byteLength;
@@ -279,6 +298,53 @@ async function sendNotificationEmails(input: NotificationInput) {
     sendMail(ownerMail).catch(() => undefined);
   } catch (err) {
     console.warn("[upload] notification scaffolding failed:", err);
+  }
+}
+
+/**
+ * Subscription gate. Returns { allowed: true, userId, plan } when the request
+ * comes from a signed-in user with an active subscription, or
+ * { allowed: false, reason } otherwise.
+ *
+ * In non-production environments (or when Clerk is disabled) this is a no-op
+ * that allows uploads — keeps the dev/preview flow ergonomic.
+ */
+async function requireActiveSubscription(): Promise<
+  | { allowed: true; userId: string; plan: string | null }
+  | { allowed: false; reason: string }
+> {
+  const { clerkEnabled } = await import("@/lib/clerk-config");
+  if (!clerkEnabled) {
+    return { allowed: true, userId: "anonymous", plan: null };
+  }
+
+  let userId: string | null = null;
+  try {
+    const { auth } = await import("@clerk/nextjs/server");
+    const a = await auth();
+    userId = a.userId ?? null;
+  } catch {
+    return { allowed: false, reason: "Sign in required to upload." };
+  }
+  if (!userId) {
+    return { allowed: false, reason: "Sign in required to upload." };
+  }
+
+  try {
+    const { db } = await import("@/lib/db");
+    const { rows } = await db.query(
+      `select plan from subscriptions
+        where clerk_user_id = $1 and status in ('active','trialing')
+        order by updated_at desc limit 1`,
+      [userId]
+    );
+    if (rows[0]) {
+      return { allowed: true, userId, plan: (rows[0].plan as string | null) ?? null };
+    }
+    return { allowed: false, reason: "No active subscription on your account. Subscribe to upload." };
+  } catch (err) {
+    console.warn("[upload] subscription check failed:", err);
+    return { allowed: false, reason: "Subscription verification unavailable. Please try again or contact support." };
   }
 }
 
