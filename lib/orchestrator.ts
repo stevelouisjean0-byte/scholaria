@@ -595,8 +595,13 @@ export async function runDelivery(jobId: string) {
         manuscript: { filename, displayId, servicePurchased }
       },
       system: formalReportSystem() + extraGuard,
-      maxTokens: 12000,
-      model: process.env.ANTHROPIC_REPORT_MODEL ?? "claude-sonnet-4-6",
+      // Haiku 4.5 is the default — fast enough to finish inside the cron's 60s
+      // budget for a ~6k-token structured response, and it consistently produces
+      // formal academic prose when the prompt is this explicit. Sonnet is
+      // available via env override for higher prose polish at higher cost +
+      // latency. If you flip to Sonnet, also raise the route's maxDuration.
+      maxTokens: 6000,
+      model: process.env.ANTHROPIC_REPORT_MODEL ?? "claude-haiku-4-5-20251001",
       bypassManagedAgent: true
     });
 
