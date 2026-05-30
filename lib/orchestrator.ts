@@ -543,7 +543,17 @@ function formalReportSystem(): string {
     "                                              // first, how close the document is to a stronger version, next step.",
     "}",
     "",
-    "GROUND TRUTH RULES:",
+    "LENGTH BUDGET (HARD CAP — exceed and the response will be truncated):",
+  "  • executiveSummary: 250–400 words. Do not exceed 400.",
+  "  • Each strength: 60–100 words across explanation + academicSignificance.",
+  "  • Each priorityRevision: 60–110 words across rationale + remedy + exampleRewrite.",
+  "  • Each apaReview / chapterSpecificReview entry: 40–80 words.",
+  "  • observations and finding lists: 5–10 items, each one sentence.",
+  "  • revisionPlan.first/second/third: 3–5 items each, each a single sentence.",
+  "  • finalRecommendation: 80–140 words.",
+  "  • Total response must stay under 4000 tokens to avoid truncation.",
+  "",
+  "GROUND TRUTH RULES:",
     "  • Do not invent citations, sources, page numbers, or manuscript details. If the reviewer findings did",
     "    not surface a fact, do not assert it.",
     "  • If the upload is clearly not a scholarly manuscript (test file, system message, checklist scaffold),",
@@ -619,11 +629,13 @@ export async function runDelivery(jobId: string) {
       // (maxDuration=120). On the cron tick (maxDuration=60) Vercel terminates
       // before this timeout fires, which is the desired behaviour — the next
       // tick will retry. Sonnet via env override yields higher prose polish.
-      // 8000 tokens accommodates the full 12-section response with prose
-      // for 5+ strengths / 5+ revisions without truncation. Truncated JSON
-      // is unrecoverable for a deeply nested schema.
-      maxTokens: 8000,
-      timeoutMs: 110_000,
+      // 4500 tokens fits the 12-section schema with disciplined per-field
+      // length (system prompt enforces this) and finishes on Haiku in
+      // ~25-40s, comfortably inside the 60s Hobby function ceiling. The
+      // parseJson repair pass salvages partial output if the model still
+      // overshoots, so a single overflow no longer fails the deliverable.
+      maxTokens: 4500,
+      timeoutMs: 50_000,
       model: process.env.ANTHROPIC_REPORT_MODEL ?? "claude-haiku-4-5-20251001",
       bypassManagedAgent: true
     });
