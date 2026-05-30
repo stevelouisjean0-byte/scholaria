@@ -1,23 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
  * Admin status endpoint — read-only summary of every job in the ledger.
- * Auth: requires `Authorization: Bearer <CRON_SECRET>` if CRON_SECRET is set.
- *
- * Returns the row count by stage and the most recent 25 jobs with their stage,
- * filename, word count, reviews_received/expected, and a slice of jobs.memory
- * (executive summary if present) so we can confirm the pipeline ran without
- * having to open the Supabase Table Editor.
+ * Auth (two paths):
+ *   - Signed-in admin (via Clerk + admins table)  →  human/browser access
+ *   - Authorization: Bearer <CRON_SECRET>           →  machine/test scripts
  */
 export async function GET(req: NextRequest) {
-  const auth = req.headers.get("authorization") ?? "";
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && auth !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const admin = await requireAdmin();
+  if (!admin) {
+    const auth = req.headers.get("authorization") ?? "";
+    const cronSecret = process.env.CRON_SECRET;
+    if (!cronSecret || auth !== `Bearer ${cronSecret}`) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
   }
 
   const url = new URL(req.url);

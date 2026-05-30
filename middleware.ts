@@ -14,7 +14,7 @@ const clerkConfigured =
   /^pk_(test|live)_[A-Za-z0-9]/.test(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "") &&
   /^sk_(test|live)_[A-Za-z0-9]/.test(process.env.CLERK_SECRET_KEY ?? "");
 
-const isProtected = createRouteMatcher(["/dashboard(.*)"]);
+const isProtected = createRouteMatcher(["/dashboard(.*)", "/admin(.*)", "/api/admin(.*)"]);
 
 const handler = clerkConfigured
   ? clerkMiddleware(async (auth, req) => {
