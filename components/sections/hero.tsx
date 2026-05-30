@@ -2,33 +2,38 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ShieldCheck, Sparkles, FileText, Lock, Building2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { HERO_FIGURE } from "@/lib/media";
 
 export function Hero() {
   return (
     <section className="bg-hero">
-      <div className="container pt-16 pb-20 lg:pt-24 lg:pb-28">
+      <div className="container pt-12 pb-20 lg:pt-20 lg:pb-28">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
-          className="max-w-5xl"
+          className="max-w-4xl"
         >
-          <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-white/80 ring-1 ring-ink-200 backdrop-blur text-[12px] text-ink-700">
-            <Sparkles className="h-3.5 w-3.5 text-accent-500" />
-            <span>Chapter-grade dissertation review · for Ph.D., Ed.D., DBA, and graduate candidates</span>
+          {/* Quiet eyebrow — masthead register, no marketing chip. */}
+          <div className="text-[11px] uppercase tracking-[0.32em] text-ink-500">
+            Vol. I · No. 1 · Issued continuously · NYC · NJ · CT
           </div>
+          <div className="mt-3 h-px w-12 bg-ink-300" aria-hidden />
 
-          <h1 className="mt-7 h-display text-display-2xl">
-            Chapter-grade dissertation review — in 24 hours, by a coordinated review system that critiques, never authors.
+          {/* Serif H1 — premium academic register, evocative and short. */}
+          <h1 className="mt-8 h-display-serif text-[44px] sm:text-[56px] lg:text-[68px] leading-[1.04]">
+            Your dissertation,
+            <br className="hidden sm:inline" />
+            <span className="italic"> reviewed by morning.</span>
           </h1>
 
-          <p className="mt-6 max-w-3xl text-[18px] leading-[1.55] text-ink-600 pretty">
-            Upload a chapter or full manuscript. A coordinated review system runs methodology
-            alignment, APA 7 verification, citation cross-check, and synthesis depth in one pass —
-            and returns explicit, page-anchored findings, an annotated PDF, and a 0–100 submission
-            readiness score. <strong className="text-ink-900 font-medium">Your first review is free. No credit card.</strong>
+          <p className="mt-7 max-w-2xl text-[18px] leading-[1.6] text-ink-700 pretty">
+            Methodology alignment, APA&nbsp;7 verification, citation cross-check, and a 0–100
+            submission readiness score — delivered overnight to your inbox.
+            <span className="block mt-3 text-ink-900 font-medium">
+              First chapter review is free. For Ph.D., Ed.D., and DBA candidates.
+            </span>
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -36,27 +41,27 @@ export function Hero() {
               Upload a chapter — free
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/sample-review" className="btn-accent">
+            <Link href="/sample-review" className="btn-secondary">
               See a sample review
-            </Link>
-            <Link href="/pricing" className="btn-secondary">
-              Compare plans
             </Link>
           </div>
 
-          {/* Pricing + turnaround + risk-reversal strip — answers the buyer's
-              three fastest pre-commitment questions in a single visible line. */}
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-ink-600">
+          {/* Quiet reassurance row — three signals in a single line under the CTAs. */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-ink-600">
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">From $0</span> · free first review
+              <span className="font-medium text-ink-900">$0</span> first review
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
-              <span className="font-medium text-ink-900">24–48 hour</span> turnaround
+              <span className="font-medium text-ink-900">24-hour</span> turnaround
             </span>
             <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
             <span className="inline-flex items-center gap-1.5">
               <span className="font-medium text-ink-900">14-day</span> money-back guarantee
+            </span>
+            <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
+            <span className="inline-flex items-center gap-1.5 text-ink-500">
+              We critique, never author.
             </span>
           </div>
 
