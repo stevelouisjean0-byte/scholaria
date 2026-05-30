@@ -204,12 +204,28 @@ export async function runReview(jobId: string, agent: AgentKey) {
       }
     },
     system:
-      "Respond with a single JSON object conforming exactly to the review schema. " +
+      "Respond with a SINGLE JSON object — no markdown, no code fence, no prose before or after. " +
+      "Do NOT wrap the response in {\"review\":...} or any envelope. The JSON object itself IS the response. " +
+      "Required shape (extra fields permitted, missing optional fields default to null/empty):\n" +
+      "{\n" +
+      "  \"scholarlyTone\": 0-100,\n" +
+      "  \"clarity\": 0-100,\n" +
+      "  \"apaCompliance\": 0-100,            // optional\n" +
+      "  \"methodologyAlignment\": 0-100,     // optional\n" +
+      "  \"citationAccuracy\": 0-100,         // optional\n" +
+      "  \"summary\": \"2-3 sentence executive overview\",\n" +
+      "  \"findings\": [\n" +
+      "    { \"page\": 12, \"section\": \"§2.3\", \"excerpt\": \"verbatim text...\",\n" +
+      "      \"issue\": \"what is wrong\", \"recommendation\": \"specific fix\",\n" +
+      "      \"severity\": \"minor|moderate|major\",\n" +
+      "      \"type\": \"tone|clarity|formatting|citation|synthesis|methodology|structure\" }\n" +
+      "  ]\n" +
+      "}\n" +
       "Every finding must reference a real excerpt from the manuscript verbatim. " +
-      "Write findings in a calm, scholarly, executive register — explicit, specific, and actionable. " +
+      "Write findings in a calm, scholarly, executive register — explicit, specific, actionable. " +
       "Do not write replacement prose for entire sections; recommend changes the student should make. " +
-      "Limit yourself to the 8 highest-severity findings per pass to keep responses compact.",
-    maxTokens: 2000,
+      "Cap findings at 8 highest-severity items per pass.",
+    maxTokens: 4000,
     model: process.env.ANTHROPIC_REVIEW_MODEL ?? "claude-haiku-4-5-20251001",
     bypassManagedAgent: true
   });
@@ -324,13 +340,50 @@ async function loadJob(jobId: string) {
   return rows[0];
 }
 
+/**
+ * Robust JSON extraction for agent output. Handles:
+ *   - clean JSON
+ *   - markdown code fences (with or without closing fence)
+ *   - text wrapped around JSON ("Here is the review: {...}")
+ *   - single-key envelopes ({review: {...}}, {data: {...}}, etc.) — unwrapped
+ */
 function parseJson<T>(text: string): T {
-  // Tolerate the occasional code fence around the JSON payload.
-  const m = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-  const raw = (m ? m[1] : text).trim();
+  let raw = text.trim();
+
+  // Strip leading code fence with optional language tag.
+  raw = raw.replace(/^```(?:json|JSON)?\s*\n?/, "");
+  // Strip trailing code fence if present.
+  raw = raw.replace(/\n?```\s*$/, "");
+  raw = raw.trim();
+
+  // If raw doesn't start with { or [, try to find the first JSON object/array in the text.
+  if (!raw.startsWith("{") && !raw.startsWith("[")) {
+    const start = raw.search(/[{[]/);
+    if (start >= 0) raw = raw.slice(start);
+  }
+  // Trim anything after the last closing brace/bracket.
+  const lastBrace = Math.max(raw.lastIndexOf("}"), raw.lastIndexOf("]"));
+  if (lastBrace > 0 && lastBrace < raw.length - 1) {
+    raw = raw.slice(0, lastBrace + 1);
+  }
+
+  let parsed: any;
   try {
-    return JSON.parse(raw) as T;
+    parsed = JSON.parse(raw);
   } catch (err) {
     throw new Error(`Agent did not return parseable JSON. First 200 chars: ${raw.slice(0, 200)}`);
   }
+
+  // Unwrap common single-key envelopes. Order matters: more specific keys first.
+  if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+    const keys = Object.keys(parsed);
+    if (keys.length === 1) {
+      const sole = keys[0].toLowerCase();
+      if (["review", "data", "result", "output", "response", "json", "payload"].includes(sole)) {
+        parsed = parsed[keys[0]];
+      }
+    }
+  }
+
+  return parsed as T;
 }
