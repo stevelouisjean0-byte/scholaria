@@ -30,10 +30,27 @@ export const dynamic = "force-dynamic";
  * stage so jobs closest to delivery progress first.
  */
 export async function GET(req: NextRequest) {
+  // Hard auth gate. Three accepted callers, in priority order:
+  //   1. Vercel's own cron scheduler (user-agent starts with "vercel-cron")
+  //   2. Authenticated admin (Clerk session)
+  //   3. Bearer CRON_SECRET (machine-to-machine / scripts)
+  // If none of these match, deny — even if CRON_SECRET is missing.
   const auth = req.headers.get("authorization") ?? "";
-  const cronSecret = process.env.CRON_SECRET;
-  const isVercelCron = req.headers.get("user-agent")?.includes("vercel-cron") ?? false;
-  if (cronSecret && !isVercelCron && auth !== `Bearer ${cronSecret}`) {
+  const cronSecret = process.env.CRON_SECRET ?? "";
+  const isVercelCron = req.headers.get("user-agent")?.toLowerCase().includes("vercel-cron") ?? false;
+  const isBearerOk = cronSecret.length > 0 && auth === `Bearer ${cronSecret}`;
+
+  let isAdmin = false;
+  if (!isVercelCron && !isBearerOk) {
+    try {
+      const { requireAdmin } = await import("@/lib/admin");
+      isAdmin = Boolean(await requireAdmin());
+    } catch {
+      isAdmin = false;
+    }
+  }
+
+  if (!isVercelCron && !isBearerOk && !isAdmin) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 

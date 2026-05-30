@@ -44,6 +44,16 @@ const PING_PROMPT =
   "Reply with the single word: ready. Do not preface or elaborate.";
 
 export async function GET() {
+  // Admin-only. Pinging all agents costs real money (~$0.10–$0.50 per call
+  // depending on agent count). Public access = trivial Anthropic bill DoS.
+  try {
+    const { requireAdmin } = await import("@/lib/admin");
+    const admin = await requireAdmin();
+    if (!admin) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  } catch {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json(

@@ -17,16 +17,43 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   let memory: any;
 
   if (params.id === SAMPLE_JOB_ID) {
+    // Public sample report — anyone may download it.
     filename = SAMPLE_FILENAME;
     manuscript = SAMPLE_MANUSCRIPT;
     memory = SAMPLE_MEMORY;
   } else {
+    // Real-job PDF contains PII (manuscript content + scores). Authorize:
+    //   - Admin → any job
+    //   - Otherwise → must be the Clerk user who owns the job
+    let isAdmin = false;
+    let viewerClerkId: string | null = null;
+    try {
+      const { requireAdmin } = await import("@/lib/admin");
+      isAdmin = Boolean(await requireAdmin());
+    } catch { /* fall through */ }
+    if (!isAdmin) {
+      try {
+        const { clerkEnabled } = await import("@/lib/clerk-config");
+        if (clerkEnabled) {
+          const { auth } = await import("@clerk/nextjs/server");
+          const a = await auth();
+          viewerClerkId = a.userId ?? null;
+        }
+      } catch { /* no viewer id */ }
+    }
+
     try {
       const { rows } = await db.query(
-        `select filename, word_count, upload_meta, memory from jobs where id=$1`,
+        `select user_id, filename, word_count, upload_meta, memory from jobs where id=$1`,
         [params.id]
       );
       if (!rows.length) return NextResponse.json({ error: "not found" }, { status: 404 });
+
+      // Owner check
+      if (!isAdmin && (!viewerClerkId || rows[0].user_id !== viewerClerkId)) {
+        return NextResponse.json({ error: "not found" }, { status: 404 });
+      }
+
       filename = rows[0].filename;
       manuscript = {
         wordCount: rows[0].word_count ?? 0,
