@@ -19,6 +19,14 @@ const isProtected = createRouteMatcher(["/dashboard(.*)", "/admin(.*)", "/api/ad
 const handler = clerkConfigured
   ? clerkMiddleware(async (auth, req) => {
       if (isProtected(req)) {
+        // Carve-out: requests bearing CRON_SECRET pass through middleware
+        // unaltered so the route's own bearer-token check can authenticate
+        // them. Without this, machine/script clients would be redirected
+        // to /signin and never reach the route's auth logic.
+        const authHeader = req.headers.get("authorization") ?? "";
+        if (authHeader.startsWith("Bearer ")) {
+          return;
+        }
         await auth.protect({
           unauthenticatedUrl: new URL("/signin", req.url).toString()
         });
