@@ -20,20 +20,34 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
+  const url = new URL(req.url);
+  const filterId = url.searchParams.get("id");
+  const limit = Math.min(parseInt(url.searchParams.get("limit") ?? "100", 10) || 100, 500);
+
   const byStage = await db.query(
     "select stage, count(*)::int as n from jobs group by stage order by stage"
   );
 
   const recent = await db.query(
-    `select id, filename, stage, word_count, reviews_received, reviews_expected,
-            updated_at, created_at,
-            memory->'report'->>'executiveSummary' as executive_summary,
-            memory->'qa'->>'submissionReadiness' as submission_readiness,
-            memory->'qa'->>'qualityScore' as quality_score,
-            jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) as review_keys
-       from jobs
-       order by updated_at desc
-       limit 25`
+    filterId
+      ? `select id, display_id, filename, stage, word_count, reviews_received, reviews_expected,
+                upload_meta, updated_at, created_at,
+                memory->'report'->>'executiveSummary' as executive_summary,
+                memory->'qa'->>'submissionReadiness' as submission_readiness,
+                memory->'qa'->>'qualityScore' as quality_score,
+                jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) as review_keys
+           from jobs
+          where id = $1 or display_id = $1`
+      : `select id, display_id, filename, stage, word_count, reviews_received, reviews_expected,
+                upload_meta, updated_at, created_at,
+                memory->'report'->>'executiveSummary' as executive_summary,
+                memory->'qa'->>'submissionReadiness' as submission_readiness,
+                memory->'qa'->>'qualityScore' as quality_score,
+                jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) as review_keys
+           from jobs
+          order by created_at desc
+          limit $1`,
+    filterId ? [filterId] : [limit]
   );
 
   // Group review_keys per job (jsonb_object_keys returns one row per key).
