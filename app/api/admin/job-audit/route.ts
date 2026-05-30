@@ -44,10 +44,10 @@ export async function GET(req: NextRequest) {
   const memory = (job.memory ?? {}) as Record<string, any>;
 
   const { rows: events } = await db.query(
-    `select event, payload, created_at
+    `select event, payload, occurred_at
        from workflow_events
       where job_id = $1
-      order by created_at asc`,
+      order by occurred_at asc`,
     [job.id]
   );
 
@@ -88,8 +88,8 @@ export async function GET(req: NextRequest) {
     const endEv = events.find((e) => e.event === opts.endEvent);
     const status: "completed" | "skipped" | "missing" =
       opts.memoryNode && Object.keys(opts.memoryNode).length > 0 ? "completed" : "missing";
-    const startedAt = startEv?.created_at ?? null;
-    const completedAt = endEv?.created_at ?? null;
+    const startedAt = startEv?.occurred_at ?? null;
+    const completedAt = endEv?.occurred_at ?? null;
     const durationMs =
       startedAt && completedAt
         ? new Date(completedAt as any).getTime() - new Date(startedAt as any).getTime()
@@ -153,7 +153,7 @@ export async function GET(req: NextRequest) {
       role: agentRoleFor(agentKey),
       status: "completed",
       startedAt: null,
-      completedAt: lastReview?.created_at ? String(lastReview.created_at) : null,
+      completedAt: lastReview?.occurred_at ? String(lastReview.occurred_at) : null,
       durationMs: null,
       inputSummary: "intake, scope, and manuscript metadata",
       outputSummary: reviewSummary(reviewNode),
@@ -210,11 +210,11 @@ export async function GET(req: NextRequest) {
     notifications: notifyEvents.map((e) => ({
       event: e.event,
       payload: e.payload,
-      at: e.created_at
+      at: e.occurred_at
     })),
     workflowEvents: events.map((e) => ({
       event: e.event,
-      at: e.created_at,
+      at: e.occurred_at,
       payload: redactPayload(e.payload)
     })),
     memoryKeys: Object.keys(memory),
