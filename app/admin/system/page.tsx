@@ -34,6 +34,7 @@ async function probeEnv(): Promise<Check[]> {
     "STRIPE_WEBHOOK_SECRET",
     "ANTHROPIC_API_KEY",
     "NEXT_PUBLIC_APP_URL",
+    "CRON_SECRET",
     "SUPER_ADMIN_EMAILS"
   ];
   return required.map((key) => {
