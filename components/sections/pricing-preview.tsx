@@ -17,8 +17,8 @@ export function PricingPreview() {
             A rate card written for academic timelines.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
-            Every tier runs on the same Agentic AI Agent ecosystem. Higher tiers unlock more
-            reviewing agents, faster autonomous execution, deeper intelligent verification, and the
+            Every tier runs on the same coordinated review system. Higher tiers unlock more
+            reviewing agents, faster turnaround, deeper methodology and citation passes, and the
             cross-chapter coherence required for full-dissertation work.
           </p>
         </div>

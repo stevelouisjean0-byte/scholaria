@@ -9,7 +9,7 @@
  * to de-duplicate the same entity referenced across multiple pages.
  */
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://scholaria.ai";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://dissertationeditingcenter.com";
 const ORG_ID = `${APP_URL}/#organization`;
 const SITE_ID = `${APP_URL}/#website`;
 
@@ -23,11 +23,27 @@ export function siteGraph() {
       {
         "@type": "Organization",
         "@id": ORG_ID,
-        name: "Scholaria",
-        alternateName: "Scholaria — A Review of Doctoral Writing",
+        name: "Dissertation Editing Center",
+        alternateName: ["Scholaria", "Scholaria — A Review of Doctoral Writing"],
         url: APP_URL,
         logo: `${APP_URL}/logo.png`,
-        sameAs: [],
+        sameAs: [
+          "https://www.linkedin.com/company/dissertation-editing-center",
+          "https://twitter.com/dissedit_center"
+        ],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "New York",
+          addressRegion: "NY",
+          addressCountry: "US"
+        },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "concierge@dissertationeditingcenter.com",
+          areaServed: ["US", "GB", "CA", "AU", "EU"],
+          availableLanguage: ["en"]
+        },
         description:
           "Agentic AI operating system for doctoral research. A coordinated ecosystem of Agentic AI Agents that validate scholarly workflows, perform intelligent multi-step verification, and reduce human error across dissertation review, literature synthesis, methodology alignment, and citation integrity.",
         knowsAbout: [
@@ -48,7 +64,8 @@ export function siteGraph() {
         "@type": "WebSite",
         "@id": SITE_ID,
         url: APP_URL,
-        name: "Scholaria",
+        name: "Dissertation Editing Center",
+        alternateName: "Scholaria",
         publisher: { "@id": ORG_ID },
         inLanguage: "en",
         potentialAction: {
@@ -56,19 +73,155 @@ export function siteGraph() {
           target: { "@type": "EntryPoint", urlTemplate: `${APP_URL}/search?q={search_term_string}` },
           "query-input": "required name=search_term_string"
         }
-      },
-      {
-        "@type": "Service",
-        "@id": `${APP_URL}/#service`,
-        serviceType: "Agentic AI validation for doctoral research and scholarly editing",
-        provider: { "@id": ORG_ID },
-        audience: {
-          "@type": "EducationalAudience",
-          educationalRole: "Doctoral, Ph.D., Ed.D., and graduate-level researcher"
-        },
-        offers: { "@type": "Offer", priceCurrency: "USD", availability: "https://schema.org/InStock" }
       }
     ]
+  };
+}
+
+/* -------------------------------------------------------------------------- *
+ * Service / Offer schema — emitted only on commercial pages (/, /pricing,
+ * /dissertation-editing, /literature-review-editing, etc.), NOT site-wide.
+ * Google's structured-data guidance treats Service+Offer on /signin or
+ * /contact as misleading.
+ * -------------------------------------------------------------------------- */
+export function dissertationService() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${APP_URL}/#service`,
+    name: "Dissertation Editing Center — chapter-grade dissertation review",
+    serviceType:
+      "Multi-agent dissertation review, methodology alignment, APA 7 verification, and citation cross-check",
+    provider: { "@id": ORG_ID },
+    url: APP_URL,
+    areaServed: ["United States", "United Kingdom", "Canada", "Australia", "European Union"],
+    audience: {
+      "@type": "EducationalAudience",
+      educationalRole: "Doctoral, Ph.D., Ed.D., DBA, and graduate-level researcher"
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "USD",
+      lowPrice: "0",
+      highPrice: "299",
+      offerCount: 4,
+      availability: "https://schema.org/InStock"
+    }
+  };
+}
+
+/* -------------------------------------------------------------------------- *
+ * Per-tier Offer/Subscription schema for /pricing. Adds rich-result eligibility
+ * the audit specifically flagged as missing.
+ * -------------------------------------------------------------------------- */
+export function pricingOffers(tiers: {
+  id: string;
+  name: string;
+  description: string;
+  priceMonthly: number | null;
+  audience: string;
+}[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": tiers
+      .filter((t) => t.priceMonthly !== null)
+      .map((t) => ({
+        "@type": "Product",
+        "@id": `${APP_URL}/pricing#${t.id}`,
+        name: t.name,
+        description: t.description,
+        brand: { "@id": ORG_ID },
+        category: "Dissertation editing subscription",
+        offers: {
+          "@type": "Offer",
+          url: `${APP_URL}/pricing`,
+          priceCurrency: "USD",
+          price: t.priceMonthly === 0 ? "0" : String(t.priceMonthly),
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: t.priceMonthly === 0 ? "0" : String(t.priceMonthly),
+            priceCurrency: "USD",
+            referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+            billingDuration: "P1M"
+          },
+          availability: "https://schema.org/InStock",
+          eligibleCustomerType: t.audience
+        }
+      }))
+  };
+}
+
+/* -------------------------------------------------------------------------- *
+ * Review + AggregateRating schema for /reviews.
+ * -------------------------------------------------------------------------- */
+export function reviewsAggregate(testimonials: {
+  authorName: string;
+  authorRole: string;
+  institution: string;
+  body: string;
+  rating?: number;
+}[]) {
+  const ratings = testimonials.map((t) => t.rating ?? 5);
+  const avg = ratings.reduce((a, b) => a + b, 0) / Math.max(1, ratings.length);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": ORG_ID,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: avg.toFixed(2),
+      ratingCount: testimonials.length,
+      bestRating: 5,
+      worstRating: 1
+    },
+    review: testimonials.slice(0, 10).map((t) => ({
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: t.rating ?? 5,
+        bestRating: 5,
+        worstRating: 1
+      },
+      author: {
+        "@type": "Person",
+        name: t.authorName,
+        jobTitle: t.authorRole,
+        affiliation: { "@type": "EducationalOrganization", name: t.institution }
+      },
+      reviewBody: t.body
+    }))
+  };
+}
+
+/* -------------------------------------------------------------------------- *
+ * LocalBusiness schema for location pages (/nyc, /new-jersey, /connecticut).
+ * -------------------------------------------------------------------------- */
+export function localBusiness(opts: {
+  region: string;
+  city: string;
+  state: string;
+  slug: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${APP_URL}${opts.slug}#localbusiness`,
+    name: `Dissertation Editing Center — ${opts.region}`,
+    parentOrganization: { "@id": ORG_ID },
+    url: `${APP_URL}${opts.slug}`,
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: opts.region
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: opts.city,
+      addressRegion: opts.state,
+      addressCountry: "US"
+    },
+    serviceType:
+      "Dissertation editing, APA 7 verification, methodology review, literature review editing",
+    priceRange: "$0–$299/mo"
   };
 }
 

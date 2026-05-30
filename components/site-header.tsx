@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { ClerkHeaderAuth } from "@/components/auth/clerk-header-auth";
 
 const NAV = [
-  ["Dissertation Intelligence", "/dissertation-intelligence"],
-  ["Agentic AI Agents", "/agent-ecosystem"],
+  ["How it works", "/how-it-works"],
+  ["Sample review", "/sample-review"],
   ["Reviews", "/reviews"],
   ["Pricing", "/pricing"],
   ["Enterprise", "/enterprise"]
@@ -17,27 +17,26 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-ink-900/90">
-      {/* Slim imprint line — sits above the masthead like an academic
-          journal's running head. */}
+    <header className="bg-white border-b border-ink-900/90 sticky top-0 z-40">
+      {/* Slim imprint line — quiet reassurance strip, NYC anchor. */}
       <div className="border-b border-ink-200">
         <div className="container py-1.5 flex items-center justify-between text-[11px] uppercase tracking-[0.28em] text-ink-500">
-          <span>Vol. I · No. 1 · Doctoral Edition</span>
-          <span className="hidden sm:inline">Issued continuously · Open to scholars</span>
+          <span>Dissertation Editing Center · NYC · NJ · CT</span>
+          <span className="hidden sm:inline">Free first review · 24-hour turnaround · 14-day money-back</span>
           <Link href="/upload" className="text-ink-900 hover:underline underline-offset-4">
-            Submit manuscript →
+            Upload a chapter →
           </Link>
         </div>
       </div>
 
-      {/* Masthead wordmark + navigation, set in two rows like a printed paper. */}
+      {/* Masthead wordmark + navigation. */}
       <div className="container py-5 flex items-center justify-between gap-6">
         <Link href="/" className="flex items-baseline gap-3">
-          <span className="font-serif text-[28px] leading-none tracking-[-0.01em] text-ink-900">
-            Scholaria
+          <span className="font-serif text-[24px] leading-none tracking-[-0.01em] text-ink-900">
+            Dissertation Editing Center
           </span>
-          <span className="hidden sm:inline font-serif italic text-[15px] text-ink-500">
-            a review of doctoral writing
+          <span className="hidden xl:inline font-serif italic text-[14px] text-ink-500">
+            formerly Scholaria
           </span>
         </Link>
 
@@ -47,6 +46,13 @@ export function SiteHeader() {
           ))}
           <span className="h-4 w-px bg-ink-200" />
           <ClerkHeaderAuth />
+          <Link
+            href="/upload"
+            className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-ink-900 text-white text-[13px] font-medium hover:bg-ink-950 transition"
+          >
+            Upload chapter
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </nav>
 
         <button
@@ -70,11 +76,11 @@ export function SiteHeader() {
               Sign in
             </Link>
             <Link
-              href="/signup"
+              href="/upload"
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex items-center justify-center h-10 rounded-full bg-ink-900 text-white text-[14px]"
             >
-              Get started
+              Upload chapter — free
             </Link>
           </div>
         </div>

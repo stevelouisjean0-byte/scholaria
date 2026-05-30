@@ -6,26 +6,34 @@ export function SiteFooter() {
       <div className="container py-16 grid grid-cols-12 gap-10">
         {/* Imprint block — set as a colophon. */}
         <div className="col-span-12 lg:col-span-5">
-          <div className="font-serif text-[44px] leading-none tracking-[-0.02em] text-ink-900">
-            Scholaria
+          <div className="font-serif text-[40px] leading-tight tracking-[-0.02em] text-ink-900">
+            Dissertation Editing Center
           </div>
-          <div className="mt-2 font-serif italic text-[16px] text-ink-500">
-            a review of doctoral writing
+          <div className="mt-2 font-serif italic text-[15px] text-ink-500">
+            Chapter-grade review for doctoral candidates · NYC · NJ · CT
           </div>
           <p className="mt-6 max-w-md text-[14.5px] leading-7 text-ink-700">
-            An Agentic AI operating system for doctoral research. Coordinated Agentic AI Agents
-            validate scholarly workflows for Ph.D., Ed.D., doctoral, and graduate researchers —
-            designed to reduce human error and improve research accuracy. Scholaria critiques,
-            edits, and guides; it does not author dissertations on a student's behalf.
+            A coordinated multi-agent review system for Ph.D., Ed.D., DBA, and graduate
+            researchers — methodology alignment, APA 7 verification, citation cross-check, and
+            submission-readiness scoring in 24 hours. We critique, edit, and guide; we never
+            author your dissertation. That distinction is the platform's first principle.
           </p>
-          <p className="mt-8 text-[12px] uppercase tracking-[0.3em] text-ink-500">
-            Est. mmxxvi · Issued continuously · Open to scholars
-          </p>
+          <div className="mt-6 flex flex-wrap gap-2 text-[12px] text-ink-700">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-50 ring-1 ring-ink-200">
+              Free first review
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-50 ring-1 ring-ink-200">
+              14-day money back
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-50 ring-1 ring-ink-200">
+              FERPA-aware · AES-256
+            </span>
+          </div>
         </div>
 
         <Column className="col-span-6 md:col-span-3 lg:col-span-2" title="Platform" links={[
           ["Dissertation Intelligence", "/dissertation-intelligence"],
-          ["Agentic AI Agents", "/agent-ecosystem"],
+          ["The reviewing system", "/agent-ecosystem"],
           ["How it works", "/how-it-works"],
           ["Upload paper", "/upload"],
           ["Pricing", "/pricing"]
@@ -51,10 +59,10 @@ export function SiteFooter() {
       <div className="border-t border-ink-200">
         <div className="container py-5 grid grid-cols-12 gap-6 text-[12px] text-ink-500">
           <span className="col-span-12 md:col-span-5">
-            © {new Date().getFullYear()} Scholaria · Built for serious scholarship.
+            © {new Date().getFullYear()} Dissertation Editing Center · concierge@dissertationeditingcenter.com
           </span>
-          <span className="col-span-12 md:col-span-4 italic">
-            Set in Newsreader, Inter, &amp; JetBrains Mono. Composed in the editorial register.
+          <span className="col-span-12 md:col-span-4">
+            Concierge support · Mon–Fri 9am–7pm ET · Sat 10am–4pm ET
           </span>
           <nav className="col-span-12 md:col-span-3 flex items-center justify-end gap-5">
             <Link href="/privacy" className="hover:text-ink-900">Privacy</Link>

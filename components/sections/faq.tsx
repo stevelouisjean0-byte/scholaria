@@ -6,28 +6,48 @@ import { faqPage } from "@/lib/jsonld";
 
 export const FAQ_ITEMS = [
   {
-    q: "Does Scholaria write my dissertation for me?",
-    a: "No, and that is intentional. Scholaria reviews, edits, and guides scholarly writing — it does not author dissertations or assignments on a student's behalf. The platform is engineered to strengthen your work without replacing your voice."
+    q: "How much does it cost?",
+    a: "Your first review is free with no credit card. Paid plans are $49/mo (Graduate), $129/mo (Doctoral), and $299/mo (Dissertation Intensive). All plans include 14-day money-back. See /pricing for the full breakdown."
+  },
+  {
+    q: "What is your refund policy?",
+    a: "Every paid plan includes a 14-day money-back guarantee. If your first APA report and annotated review do not meet committee-grade quality, write to concierge@dissertationeditingcenter.com within 14 days of your first paid charge and we refund in full, no questions asked. Cancel anytime from your dashboard."
+  },
+  {
+    q: "Can I see a sample annotated review before I upload?",
+    a: "Yes. /sample-review shows five real findings from a redacted Ed.D. Chapter 2 review with the full annotated PDF available for download. No email required."
+  },
+  {
+    q: "Do you write my dissertation for me?",
+    a: "No, and that is intentional. We review, edit, and guide scholarly writing — we do not author dissertations or assignments on a candidate's behalf. The system is engineered to strengthen your work without replacing your voice. That is the platform's first principle."
+  },
+  {
+    q: "How is this different from ChatGPT, Grammarly, or Paperpal?",
+    a: "Grammarly fixes line-level grammar; we review chapter-level structure, methodology, and citations. ChatGPT can paraphrase but cannot show your chair a defensible audit log; we produce one with every review. Paperpal optimizes for journal submission; we optimize for the dissertation chapter and committee defense. See /vs-grammarly, /vs-chatgpt, /vs-paperpal, /vs-editage for side-by-side comparisons."
+  },
+  {
+    q: "Will the feedback feel like AI?",
+    a: "It is engineered not to. Findings are written in a calm, scholarly, executive register, reference verbatim excerpts from your manuscript, and are filtered by a QA agent before delivery. Anything that reads as generic or template-driven is rejected and regenerated."
   },
   {
     q: "Which formatting styles are supported?",
     a: "APA 7 is fully supported with a dedicated formatting engine. APA 6, MLA, and Chicago are supported for scholarly tone and clarity reviews; APA 7-specific compliance scoring is reserved for APA 7 submissions."
   },
   {
-    q: "How private and secure are my uploads?",
-    a: "Documents are received over an encrypted channel, stored with envelope encryption, and accessible only to the agents executing your review. Retention is plan-controlled and institution-controlled on Enterprise. Scholaria is FERPA-aware and audit-friendly."
-  },
-  {
-    q: "Will the feedback feel like AI?",
-    a: "It is engineered not to. Findings are written in a calm, scholarly, executive register, reference verbatim excerpts from your manuscript, and are filtered against AI-detection patterns before delivery. If the QA agent finds a generic or template-driven response, it is rejected and regenerated."
-  },
-  {
     q: "How fast does a review come back?",
-    a: "Standard turnaround is 24–48 hours. Doctoral plans run on a 12–24 hour priority queue. Dissertation Intensive runs on a 6–12 hour rush queue with dedicated capacity."
+    a: "Standard turnaround is 24 hours. Doctoral plans run on a 12–24 hour priority queue. Dissertation Intensive runs on a 6–12 hour rush queue with dedicated capacity."
   },
   {
-    q: "Can my university deploy Scholaria for a cohort?",
-    a: "Yes — the Enterprise tier supports SSO, SCIM, FERPA-aware controls, program-level analytics, and branded deliverables. Contact the enterprise team to discuss a pilot."
+    q: "How private and secure are my uploads?",
+    a: "Documents are received over TLS 1.3, stored with AES-256 envelope encryption in single-tenant US-region Postgres, and accessible only to the reviewing agents. We do not send your manuscript to any third-party AI provider for training. Retention is plan-controlled (7 days on Free, 12 months on Graduate, candidate-controlled on Doctoral+). Hard-delete on demand. See /security for plain-language detail."
+  },
+  {
+    q: "Do I need an account to try it?",
+    a: "No — you can drop a chapter and supply an email for the confirmation receipt. An account lets you track multiple reviews from a dashboard and is required for paid plans."
+  },
+  {
+    q: "Can my university deploy this for a cohort?",
+    a: "Yes — the Enterprise tier supports SSO, SCIM, FERPA-aware controls, program-level analytics, and branded deliverables. SOC 2 Type II is in progress (target Q4 2026). Book a 20-minute demo at /enterprise."
   }
 ];
 

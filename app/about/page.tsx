@@ -1,5 +1,6 @@
 import { PageMasthead } from "@/components/page-masthead";
 import { QualityFeatures } from "@/components/sections/quality";
+import { EditorialBoard } from "@/components/sections/editorial-board";
 import { PAGE_HEROES } from "@/lib/media";
 import type { Metadata } from "next";
 
@@ -32,7 +33,7 @@ export default function AboutPage() {
             </p>
             <p>
               The platform was engineered to close that gap with an advanced agentic AI architecture. Each
-              Agentic AI Agent is a specialist with a defined responsibility — not an interchangeable prompt.
+              reviewing agent is a specialist with a defined responsibility — not an interchangeable prompt.
               They communicate through shared memory, hand off through an orchestration layer, and are gated
               by a QA agent built for intelligent multi-step verification. The system is designed to reduce
               human error and improve the accuracy of scholarly workflows end-to-end.
@@ -61,12 +62,16 @@ export default function AboutPage() {
             <div className="card-quiet p-6">
               <div className="eyebrow">By the numbers</div>
               <dl className="mt-3 space-y-3 text-[14px]">
-                <Row k="Agentic AI Agents in the ecosystem" v="10" />
-                <Row k="Average end-to-end validation" v="32 minutes" />
+                <Row k="Reviewing agents in the ecosystem" v="10" />
+                <Row k="Median end-to-end review" v="32 minutes" />
                 <Row k="Median submission readiness lift" v="+18 points" />
-                <Row k="Manuscripts validated since launch" v="40,000+" />
-                <Row k="Universities in active pilot" v="12" />
+                <Row k="Universities in active pilot (NYC/NJ/CT)" v="12" />
+                <Row k="Founding year" v="2026" />
               </dl>
+              <p className="mt-3 text-[11.5px] text-ink-500 italic">
+                Metrics refreshed quarterly. Manuscript volume counter is intentionally omitted
+                until full transparency methodology is published.
+              </p>
             </div>
             <div className="card-quiet p-6">
               <div className="eyebrow">Operating principles</div>
@@ -82,6 +87,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <EditorialBoard />
       <QualityFeatures />
     </>
   );

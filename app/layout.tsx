@@ -12,55 +12,59 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "sw
 const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://dissertationeditingcenter.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://scholaria.ai"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Scholaria — Agentic AI Operating System for Doctoral Research & Academic Workflows",
-    template: "%s · Scholaria"
+    default: "Dissertation Editing Center — Chapter-grade AI review for Ph.D., Ed.D., and DBA candidates",
+    template: "%s · Dissertation Editing Center"
   },
   description:
-    "An Agentic AI operating system for doctoral research. Coordinated Agentic AI Agents validate scholarly workflows, perform intelligent multi-step verification, and reduce human error across dissertation review, literature synthesis, methodology alignment, and citation integrity.",
+    "Chapter-grade dissertation review for Ph.D., Ed.D., and DBA candidates. A coordinated multi-agent review system that critiques, never authors — methodology alignment, APA 7 verification, citation cross-check, and a submission readiness score in 24 hours. Free first review.",
   keywords: [
-    "agentic AI agents",
-    "agentic AI for research",
-    "autonomous academic assistance",
-    "research-grade workflow automation",
     "dissertation editing",
-    "doctoral research validation",
     "PhD editing",
     "EdD editing",
-    "APA 7 verification",
-    "multi-agent academic review",
+    "doctoral paper editing",
+    "dissertation review service",
+    "APA 7 editing",
+    "literature review editing",
+    "research methodology review",
     "citation verification",
-    "precision-driven AI systems"
+    "scholarly editing service",
+    "dissertation editor NYC",
+    "dissertation editor New Jersey",
+    "dissertation editor Connecticut"
   ],
   openGraph: {
-    title: "Scholaria — Agentic AI Operating System for Doctoral Research",
+    title: "Dissertation Editing Center — Chapter-grade AI review for doctoral candidates",
     description:
-      "Coordinated Agentic AI Agents that validate research workflows, reduce human error, and deliver research-grade consistency for doctoral and graduate-level scholarship.",
+      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, and a readiness score in 24 hours. Free first review.",
     type: "website",
-    siteName: "Scholaria",
+    siteName: "Dissertation Editing Center",
     locale: "en_US",
+    url: SITE_URL,
     images: [
       {
         url: "/og/default.png",
         width: 1200,
         height: 630,
-        alt: "Scholaria — Agentic AI Agents for doctoral research."
+        alt: "Dissertation Editing Center — chapter-grade AI review for doctoral candidates."
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Scholaria — Agentic AI Operating System for Doctoral Research",
+    title: "Dissertation Editing Center — Chapter-grade AI review for doctoral candidates",
     description:
-      "Coordinated Agentic AI Agents that validate research workflows, reduce human error, and deliver research-grade consistency.",
+      "Coordinated multi-agent review that critiques, never authors. Methodology alignment, APA 7 verification, citation cross-check, readiness score in 24 hours. Free first review.",
     images: ["/og/default.png"]
   },
   alternates: { canonical: "/" },
-  authors: [{ name: "Scholaria editorial desk" }],
-  creator: "Scholaria",
-  publisher: "Scholaria",
+  authors: [{ name: "Dissertation Editing Center editorial desk" }],
+  creator: "Dissertation Editing Center",
+  publisher: "Dissertation Editing Center",
   robots: {
     index: true,
     follow: true,

@@ -27,6 +27,7 @@ interface UploadResult {
 export function UploadZone() {
   const [stage, setStage] = useState<Stage>("idle");
   const [file, setFile] = useState<File | null>(null);
+  const [email, setEmail] = useState<string>("");
   const [result, setResult] = useState<UploadResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [errorHint, setErrorHint] = useState<string | null>(null);
@@ -51,6 +52,7 @@ export function UploadZone() {
     setStage("uploading");
     const form = new FormData();
     form.set("file", selected);
+    if (email && /.+@.+\..+/.test(email)) form.set("email", email);
 
     try {
       const res = await fetch("/api/upload", { method: "POST", body: form });
@@ -91,7 +93,7 @@ export function UploadZone() {
       >
         <UploadCloud className="h-8 w-8 mx-auto text-ink-700" />
         <h3 className="mt-3 font-serif text-[20px] text-ink-900">Drop your manuscript here</h3>
-        <p className="mt-1 text-[13.5px] text-ink-600">PDF or DOCX, up to 50 MB. Uploads are encrypted in transit and at rest.</p>
+        <p className="mt-1 text-[13.5px] text-ink-600">PDF or DOCX, up to 50 MB. Encrypted in transit and at rest.</p>
         <label className="mt-5 inline-block btn-primary cursor-pointer">
           Choose a file
           <input
@@ -102,6 +104,28 @@ export function UploadZone() {
           />
         </label>
       </div>
+
+      {/* Email field — only shown until the user uploads. Optional but the
+          only way an anonymous user receives the confirmation receipt. */}
+      {stage === "idle" && (
+        <div className="mt-4">
+          <label htmlFor="upload-email" className="block text-[12.5px] text-ink-700">
+            Email for your confirmation and review
+          </label>
+          <input
+            id="upload-email"
+            type="email"
+            inputMode="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@university.edu"
+            className="mt-1.5 w-full h-10 px-3 rounded-md bg-paper ring-1 ring-ink-200 focus:ring-ink-400 focus:outline-none text-[14px]"
+          />
+          <p className="mt-1 text-[11.5px] text-ink-500">
+            Optional but recommended. We email your confirmation ID and the finished review here.
+          </p>
+        </div>
+      )}
 
       {file && (
         <div className="mt-5 flex items-center justify-between rounded-xl bg-paper ring-1 ring-ink-100 px-4 py-3">
@@ -162,17 +186,61 @@ export function UploadZone() {
               </div>
             </>
           ) : (
-            <div className="rounded-xl bg-ink-900 text-white px-5 py-4">
-              <div className="text-[11px] uppercase tracking-[0.18em] text-ink-300">Job created · pipeline active</div>
-              <div className="font-mono text-[13.5px]">{result.jobId}</div>
-              <p className="mt-2 text-[13px] text-ink-200">
-                {result.message ??
-                  "The Lead Intake Agent has been engaged. You can track every agent in real time from your dashboard."}
-              </p>
-              <a href="/dashboard" className="mt-3 inline-block text-[13px] underline underline-offset-4">
-                Open dashboard →
-              </a>
-            </div>
+            <>
+              <div className="rounded-xl bg-ink-900 text-white px-5 py-5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <div className="text-[11px] uppercase tracking-[0.18em] text-ink-300">
+                    Review received · confirmation
+                  </div>
+                  <span className="text-[10.5px] uppercase tracking-[0.18em] text-emerald-300">
+                    pipeline active
+                  </span>
+                </div>
+                <div className="mt-2 font-mono text-[13.5px] text-white/95">
+                  Confirmation ID: <span className="text-white">{result.jobId}</span>
+                </div>
+                <p className="mt-3 text-[13.5px] leading-[1.6] text-ink-100">
+                  Your manuscript is now being reviewed by the editor and methodology agents.
+                  We'll email you the moment your annotated PDF, APA report, and revision plan
+                  are ready — typically within 24 hours (6–12 hours on Dissertation Intensive).
+                </p>
+                <p className="mt-3 text-[12.5px] text-ink-300">
+                  📧 A confirmation email is on its way. If you don't see it within 5 minutes,
+                  check spam or write to{" "}
+                  <span className="underline underline-offset-4">concierge@dissertationeditingcenter.com</span>.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-4">
+                  <a
+                    href={`/status/${result.jobId}`}
+                    className="inline-flex items-center gap-1.5 text-[13px] text-white underline underline-offset-4"
+                  >
+                    Track your review →
+                  </a>
+                  <a
+                    href="/dashboard"
+                    className="inline-flex items-center gap-1.5 text-[13px] text-ink-200 hover:text-white underline underline-offset-4"
+                  >
+                    Open dashboard
+                  </a>
+                </div>
+              </div>
+
+              {/* Three-pill reassurance row — answers "what now?" anxiety. */}
+              <div className="grid grid-cols-3 gap-2 text-[11.5px] text-ink-700">
+                <div className="rounded-lg bg-paper ring-1 ring-ink-100 px-3 py-2.5">
+                  <div className="uppercase tracking-[0.16em] text-ink-500 text-[10px]">Next email</div>
+                  <div className="mt-0.5 text-ink-900 font-medium">When review is ready</div>
+                </div>
+                <div className="rounded-lg bg-paper ring-1 ring-ink-100 px-3 py-2.5">
+                  <div className="uppercase tracking-[0.16em] text-ink-500 text-[10px]">Retention</div>
+                  <div className="mt-0.5 text-ink-900 font-medium">Per your plan</div>
+                </div>
+                <div className="rounded-lg bg-paper ring-1 ring-ink-100 px-3 py-2.5">
+                  <div className="uppercase tracking-[0.16em] text-ink-500 text-[10px]">Refund</div>
+                  <div className="mt-0.5 text-ink-900 font-medium">14-day money back</div>
+                </div>
+              </div>
+            </>
           )}
 
           {result.document?.excerpt && (

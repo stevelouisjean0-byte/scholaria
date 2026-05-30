@@ -7,9 +7,9 @@ import { PAGE_HEROES } from "@/lib/media";
 import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Agentic AI Agent Ecosystem — ten interconnected agents",
+  title: "The reviewing system — ten coordinated review agents",
   description:
-    "Scholaria's Agentic AI Agent ecosystem — ten Claude Managed Agents organised in four tiers and coordinated by the Orchestrator through shared workflow memory. Designed for autonomous execution, intelligent validation, and research-grade precision.",
+    "Our reviewing system runs as ten Claude Managed Agents organised in four tiers — intake, methodology, editorial, QA — coordinated by the Orchestrator through shared workflow memory. Audited by a Ph.D. editorial board.",
   alternates: { canonical: "/agent-ecosystem" }
 };
 
@@ -22,7 +22,7 @@ const TIER_LABEL: Record<string, string> = {
 };
 const TIER_DESC: Record<string, string> = {
   core: "Intake, routing, and the central conductor that runs autonomous execution end-to-end.",
-  review: "The Agentic AI Agents that read, validate, and elevate the manuscript itself.",
+  review: "The reviewing agents that read, validate, and elevate the manuscript itself.",
   operations: "Billing, support, and feedback — handled without a help desk.",
   growth: "Visibility across Google, ChatGPT, and Gemini, optimised continuously."
 };
@@ -34,9 +34,9 @@ export default function Page() {
     <>
       <PageMasthead
         number="III"
-        eyebrow="Agentic AI Agent ecosystem"
-        title="Ten interconnected Agentic AI Agents. One operating system."
-        dek="Every Agentic AI Agent in Scholaria reads from and writes to a single shared memory document, coordinated by the Orchestrator through durable workflow state — autonomous execution with intelligent multi-step verification at every transition."
+        eyebrow="The reviewing system"
+        title="Ten coordinated review agents. One operating system."
+        dek="Every reviewing agent reads from and writes to a single shared memory document, coordinated by the Orchestrator through durable workflow state — with QA verification at every transition, and the rules audited by a Ph.D. editorial board."
         photo={PAGE_HEROES.enterprise}
         ctas={[
           { label: "Submit a manuscript", href: "/upload", primary: true },
@@ -51,10 +51,10 @@ export default function Page() {
           <div className="max-w-3xl">
             <span className="eyebrow">Reference</span>
             <h2 className="mt-4 h-display text-display-lg">
-              Every Agentic AI Agent, in detail.
+              Every reviewing agent, in detail.
             </h2>
             <p className="mt-4 text-[15.5px] leading-[1.7] text-ink-600">
-              The platform runs the ten Agentic AI Agents below. Each is a specialised Claude
+              The platform runs the ten reviewing agents below. Each is a specialised Claude
               Managed Agent with its own role, responsibilities, and tier. Pricing &amp; QA each
               carry a backup ID — deterministic redundancy on the two paths where a stuck call
               would block billing or block delivery.
@@ -64,7 +64,7 @@ export default function Page() {
           {TIER_ORDER.map((tier) => (
             <section key={tier} className="mt-14">
               <header className="chapter">
-                <span className="roman">{romanise(tier)}</span>
+                <span className="roman">{romanise(tier)}.</span>
                 <span className="label">{TIER_LABEL[tier]}</span>
               </header>
               <p className="-mt-6 mb-8 text-[14.5px] text-ink-600 max-w-3xl">{TIER_DESC[tier]}</p>
@@ -98,8 +98,8 @@ export default function Page() {
         <div className="container max-w-4xl">
           <span className="eyebrow text-accent-200">Autonomous revenue operations</span>
           <h2 className="mt-4 h-display text-display-lg text-white">
-            A dedicated Agentic AI Agent runs your billing — designed for autonomous execution,
-            with intelligent multi-step verification on every transaction.
+            A dedicated agent runs your billing — Stripe-native, with QA verification on every
+            transaction and an exportable audit log.
           </h2>
           <div className="mt-8 grid grid-cols-12 gap-6">
             {[

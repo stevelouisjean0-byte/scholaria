@@ -4,7 +4,7 @@ const ITEMS: [string, string][] = [
   ["Scholarly register", "Tone is calibrated for committees, chairs, and peer reviewers — not generic SaaS friendliness."],
   ["No ghostwriting", "Scholaria validates, edits, and guides. It does not author your dissertation. That is the architectural first principle."],
   ["Reproducible scores", "Submission readiness and tone scores are decomposed so you can see what would move the number — precision and consistency over opaque metrics."],
-  ["Audit trail", "Every Agentic AI Agent invocation, finding, and revision is durable, replayable, and exportable — research-grade workflow automation."]
+  ["Audit trail", "Every agent invocation, finding, and revision is durable, replayable, and exportable — defensible to your committee."]
 ];
 
 export function QualityFeatures() {
@@ -18,7 +18,7 @@ export function QualityFeatures() {
 
         <div className="grid grid-cols-12 gap-x-10 gap-y-6 items-end">
           <h2 className="col-span-12 lg:col-span-7 font-serif text-[40px] lg:text-[56px] leading-[1.04] tracking-[-0.025em] text-ink-900 balance">
-            Publication-quality output. By architecture, not by promise.
+            Publication-quality output — every finding sourced and verifiable.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
             Every output passes intelligent multi-step verification before it reaches you — designed

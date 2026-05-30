@@ -118,7 +118,7 @@ export function WhyDifferent() {
           </h2>
           <p className="mt-5 text-[16px] leading-[1.65] text-ink-600">
             Scholaria was engineered for the intelligent validation work doctoral and graduate
-            students actually have to do. Agentic AI Agents review, verify, and harden scholarly
+            students actually have to do. Reviewing agents review, verify, and harden scholarly
             writing through multi-step examination — they never author the dissertation on the
             student's behalf. That distinction is the first principle of the architecture.
           </p>

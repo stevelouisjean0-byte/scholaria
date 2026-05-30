@@ -133,6 +133,36 @@ export async function POST(req: NextRequest) {
     console.warn("[upload] failed to advance stage to intake:", err);
   }
 
+  // Transactional confirmation email — fire-and-forget, never blocks the upload.
+  // Captures an email from the form if present (free-trial upload zone supplies
+  // it as form field "email"); otherwise pulls from the linked user record.
+  const formEmail = (form.get("email") as string | null)?.trim() || null;
+  if (formEmail || userId !== "anonymous") {
+    try {
+      const { sendMail, uploadConfirmationEmail } = await import("@/lib/email");
+      let recipient = formEmail;
+      if (!recipient && userId !== "anonymous") {
+        const { rows } = await (await import("@/lib/db")).db.query(
+          "select email from users where id=$1 limit 1",
+          [userId]
+        );
+        recipient = rows[0]?.email ?? null;
+      }
+      if (recipient) {
+        const mail = uploadConfirmationEmail({
+          to: recipient,
+          jobId,
+          filename: file.name,
+          wordCount: parsed.wordCount
+        });
+        // Do not await — never block the upload response on email delivery.
+        sendMail(mail).catch(() => undefined);
+      }
+    } catch (err) {
+      console.warn("[upload] email scaffolding failed:", err);
+    }
+  }
+
   // Best-effort: also push into the Redis BullMQ queue for observability/parity
   // with the standalone worker. Cron is authoritative; this is non-blocking.
   if (redisConfigured) {

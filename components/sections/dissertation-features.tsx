@@ -23,9 +23,9 @@ export function DissertationFeatures() {
             Eight passes across every manuscript.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
-            Each pass is performed by the Agentic AI Agent best suited to it and merged into a
-            single canonical revision document through intelligent multi-step verification. None
-            of them rewrite your work — they tell you, precisely, what to revise.
+            Each pass is performed by the reviewing agent best suited to it and merged into a
+            single canonical revision document by the QA gate. None of them rewrite your work —
+            they tell you, precisely, what to revise.
           </p>
         </div>
 

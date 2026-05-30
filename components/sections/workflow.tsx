@@ -5,7 +5,7 @@ const STEPS = [
   ["01", "Manuscript uploaded", "PDF or DOCX is received over an encrypted channel, hashed, and registered in the job ledger."],
   ["02", "Lead Intake Agent", "Captures degree level, paper type, deadline, formatting style, professor feedback, and stated concerns."],
   ["03", "Project Scoping & Routing", "Scores academic complexity, classifies the paper, and selects the precise validation path and priority tier."],
-  ["04", "Orchestrator Agent", "Assigns reviewing Agentic AI Agents, maintains the shared memory document, and drives deterministic state transitions."],
+  ["04", "Orchestrator Agent", "Assigns reviewing agents, maintains the shared memory document, and drives deterministic state transitions."],
   ["05", "Validation in parallel", "Professional Editor and Research Support Agents validate the manuscript independently and post explicit, verifiable findings."],
   ["06", "Shared memory merge", "Findings are deduplicated, ranked by severity, and merged into a single canonical revision document."],
   ["07", "QA & Final Approval", "Intelligent multi-step verification, scored submission readiness, and rejection of any review that is not actionable."],
@@ -27,8 +27,8 @@ export function Workflow() {
             From upload to publication-quality package — autonomous execution, no manual hand-off.
           </h2>
           <p className="col-span-12 lg:col-span-5 text-[15px] leading-[1.75] text-ink-700 lg:border-l lg:border-ink-200 lg:pl-8">
-            Every step below is executed by a named Agentic AI Agent. Every transition is durable.
-            Every output passes intelligent multi-step verification before it ever reaches a student.
+            Every step below is executed by a named agent. Every transition is durable. Every
+            output passes a QA gate before it ever reaches a candidate.
           </p>
         </div>
 

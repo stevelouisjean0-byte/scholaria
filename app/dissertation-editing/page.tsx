@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Dissertation Editing — Ph.D., Ed.D., and DBA candidates",
   description:
-    "Agentic AI Agents for dissertation editing built for Ph.D., Ed.D., and DBA candidates. Chapter-by-chapter validation, methodology alignment, citation verification, and submission readiness scoring — designed to reduce human error and improve research accuracy.",
+    "Chapter-grade dissertation editing for Ph.D., Ed.D., and DBA candidates. Methodology alignment, APA 7 verification, citation cross-check, and submission readiness scoring delivered in 24 hours. Free first review.",
   alternates: { canonical: "/dissertation-editing" },
   keywords: [
     "agentic AI dissertation editing",
@@ -29,7 +29,7 @@ export default function DissertationEditing() {
       intro={[
         "A dissertation does not get rejected because its sentences are bad. It gets sent back because a transition is weak, a synthesis is shallow, a citation is missing, or a methodological choice is not defended. Scholaria validates your manuscript the way a methodologist on your committee would — explicitly, specifically, and with the page numbers attached.",
         "Doctoral and Ed.D. candidates work with Scholaria in two modes. Some upload a single chapter and ask for a fast, targeted validation before a chair meeting. Others run the system across the entire manuscript, with multi-chapter coherence enabled, in the final weeks before defense.",
-        "In both cases the architecture is identical underneath. The Lead Intake Agent captures your context. The Project Scoping & Routing Agent picks the precise review path. The reviewing Agentic AI Agents post findings against a shared memory document. The QA & Final Approval Agent performs intelligent multi-step verification and refuses to release anything that reads as generic or template-driven. You receive an annotated document, an APA report, a citation cross-check, and a prioritised revision plan — autonomous execution from upload to delivery."
+        "In both cases the architecture is identical underneath. The Lead Intake Agent captures your context. The Project Scoping & Routing Agent picks the precise review path. The reviewing agents post findings against a shared memory document. The QA & Final Approval Agent reviews every output and refuses to release anything that reads as generic or template-driven. You receive an annotated document, an APA report, a citation cross-check, and a prioritised revision plan — emailed when ready."
       ]}
       pillars={[
         { title: "Chapter-by-chapter validation", body: "Tone, structure, and scholarly register scored at the chapter and section level — not as a single number for the whole manuscript." },
@@ -69,7 +69,7 @@ export default function DissertationEditing() {
       ]}
       testimonialFilter={["synthesis", "tone", "readiness"]}
       ctaTitle="Upload your chapter or full manuscript."
-      ctaBody="The Agentic AI Agents engage the moment your file is received — autonomous validation, no routing overhead."
+      ctaBody="The reviewing agents engage the moment your file is received — no routing overhead, no waiting for a human assignment."
       jsonLd={{
         "@context": "https://schema.org",
         "@graph": [

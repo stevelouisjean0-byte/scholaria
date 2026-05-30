@@ -17,33 +17,47 @@ export function Hero() {
         >
           <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-white/80 ring-1 ring-ink-200 backdrop-blur text-[12px] text-ink-700">
             <Sparkles className="h-3.5 w-3.5 text-accent-500" />
-            <span>An Agentic AI operating system for doctoral research</span>
-            <span className="text-ink-300">·</span>
-            <span className="text-ink-500">Powered by Claude</span>
+            <span>Chapter-grade dissertation review · for Ph.D., Ed.D., DBA, and graduate candidates</span>
           </div>
 
           <h1 className="mt-7 h-display text-display-2xl">
-            Agentic AI Agents for advanced academic and research workflows.
+            Chapter-grade dissertation review — in 24 hours, by a coordinated review system that critiques, never authors.
           </h1>
 
           <p className="mt-6 max-w-3xl text-[18px] leading-[1.55] text-ink-600 pretty">
-            Upload your dissertation, capstone, literature review, or graduate research paper. A
-            coordinated ensemble of Agentic AI Agents validates your workflow end-to-end —
-            designed to reduce human error, improve accuracy, and deliver research-grade
-            consistency at every step.
+            Upload a chapter or full manuscript. A coordinated review system runs methodology
+            alignment, APA 7 verification, citation cross-check, and synthesis depth in one pass —
+            and returns explicit, page-anchored findings, an annotated PDF, and a 0–100 submission
+            readiness score. <strong className="text-ink-900 font-medium">Your first review is free. No credit card.</strong>
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link href="/upload" className="btn-primary">
-              Upload Your Paper
+              Upload a chapter — free
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <Link href="/how-it-works" className="btn-accent">
-              Start AI Review
+            <Link href="/sample-review" className="btn-accent">
+              See a sample review
             </Link>
-            <Link href="/services" className="btn-secondary">
-              View Dissertation Services
+            <Link href="/pricing" className="btn-secondary">
+              Compare plans
             </Link>
+          </div>
+
+          {/* Pricing + turnaround + risk-reversal strip — answers the buyer's
+              three fastest pre-commitment questions in a single visible line. */}
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-ink-600">
+            <span className="inline-flex items-center gap-1.5">
+              <span className="font-medium text-ink-900">From $0</span> · free first review
+            </span>
+            <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
+            <span className="inline-flex items-center gap-1.5">
+              <span className="font-medium text-ink-900">24–48 hour</span> turnaround
+            </span>
+            <span className="hidden sm:inline-block w-px h-3.5 bg-ink-200" />
+            <span className="inline-flex items-center gap-1.5">
+              <span className="font-medium text-ink-900">14-day</span> money-back guarantee
+            </span>
           </div>
 
           {/* Trust microbar */}

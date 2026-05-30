@@ -1,26 +1,43 @@
 import Link from "next/link";
+import Script from "next/script";
 import { PLANS } from "@/lib/plans";
-import { Check } from "lucide-react";
+import { Check, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 import { PageMasthead } from "@/components/page-masthead";
 import { PAGE_HEROES } from "@/lib/media";
 import { CheckoutButton } from "@/components/checkout-button";
+import { pricingOffers, dissertationService } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Pricing — Graduate, Doctoral, Dissertation Intensive, Enterprise",
+  title: "Pricing — Free, Graduate $49, Doctoral $129, Dissertation Intensive $299",
   description:
-    "Plans built around real academic timelines. Every tier runs on the same Agentic AI Agent architecture — higher tiers unlock more reviewing agents, faster autonomous execution, and cross-chapter coherence.",
+    "Transparent monthly pricing for chapter-grade dissertation review. Free first review, no credit card. 14-day money-back guarantee on every paid plan. Cancel anytime.",
   alternates: { canonical: "/pricing" }
 };
 
 export default function PricingPage() {
+  const pricingJsonLd = pricingOffers(
+    PLANS.map((p) => ({
+      id: p.id,
+      name: p.name,
+      description: p.positioning,
+      priceMonthly: p.priceMonthly,
+      audience: p.audience
+    }))
+  );
+  const serviceJsonLd = dissertationService();
+
   return (
     <>
+      <Script id="ld-pricing-offers" type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }} />
+      <Script id="ld-service" type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <PageMasthead
         number="V"
         eyebrow="Rates & access"
-        title="Choose the plan that matches the work in front of you."
-        dek="All plans run on the same Agentic AI Agent ecosystem. Higher tiers unlock more reviewing agents, faster autonomous execution, deeper intelligent verification, and cross-chapter coherence."
+        title="Transparent pricing. Cancel anytime. 14-day money-back."
+        dek="All plans run on the same coordinated review system. Higher tiers unlock more reviewing agents, faster turnaround, methodology + citation passes, and cross-chapter coherence."
         photo={PAGE_HEROES.pricing}
       />
 
@@ -73,22 +90,52 @@ export default function PricingPage() {
                     label={p.cta.label}
                     className={p.recommended ? "btn-primary w-full" : "btn-secondary w-full"}
                   />
+                  <p className="mt-2 text-[11.5px] text-ink-500 text-center">
+                    14-day money-back guarantee · Cancel anytime
+                  </p>
                 </div>
               ) : (
-                <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
-                  {p.cta.label}
-                </Link>
+                <>
+                  <Link href={p.cta.href} className={p.recommended ? "btn-primary mt-7 w-full" : "btn-secondary mt-7 w-full"}>
+                    {p.cta.label}
+                  </Link>
+                  {p.id === "trial" && (
+                    <p className="mt-2 text-[11.5px] text-ink-500 text-center">
+                      No credit card required
+                    </p>
+                  )}
+                </>
               )}
             </div>
           ))}
         </div>
       </section>
 
+      {/* Money-back guarantee strip — single line that answers the buyer's risk-reversal question. */}
+      <section className="bg-emerald-50/40 border-y border-emerald-700/15">
+        <div className="container py-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-[13.5px] text-ink-800">
+          <span className="inline-flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+            <strong className="font-medium">14-day money-back guarantee</strong>
+          </span>
+          <span className="hidden sm:inline-block w-px h-4 bg-emerald-700/30" />
+          <span className="inline-flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+            Cancel anytime — no contracts
+          </span>
+          <span className="hidden sm:inline-block w-px h-4 bg-emerald-700/30" />
+          <span className="inline-flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+            Free first review · no card required
+          </span>
+        </div>
+      </section>
+
       <section className="section bg-paper">
         <div className="container max-w-3xl text-center">
-          <h2 className="headline">Universities & programs</h2>
+          <h2 className="headline">Universities &amp; programs</h2>
           <p className="mt-4 text-[15.5px] leading-7 text-ink-600">
-            Deploy Scholaria across a cohort, program, or entire institution. SSO, SCIM, FERPA-aware controls,
+            Deploy across a cohort, program, or entire institution. SSO, SCIM, FERPA-aware controls,
             program-level analytics, and branded deliverables are included on the Enterprise tier.
           </p>
           <Link href="/enterprise" className="btn-primary mt-7">Talk to enterprise</Link>

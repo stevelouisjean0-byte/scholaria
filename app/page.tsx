@@ -1,28 +1,30 @@
 import { Hero } from "@/components/sections/hero";
+import { StatStrip } from "@/components/sections/stat-strip";
 import { TrustStrip } from "@/components/sections/trust-strip";
 import { LeadInCards } from "@/components/sections/lead-in-cards";
+import { AuditTrail } from "@/components/sections/audit-trail";
 import { Testimonials } from "@/components/sections/testimonials";
 import { ClosingCTA } from "@/components/sections/closing-cta";
 
 /**
- * Homepage — kept deliberately brief. Five sections only.
+ * Homepage — concise, conversion-forward.
  *
- *   1. Hero — masthead, headline, three CTAs, live product card
- *   2. Trust strip — security & cohort credibility
- *   3. Lead-in cards — three doors into the platform
- *   4. Testimonials — three voices from R1 institutions
- *   5. Closing CTA
- *
- * The dense sections (workflow, agent ecosystem, scoring, before/after,
- * why-different, security, integrity, full pricing, FAQ) live on the pages
- * where they belong. Open the lead-in cards or the nav to find them.
+ *   1. Hero — outcome-led headline, free-first-review CTA, price/turnaround/refund strip
+ *   2. StatStrip — quotable proof points
+ *   3. TrustStrip — security and cohort credibility
+ *   4. LeadInCards — three doors into the platform
+ *   5. AuditTrail — defensible-to-your-committee moat
+ *   6. Testimonials — three voices from R1 institutions
+ *   7. ClosingCTA
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <StatStrip />
       <TrustStrip />
       <LeadInCards />
+      <AuditTrail />
       <Testimonials limit={3} tone="white" />
       <ClosingCTA />
     </>

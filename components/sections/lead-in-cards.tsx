@@ -14,9 +14,9 @@ const CARDS = [
     href: "/agent-ecosystem",
     icon: Network,
     eyebrow: "The platform",
-    title: "Agentic AI Agent Ecosystem",
+    title: "The reviewing system",
     body:
-      "Eleven Claude-managed Agentic AI Agents coordinated through shared memory and durable workflow state. Each agent is auditable, deterministic, and built for precision-driven validation."
+      "Eleven Claude-managed reviewing agents coordinated through shared memory and durable workflow state. Each is auditable and deterministic — and an editorial board of Ph.D. advisors sets the standards every agent is held to."
   },
   {
     href: "/how-it-works",
@@ -24,7 +24,7 @@ const CARDS = [
     eyebrow: "The pipeline",
     title: "How it works",
     body:
-      "Autonomous execution from upload to delivery. Eleven QA-gated transitions, intelligent multi-step verification, and zero routing overhead — by architecture, not by promise."
+      "Eleven QA-gated transitions from upload to delivered package. Methodology, citations, and tone reviewed in parallel by separate agents, merged into one canonical revision document."
   }
 ];
 
@@ -39,8 +39,8 @@ export function LeadInCards() {
           </h2>
           <p className="mt-4 text-[15.5px] leading-[1.65] text-ink-600">
             The homepage is deliberately brief. Open any of these for the full architectural brief
-            on what the platform validates, how the Agentic AI Agents coordinate, and how a
-            manuscript moves through autonomous review.
+            on what the platform validates, how the reviewing agents coordinate, and how a
+            manuscript moves through review end-to-end.
           </p>
         </div>
 

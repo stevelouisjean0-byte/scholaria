@@ -1,14 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { PageMasthead } from "@/components/page-masthead";
 import { TESTIMONIALS, TESTIMONIAL_DISCLOSURE } from "@/lib/testimonials";
 import { PAGE_HEROES } from "@/lib/media";
-import { GraduationCap } from "lucide-react";
+import { reviewsAggregate } from "@/lib/jsonld";
+import { GraduationCap, ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Reviews — voices from the doctoral cohort",
   description:
-    "Feedback from doctoral candidates at R1 institutions and well-known graduate programmes using Scholaria for dissertation review and scholarly editing.",
+    "Feedback from doctoral candidates at R1 institutions and well-known graduate programs. NYC, NJ, CT cohort.",
   alternates: { canonical: "/reviews" }
 };
 
@@ -33,9 +36,20 @@ const HIGHLIGHT_LABEL: Record<string, string> = {
 
 export default function ReviewsPage() {
   const institutions = groupByInstitution();
+  const reviewsJsonLd = reviewsAggregate(
+    TESTIMONIALS.map((t) => ({
+      authorName: t.initials,
+      authorRole: t.program,
+      institution: t.institution,
+      body: t.quote,
+      rating: 5
+    }))
+  );
 
   return (
     <>
+      <Script id="ld-reviews-aggregate" type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsJsonLd) }} />
       <PageMasthead
         number="VI"
         eyebrow="Reviews · correspondence"
@@ -133,6 +147,34 @@ export default function ReviewsPage() {
           <p className="mt-10 text-[12px] text-ink-500 italic max-w-3xl">
             {TESTIMONIAL_DISCLOSURE}
           </p>
+        </div>
+      </section>
+
+      {/* Closing conversion section directly after high-conviction quotes. */}
+      <section className="bg-ink-900 text-white">
+        <div className="container py-16 max-w-3xl text-center">
+          <h2 className="font-serif text-[32px] lg:text-[40px] leading-tight text-white balance">
+            Your first chapter review is free.
+          </h2>
+          <p className="mt-4 text-white/80 max-w-xl mx-auto">
+            No credit card. 24-hour turnaround. We email you the annotated PDF, APA report, and
+            revision plan.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/upload"
+              className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full bg-white text-ink-900 text-[14px] font-medium hover:bg-ink-100 transition"
+            >
+              Upload your chapter
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/sample-review"
+              className="inline-flex items-center gap-1.5 h-11 px-6 rounded-full ring-1 ring-white/30 text-white text-[14px] font-medium hover:bg-white/10 transition"
+            >
+              See a sample review
+            </Link>
+          </div>
         </div>
       </section>
     </>

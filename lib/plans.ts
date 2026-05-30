@@ -23,7 +23,7 @@ export const PLANS: Plan[] = [
     priceMonthly: 0,
     priceAnnual: 0,
     audience: "Sample the platform",
-    positioning: "One full review of a short manuscript so you can see how Scholaria writes.",
+    positioning: "One full chapter review so you can see exactly what we deliver before you pay.",
     uploadLimit: "1 manuscript · up to 4,000 words",
     storage: "7-day retention",
     turnaround: "Standard queue",
