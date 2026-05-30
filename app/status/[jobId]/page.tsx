@@ -98,7 +98,13 @@ function fmtTime(d: Date | null): string {
   });
 }
 
-export default async function StatusPage({ params }: { params: { jobId: string } }) {
+export default async function StatusPage({
+  params,
+  searchParams
+}: {
+  params: { jobId: string };
+  searchParams?: { token?: string };
+}) {
   const job = await getJob(params.jobId);
   if (!job) return notFound();
   const events = await getEvents(params.jobId);
@@ -116,7 +122,14 @@ export default async function StatusPage({ params }: { params: { jobId: string }
   const finalRec = formal?.finalRecommendation as string | undefined;
   const readiness = job.memory?.qa?.submissionReadiness as number | string | undefined;
   const quality = job.memory?.qa?.qualityScore as number | string | undefined;
-  const pdfUrl = `/api/jobs/${job.id}/report.pdf`;
+  const storedDeliveryToken =
+    typeof job.upload_meta?.deliveryToken === "string" ? job.upload_meta.deliveryToken : undefined;
+  const providedDeliveryToken = typeof searchParams?.token === "string" ? searchParams.token : undefined;
+  const tokenQuery =
+    storedDeliveryToken && providedDeliveryToken === storedDeliveryToken
+      ? `?token=${encodeURIComponent(storedDeliveryToken)}`
+      : "";
+  const pdfUrl = `/api/jobs/${job.id}/report.pdf${tokenQuery}`;
   const intake = (job.upload_meta?.intake ?? {}) as Record<string, string>;
   const clientName = [intake.firstName, intake.lastName].filter(Boolean).join(" ") || null;
 
@@ -330,7 +343,7 @@ export default async function StatusPage({ params }: { params: { jobId: string }
               <Link href="/upload" className="btn-ghost">Submit another chapter</Link>
             </div>
             <p className="mt-3 text-[12px] text-ink-500">
-              PDF download is gated to the signed-in account that submitted this manuscript.
+              PDF download is available from your private email link or the signed-in account that submitted this manuscript.
             </p>
           </div>
         )}

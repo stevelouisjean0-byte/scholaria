@@ -4,7 +4,11 @@ import { requireAdmin } from "@/lib/admin";
 import { runDelivery } from "@/lib/orchestrator";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// Longer than the cron tick (60s) because the report agent's 6k-token
+// structured response on a large reviewer-finding context can take 60-90s
+// wall-clock. The orchestrator's per-call SDK timeout is 100s; this leaves
+// ~20s for the email send + DB write + JSON serialization.
+export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 /**

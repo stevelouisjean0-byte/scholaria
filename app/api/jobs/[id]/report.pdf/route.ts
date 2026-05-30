@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
  * deliverable when the job id matches the canonical preview job, so the
  * /preview/sample-report page can render without a DB hit.
  */
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   let filename: string;
   let manuscript: { wordCount: number; pageCount: number };
   let memory: any;
@@ -52,8 +52,16 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
       );
       if (!rows.length) return NextResponse.json({ error: "not found" }, { status: 404 });
 
-      // Owner check
-      if (!isAdmin && (!viewerClerkId || rows[0].user_id !== viewerClerkId)) {
+      const providedToken = req.nextUrl.searchParams.get("token");
+      const deliveryToken =
+        typeof rows[0].upload_meta?.deliveryToken === "string"
+          ? rows[0].upload_meta.deliveryToken
+          : undefined;
+      const tokenOk = Boolean(deliveryToken && providedToken && providedToken === deliveryToken);
+
+      // Owner check. Anonymous paid uploads are delivered through a private
+      // per-job tokenized email link because they do not have a Clerk owner.
+      if (!isAdmin && !tokenOk && (!viewerClerkId || rows[0].user_id !== viewerClerkId)) {
         return NextResponse.json({ error: "not found" }, { status: 404 });
       }
 

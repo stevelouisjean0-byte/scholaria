@@ -30,10 +30,11 @@ import {
   readMemory,
   writeMemory
 } from "./memory";
-import { QUEUE_NAMES, queue } from "./queue";
+import { QUEUE_NAMES, enqueueOptional, type QueueName } from "./queue";
 import { db } from "./db";
 import { recordWorkflowEvent } from "./telemetry";
 import { z } from "zod";
+import { randomBytes } from "crypto";
 
 export type WorkflowStage =
   | "uploaded"
@@ -46,13 +47,30 @@ export type WorkflowStage =
   | "needs_manual_review"
   | "failed";
 
+async function enqueueWorkflowJob(
+  jobId: string,
+  queueName: QueueName,
+  jobName: string,
+  data: Record<string, unknown>
+) {
+  const result = await enqueueOptional(queueName, jobName, data);
+  if (!result.ok && !result.skipped) {
+    await recordWorkflowEvent(jobId, "queue.enqueue_failed", {
+      queue: queueName,
+      jobName,
+      error: result.error
+    });
+  }
+  return result;
+}
+
 function countWords(s: string): number {
   return (s ?? "").trim().split(/\s+/).filter(Boolean).length;
 }
 
 export async function enqueueIntake(jobId: string) {
   await setStage(jobId, "intake");
-  await queue(QUEUE_NAMES.intake).add("intake", { jobId });
+  await enqueueWorkflowJob(jobId, QUEUE_NAMES.intake, "intake", { jobId });
   await recordWorkflowEvent(jobId, "queued.intake");
 }
 
@@ -82,7 +100,7 @@ export async function runIntake(jobId: string) {
   await recordWorkflowEvent(jobId, "intake.complete", intake);
 
   await setStage(jobId, "scoping");
-  await queue(QUEUE_NAMES.scope).add("scope", { jobId });
+  await enqueueWorkflowJob(jobId, QUEUE_NAMES.scope, "scope", { jobId });
 }
 
 export async function runScoping(jobId: string) {
@@ -121,7 +139,7 @@ export async function runScoping(jobId: string) {
   const effective: AgentKey[] = fanout.length > 0 ? fanout : ["research_intelligence"];
 
   for (const agent of effective) {
-    await queue(QUEUE_NAMES.review).add("review", { jobId, agent });
+    await enqueueWorkflowJob(jobId, QUEUE_NAMES.review, "review", { jobId, agent });
   }
   await db.query("update jobs set reviews_expected=$2 where id=$1", [jobId, effective.length]);
   await recordWorkflowEvent(jobId, "fanout.assigned", { effective });
@@ -263,7 +281,7 @@ export async function runReview(jobId: string, agent: AgentKey) {
   const { reviews_received, reviews_expected } = counts.rows[0];
   if (reviews_received >= reviews_expected) {
     await setStage(jobId, "qa");
-    await queue(QUEUE_NAMES.qa).add("qa", { jobId });
+    await enqueueWorkflowJob(jobId, QUEUE_NAMES.qa, "qa", { jobId });
   }
 }
 
@@ -291,7 +309,7 @@ export async function runQA(jobId: string) {
   if (!qa.passed && priorAttempts < MAX_QA_ATTEMPTS) {
     // Recovery: requeue the weakest review based on QA notes.
     await recordWorkflowEvent(jobId, "qa.recovery_triggered", { notes: qa.notes, attempt: priorAttempts });
-    await queue(QUEUE_NAMES.review).add("review", { jobId, agent: "professional_editor" });
+    await enqueueWorkflowJob(jobId, QUEUE_NAMES.review, "review", { jobId, agent: "professional_editor" });
     return;
   }
 
@@ -302,7 +320,7 @@ export async function runQA(jobId: string) {
   }
 
   await setStage(jobId, "delivering");
-  await queue(QUEUE_NAMES.delivery).add("delivery", { jobId });
+  await enqueueWorkflowJob(jobId, QUEUE_NAMES.delivery, "delivery", { jobId });
 }
 
 // Strict shape for the formal client-facing deliverable. The orchestrator
@@ -595,12 +613,14 @@ export async function runDelivery(jobId: string) {
         manuscript: { filename, displayId, servicePurchased }
       },
       system: formalReportSystem() + extraGuard,
-      // Haiku 4.5 is the default — fast enough to finish inside the cron's 60s
-      // budget for a ~6k-token structured response, and it consistently produces
-      // formal academic prose when the prompt is this explicit. Sonnet is
-      // available via env override for higher prose polish at higher cost +
-      // latency. If you flip to Sonnet, also raise the route's maxDuration.
+      // Haiku 4.5 default — large structured outputs (12 sections, ~6k tokens)
+      // can take 30-60s wall-clock when the prompt + context is large. The
+      // 100s timeoutMs only kicks in on /api/admin/rerun-delivery
+      // (maxDuration=120). On the cron tick (maxDuration=60) Vercel terminates
+      // before this timeout fires, which is the desired behaviour — the next
+      // tick will retry. Sonnet via env override yields higher prose polish.
       maxTokens: 6000,
+      timeoutMs: 100_000,
       model: process.env.ANTHROPIC_REPORT_MODEL ?? "claude-haiku-4-5-20251001",
       bypassManagedAgent: true
     });
@@ -665,7 +685,7 @@ export async function runDelivery(jobId: string) {
   const report = legacyReport;
 
   await setStage(jobId, "delivered");
-  await queue(QUEUE_NAMES.notify).add("notify", { jobId });
+  await enqueueWorkflowJob(jobId, QUEUE_NAMES.notify, "notify", { jobId });
   await recordWorkflowEvent(jobId, "delivery.complete");
 
   // Send completion email to the student and a delivery-confirmation
@@ -680,11 +700,22 @@ export async function runDelivery(jobId: string) {
     // Pull the canonical display_id and filename from Postgres so the
     // email matches the on-site display exactly.
     const { rows } = await db.query(
-      "select display_id, filename from jobs where id=$1",
+      "select display_id, filename, upload_meta from jobs where id=$1",
       [jobId]
     );
     const displayId = (rows[0]?.display_id as string | undefined) ?? jobId;
     const filename = (rows[0]?.filename as string | undefined) ?? "your manuscript";
+    let deliveryToken = (rows[0]?.upload_meta?.deliveryToken as string | undefined) ?? undefined;
+    if (!deliveryToken) {
+      deliveryToken = randomBytes(24).toString("base64url");
+      await db.query(
+        `update jobs
+            set upload_meta = coalesce(upload_meta, '{}'::jsonb) || jsonb_build_object('deliveryToken', $2::text),
+                updated_at = now()
+          where id = $1`,
+        [jobId, deliveryToken]
+      );
+    }
 
     const { sendMail, reviewReadyEmail, ownerDeliveryEmail } = await import("./email");
 
@@ -698,7 +729,8 @@ export async function runDelivery(jobId: string) {
         readiness: mem.qa?.submissionReadiness,
         quality: mem.qa?.qualityScore,
         executiveSummary: report.executiveSummary,
-        revisionPlan: report.revisionPlan
+        revisionPlan: report.revisionPlan,
+        deliveryToken
       });
       const res = await sendMail(mail);
       await recordWorkflowEvent(jobId, "notify.student", {

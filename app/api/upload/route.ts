@@ -149,6 +149,7 @@ export async function POST(req: NextRequest) {
   let persistError: string | null = null;
   let displayId: string | null = null;
   const receivedAt = new Date();
+  const deliveryToken = nanoid(32);
 
   try {
     const { db } = await import("@/lib/db");
@@ -180,6 +181,7 @@ export async function POST(req: NextRequest) {
       documentKind: parsed.kind,
       pageCount: parsed.pageCount,
       displayId,
+      deliveryToken,
       intake
     };
 
@@ -231,14 +233,15 @@ export async function POST(req: NextRequest) {
   try {
     const { db } = await import("@/lib/db");
     await db.query(
-      "update jobs set stage='intake', updated_at=now() where id=$1",
+      "update jobs set stage='intake', updated_at=now() - interval '30 seconds' where id=$1",
       [jobId]
     );
   } catch (err) {
     console.warn("[upload] failed to advance stage to intake:", err);
   }
 
-  // Client confirmation email + owner notification email. Both fire-and-forget.
+  // Client confirmation email + owner notification email. Await both so
+  // serverless runtimes cannot freeze the request before the sends complete.
   await sendNotificationEmails({
     jobId,
     displayId: displayId!,
@@ -247,7 +250,8 @@ export async function POST(req: NextRequest) {
     sizeBytes,
     intake,
     fullName,
-    receivedAt
+    receivedAt,
+    deliveryToken
   });
 
   // Best-effort Redis enqueue (observability parity).
@@ -293,6 +297,7 @@ interface NotificationInput {
   intake: Record<string, string>;
   fullName: string;
   receivedAt: Date;
+  deliveryToken: string;
 }
 
 async function sendNotificationEmails(input: NotificationInput) {
@@ -307,9 +312,16 @@ async function sendNotificationEmails(input: NotificationInput) {
         displayId: input.displayId,
         filename: input.filename,
         wordCount: input.wordCount,
-        firstName: input.intake.firstName
+        firstName: input.intake.firstName,
+        deliveryToken: input.deliveryToken
       });
-      sendMail(mail).catch(() => undefined);
+      const res = await sendMail(mail);
+      await recordUploadEmail(input.jobId, "notify.student.receipt", {
+        to: input.intake.email,
+        ok: res.ok,
+        id: res.id,
+        error: res.error
+      });
     }
 
     // Owner notification — always fires (you want to know about every submission).
@@ -324,9 +336,24 @@ async function sendNotificationEmails(input: NotificationInput) {
       intake: input.intake,
       receivedAt: input.receivedAt
     });
-    sendMail(ownerMail).catch(() => undefined);
+    const ownerRes = await sendMail(ownerMail);
+    await recordUploadEmail(input.jobId, "notify.owner.receipt", {
+      to: OWNER_INBOX,
+      ok: ownerRes.ok,
+      id: ownerRes.id,
+      error: ownerRes.error
+    });
   } catch (err) {
     console.warn("[upload] notification scaffolding failed:", err);
+  }
+}
+
+async function recordUploadEmail(jobId: string, event: string, payload: unknown) {
+  try {
+    const { recordWorkflowEvent } = await import("@/lib/telemetry");
+    await recordWorkflowEvent(jobId, event, payload);
+  } catch (err) {
+    console.warn("[upload] failed to record notification event:", err);
   }
 }
 
@@ -337,9 +364,13 @@ function triggerCron(req: NextRequest) {
     if (!host) return;
     const cronUrl = `${proto}://${host}/api/cron/tick`;
     const cronSecret = process.env.CRON_SECRET;
+    if (!cronSecret) {
+      console.warn("[upload] CRON_SECRET is not configured; scheduled cron must advance the job.");
+      return;
+    }
     fetch(cronUrl, {
       method: "POST",
-      headers: cronSecret ? { authorization: `Bearer ${cronSecret}` } : undefined
+      headers: { authorization: `Bearer ${cronSecret}` }
     }).catch(() => undefined);
   } catch {
     /* non-fatal */

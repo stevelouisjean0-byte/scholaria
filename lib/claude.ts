@@ -26,6 +26,11 @@ export interface AgentInvocationInput {
    *  Useful when you need to force a specific model (Sonnet on the review hot
    *  path) that may differ from the Managed Agent's Console-configured model. */
   bypassManagedAgent?: boolean;
+  /** Override the default 45s SDK timeout. Use for long structured-output
+   *  calls (e.g. the 6k-token formal report) that may exceed 45s on Haiku
+   *  when the prompt is large. Callers using this MUST also ensure their
+   *  route's maxDuration is at least timeoutMs/1000 + ~15s headroom. */
+  timeoutMs?: number;
 }
 
 export interface AgentInvocationResult {
@@ -51,9 +56,11 @@ export async function invokeAgent(input: AgentInvocationInput): Promise<AgentInv
   const userBlocks = buildUserMessage(input.task, input.context);
 
   // Hard client-side timeout so a slow Anthropic response never starves the
-  // 60s serverless budget — leaving us no time to write back to Postgres.
-  // 45s gives the handler ~15s of headroom for the DB write + JSON parsing.
-  const REQUEST_TIMEOUT_MS = 45_000;
+  // serverless budget — leaving us no time to write back to Postgres.
+  // Default 45s gives the cron's 60s handler ~15s of headroom. Callers on
+  // longer routes (e.g. rerun-delivery with maxDuration=120) can pass a
+  // larger timeoutMs.
+  const REQUEST_TIMEOUT_MS = input.timeoutMs ?? 45_000;
   const useManagedAgent = !input.bypassManagedAgent;
   const response = (await client.messages.create(
     {

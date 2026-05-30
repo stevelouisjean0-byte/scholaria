@@ -61,10 +61,13 @@ export function uploadConfirmationEmail(opts: {
   wordCount: number;
   firstName?: string;
   planEta?: string;
+  deliveryToken?: string;
 }): MailInput {
   const eta = opts.planEta ?? "within 24 hours (6–12 hours on Dissertation Intensive)";
   const greeting = opts.firstName ? `Hi ${escape(opts.firstName)},` : "Hi,";
   const display = opts.displayId ?? opts.jobId;
+  const tokenQuery = opts.deliveryToken ? `?token=${encodeURIComponent(opts.deliveryToken)}` : "";
+  const statusUrl = `${BASE}/status/${opts.jobId}${tokenQuery}`;
   const html = `
 <!DOCTYPE html>
 <html><body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1d2b; line-height: 1.55;">
@@ -94,7 +97,7 @@ export function uploadConfirmationEmail(opts: {
   </ol>
 
   <p style="margin: 28px 0;">
-    <a href="${BASE}/status/${opts.jobId}" style="display: inline-block; background: #1a1d2b; color: #fff; padding: 10px 18px; border-radius: 9999px; text-decoration: none; font-weight: 500; font-size: 14px;">Track your review →</a>
+    <a href="${statusUrl}" style="display: inline-block; background: #1a1d2b; color: #fff; padding: 10px 18px; border-radius: 9999px; text-decoration: none; font-weight: 500; font-size: 14px;">Track your review -&gt;</a>
   </p>
 
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;" />
@@ -125,7 +128,7 @@ export function uploadConfirmationEmail(opts: {
     "  5. QA & Final Approval",
     "  6. Delivery — annotated PDF, APA report, revision plan, emailed to you",
     "",
-    `Track your review: ${BASE}/status/${opts.jobId}`,
+    `Track your review: ${statusUrl}`,
     "",
     "Questions? Reply to this email or contact founder Steve Louis-Jean directly:",
     "  support@doctoralediting.com  ·  (407) 850-8823",
@@ -249,6 +252,7 @@ export function reviewReadyEmail(opts: {
   quality?: number | string;
   executiveSummary?: string;
   revisionPlan?: string[];
+  deliveryToken?: string;
 }): MailInput {
   const greeting = opts.firstName ? `Hi ${escape(opts.firstName)},` : "Hi,";
   const readiness = opts.readiness !== undefined ? String(opts.readiness) : "—";
@@ -268,8 +272,9 @@ export function reviewReadyEmail(opts: {
     ? "\nTop revision priorities:\n" + planItems.map((s, i) => `  ${i + 1}. ${s}`).join("\n") + "\n"
     : "";
 
-  const pdfUrl = `${BASE}/api/jobs/${opts.jobId}/report.pdf`;
-  const statusUrl = `${BASE}/status/${opts.jobId}`;
+  const tokenQuery = opts.deliveryToken ? `?token=${encodeURIComponent(opts.deliveryToken)}` : "";
+  const pdfUrl = `${BASE}/api/jobs/${opts.jobId}/report.pdf${tokenQuery}`;
+  const statusUrl = `${BASE}/status/${opts.jobId}${tokenQuery}`;
   const dashboardUrl = `${BASE}/dashboard`;
 
   const html = `
@@ -302,7 +307,7 @@ export function reviewReadyEmail(opts: {
     <a href="${statusUrl}" style="display:inline-block;background:#f3f4f6;color:#1a1d2b;padding:10px 18px;border-radius:9999px;text-decoration:none;font-weight:500;font-size:14px;">View on the web</a>
   </p>
 
-  <p style="font-size:13.5px;color:#3d4557;">You can also access this report any time from your <a href="${dashboardUrl}" style="color:#1a1d2b;">dashboard</a>. The PDF link above requires you to be signed in to the account that submitted the manuscript.</p>
+  <p style="font-size:13.5px;color:#3d4557;">You can also access this report any time from your <a href="${dashboardUrl}" style="color:#1a1d2b;">dashboard</a>. Keep this email link private; it is tied to this submission.</p>
 
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:32px 0;" />
 
