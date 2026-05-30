@@ -28,43 +28,31 @@ export async function GET(req: NextRequest) {
     "select stage, count(*)::int as n from jobs group by stage order by stage"
   );
 
+  // NOTE: jsonb_object_keys() is a set-returning function — in a top-level
+  // SELECT it drops rows whose review set is empty (kills any fresh upload).
+  // Use a correlated subquery to fold the keys into an array per row instead.
+  const SELECT_COLS = `
+    id, display_id, filename, stage, word_count, reviews_received, reviews_expected,
+    upload_meta, updated_at, created_at,
+    memory->'report'->>'executiveSummary' as executive_summary,
+    memory->'qa'->>'submissionReadiness' as submission_readiness,
+    memory->'qa'->>'qualityScore' as quality_score,
+    coalesce(
+      (select array_agg(k) from jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) k),
+      '{}'
+    ) as reviews_completed
+  `;
+
   const recent = await db.query(
     filterId
-      ? `select id, display_id, filename, stage, word_count, reviews_received, reviews_expected,
-                upload_meta, updated_at, created_at,
-                memory->'report'->>'executiveSummary' as executive_summary,
-                memory->'qa'->>'submissionReadiness' as submission_readiness,
-                memory->'qa'->>'qualityScore' as quality_score,
-                jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) as review_keys
-           from jobs
-          where id = $1 or display_id = $1`
-      : `select id, display_id, filename, stage, word_count, reviews_received, reviews_expected,
-                upload_meta, updated_at, created_at,
-                memory->'report'->>'executiveSummary' as executive_summary,
-                memory->'qa'->>'submissionReadiness' as submission_readiness,
-                memory->'qa'->>'qualityScore' as quality_score,
-                jsonb_object_keys(coalesce(memory->'reviews','{}'::jsonb)) as review_keys
-           from jobs
-          order by created_at desc
-          limit $1`,
+      ? `select ${SELECT_COLS} from jobs where id = $1 or display_id = $1`
+      : `select ${SELECT_COLS} from jobs order by created_at desc limit $1`,
     filterId ? [filterId] : [limit]
   );
-
-  // Group review_keys per job (jsonb_object_keys returns one row per key).
-  const jobsMap = new Map<string, any>();
-  for (const r of recent.rows) {
-    let row = jobsMap.get(r.id);
-    if (!row) {
-      row = { ...r, reviews_completed: [] as string[] };
-      delete row.review_keys;
-      jobsMap.set(r.id, row);
-    }
-    if (r.review_keys) row.reviews_completed.push(r.review_keys);
-  }
 
   return NextResponse.json({
     ok: true,
     byStage: byStage.rows,
-    recent: Array.from(jobsMap.values())
+    recent: recent.rows
   });
 }
