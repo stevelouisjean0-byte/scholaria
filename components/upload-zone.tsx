@@ -205,9 +205,9 @@ export function UploadZone() {
                   are ready — typically within 24 hours (6–12 hours on Dissertation Intensive).
                 </p>
                 <p className="mt-3 text-[12.5px] text-ink-300">
-                  📧 A confirmation email is on its way. If you don't see it within 5 minutes,
-                  check spam or write to{" "}
-                  <span className="underline underline-offset-4">concierge@dissertationeditingcenter.com</span>.
+                  📧 If you supplied an email, a confirmation is on the way. If you don't see it
+                  within 5 minutes (check spam), use the "Email this to me" button below or write
+                  to <span className="underline underline-offset-4">concierge@dissertationeditingcenter.com</span> with your confirmation ID.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-4">
                   <a
@@ -215,6 +215,26 @@ export function UploadZone() {
                     className="inline-flex items-center gap-1.5 text-[13px] text-white underline underline-offset-4"
                   >
                     Track your review →
+                  </a>
+                  <a
+                    href={`mailto:?subject=${encodeURIComponent(
+                      `Dissertation Editing Center — Confirmation ${result.jobId}`
+                    )}&body=${encodeURIComponent(
+                      [
+                        `Confirmation ID: ${result.jobId}`,
+                        file ? `Manuscript:        ${file.name}` : "",
+                        result.document ? `Word count:        ${result.document.wordCount.toLocaleString()}` : "",
+                        `Estimated time:    within 24 hours`,
+                        ``,
+                        `Track your review: https://dissertationeditingcenter.com/status/${result.jobId}`,
+                        ``,
+                        `We will email the annotated PDF, APA report, and revision plan when ready.`,
+                        `Questions: concierge@dissertationeditingcenter.com`
+                      ].filter(Boolean).join("\n")
+                    )}`}
+                    className="inline-flex items-center gap-1.5 text-[13px] text-white underline underline-offset-4"
+                  >
+                    Email this receipt to me →
                   </a>
                   <a
                     href="/dashboard"

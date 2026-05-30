@@ -3,6 +3,7 @@ import { ShieldCheck, Building2, BarChart3, Users, FileLock2, GraduationCap, Arr
 import type { Metadata } from "next";
 import { PageMasthead } from "@/components/page-masthead";
 import { PAGE_HEROES } from "@/lib/media";
+import { EnterpriseDemoForm } from "@/components/enterprise-demo-form";
 
 export const metadata: Metadata = {
   title: "Enterprise & University Solutions",
@@ -143,24 +144,17 @@ export default function EnterprisePage() {
             lead and your writing-center director if you can.
           </p>
 
-          <div className="mt-8 rounded-xl ring-1 ring-white/20 bg-white/[0.03] p-6">
-            <div className="text-[11px] uppercase tracking-[0.22em] text-white/60">Schedule</div>
-            {/* Cal.com inline embed via Cal.com iframe.  Replace data-cal-link
-                with your team handle. The iframe approach renders even without
-                the embed JS so the page never appears empty. */}
-            <iframe
-              title="Book a 20-minute demo"
-              src="https://cal.com/dissertation-editing-center/enterprise-demo?embed=true&theme=dark"
-              className="mt-4 w-full h-[560px] rounded-md bg-white"
-              loading="lazy"
-            />
-            <p className="mt-3 text-[12px] text-white/60">
-              Trouble booking? Email{" "}
-              <a href="mailto:enterprise@dissertationeditingcenter.com" className="underline underline-offset-4">
-                enterprise@dissertationeditingcenter.com
-              </a>{" "}
-              with three time windows and we'll confirm directly.
+          <div className="mt-8 rounded-xl ring-1 ring-white/20 bg-white/[0.03] p-6 lg:p-8">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-white/60">Request</div>
+            <h3 className="mt-1 font-serif text-[22px] text-white">
+              Suggest three time windows. We'll confirm by reply.
+            </h3>
+            <p className="mt-2 text-[13px] text-white/70">
+              Replies arrive within one business hour during operating hours (Mon–Fri 9am–7pm ET).
             </p>
+            <div className="mt-6">
+              <EnterpriseDemoForm />
+            </div>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4">

@@ -37,13 +37,29 @@ export function siteGraph() {
           addressRegion: "NY",
           addressCountry: "US"
         },
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer support",
-          email: "concierge@dissertationeditingcenter.com",
-          areaServed: ["US", "GB", "CA", "AU", "EU"],
-          availableLanguage: ["en"]
-        },
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: "concierge@dissertationeditingcenter.com",
+            areaServed: ["US", "GB", "CA", "AU", "EU"],
+            availableLanguage: ["en"],
+            hoursAvailable: "Mo-Fr 09:00-19:00, Sa 10:00-16:00 America/New_York"
+          },
+          {
+            "@type": "ContactPoint",
+            contactType: "sales",
+            email: "enterprise@dissertationeditingcenter.com",
+            areaServed: ["US", "GB", "CA", "AU", "EU"],
+            availableLanguage: ["en"]
+          },
+          {
+            "@type": "ContactPoint",
+            contactType: "privacy",
+            email: "privacy@dissertationeditingcenter.com",
+            availableLanguage: ["en"]
+          }
+        ],
         description:
           "Agentic AI operating system for doctoral research. A coordinated ecosystem of Agentic AI Agents that validate scholarly workflows, perform intelligent multi-step verification, and reduce human error across dissertation review, literature synthesis, methodology alignment, and citation integrity.",
         knowsAbout: [

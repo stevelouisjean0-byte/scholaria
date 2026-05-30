@@ -112,12 +112,15 @@ export default function SampleReviewPage() {
             <a
               href="/samples/dec-sample-review.pdf"
               className="inline-flex items-center gap-2 text-[14px] text-ink-900 underline underline-offset-[6px] decoration-1 hover:decoration-2"
+              target="_blank"
+              rel="noopener"
             >
               <Download className="h-4 w-4" />
-              Download the full sample review (redacted PDF, ~6 MB)
+              Open the full sample review PDF
             </a>
             <p className="mt-1 text-[12.5px] text-ink-500 italic">
-              No email required. The download is a 12-page redacted excerpt.
+              No email required. Generated on-demand from the sample fixture so it always reflects
+              current output quality.
             </p>
           </div>
         </div>

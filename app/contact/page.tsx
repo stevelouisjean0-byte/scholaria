@@ -60,11 +60,13 @@ export default function ContactPage() {
                 <li className="flex items-start gap-3">
                   <Phone className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
                   <div>
-                    <div className="text-ink-900 font-medium">Phone (US)</div>
-                    <a href="tel:+19295552468" className="underline underline-offset-4">
-                      (929) 555-2468
+                    <div className="text-ink-900 font-medium">Live calls (priority line)</div>
+                    <a href="/enterprise#book-demo" className="underline underline-offset-4">
+                      Book a 20-min call →
                     </a>
-                    <div className="text-[12.5px] text-ink-500 mt-0.5">Dissertation Intensive & Enterprise priority line</div>
+                    <div className="text-[12.5px] text-ink-500 mt-0.5">
+                      We confirm by reply within 1 business hour during operating hours.
+                    </div>
                   </div>
                 </li>
               </ul>
