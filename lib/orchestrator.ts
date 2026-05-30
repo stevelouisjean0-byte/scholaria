@@ -169,17 +169,29 @@ const findingSchema = z
     page: typeof f.page === "string" ? parseInt(f.page, 10) || undefined : f.page
   }));
 
+// Coerces null/string/number to a 0-100 number. Agents sometimes return
+// "scholarlyTone": null when they have no opinion — accept it.
+const score = z
+  .union([z.number(), z.string(), z.null()])
+  .optional()
+  .transform((v) => {
+    if (v === null || v === undefined || v === "") return undefined;
+    const n = typeof v === "number" ? v : parseFloat(String(v));
+    if (isNaN(n)) return undefined;
+    return Math.max(0, Math.min(100, n));
+  });
+
 const reviewSchema = z
   .object({
     agentKey: z.string().optional(),
-    scholarlyTone: z.number().min(0).max(100).optional().default(0),
-    clarity: z.number().min(0).max(100).optional().default(0),
-    apaCompliance: z.number().min(0).max(100).optional(),
-    literatureSynthesis: z.number().min(0).max(100).optional(),
-    methodologyAlignment: z.number().min(0).max(100).optional(),
-    citationAccuracy: z.number().min(0).max(100).optional(),
-    findings: z.array(findingSchema).default([]),
-    summary: z.string().optional().default("")
+    scholarlyTone: score.transform((v) => v ?? 0),
+    clarity: score.transform((v) => v ?? 0),
+    apaCompliance: score,
+    literatureSynthesis: score,
+    methodologyAlignment: score,
+    citationAccuracy: score,
+    findings: z.array(findingSchema).optional().default([]),
+    summary: z.union([z.string(), z.null()]).optional().transform((v) => v ?? "")
   })
   .passthrough();
 
