@@ -277,14 +277,22 @@ export async function runQA(jobId: string) {
   });
 
   const qa = parseJson<QASnapshot>(out.text);
-  await writeMemory(jobId, { qa });
-  await recordWorkflowEvent(jobId, "qa.complete", qa);
+  const priorAttempts = ((mem as any).qaAttempts ?? 0) + 1;
+  await writeMemory(jobId, { qa, qaAttempts: priorAttempts } as any);
+  await recordWorkflowEvent(jobId, "qa.complete", { ...qa, attempt: priorAttempts });
 
-  if (!qa.passed) {
+  const MAX_QA_ATTEMPTS = 3;
+  if (!qa.passed && priorAttempts < MAX_QA_ATTEMPTS) {
     // Recovery: requeue the weakest review based on QA notes.
-    await recordWorkflowEvent(jobId, "qa.recovery_triggered", qa.notes);
+    await recordWorkflowEvent(jobId, "qa.recovery_triggered", { notes: qa.notes, attempt: priorAttempts });
     await queue(QUEUE_NAMES.review).add("review", { jobId, agent: "professional_editor" });
     return;
+  }
+
+  if (!qa.passed) {
+    // Out of retries — deliver anyway with low scores recorded so the
+    // student still gets feedback rather than the job stalling forever.
+    await recordWorkflowEvent(jobId, "qa.recovery_exhausted", { attempt: priorAttempts });
   }
 
   await setStage(jobId, "delivering");
