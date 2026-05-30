@@ -143,8 +143,8 @@ function Brief() {
         </Text>
 
         <View style={styles.footer} fixed>
-          <Text>Dissertation Editing Center · dissertationeditingcenter.com</Text>
-          <Text>enterprise@dissertationeditingcenter.com</Text>
+          <Text>Dissertation Editing Center · operated by Nexus AI Horizon · dissertationeditingcenter.com</Text>
+          <Text>Steve Louis-Jean · slouisjean@nxaihorizon.com · (407) 850-8823</Text>
         </View>
       </Page>
     </Document>

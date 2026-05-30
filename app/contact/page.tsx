@@ -60,12 +60,12 @@ export default function ContactPage() {
                 <li className="flex items-start gap-3">
                   <Phone className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
                   <div>
-                    <div className="text-ink-900 font-medium">Live calls (priority line)</div>
-                    <a href="/enterprise#book-demo" className="underline underline-offset-4">
-                      Book a 20-min call →
+                    <div className="text-ink-900 font-medium">Direct line</div>
+                    <a href="tel:+14078508823" className="underline underline-offset-4">
+                      (407) 850-8823
                     </a>
                     <div className="text-[12.5px] text-ink-500 mt-0.5">
-                      We confirm by reply within 1 business hour during operating hours.
+                      Steve Louis-Jean, founder · Mon–Fri 9am–7pm ET
                     </div>
                   </div>
                 </li>
@@ -87,20 +87,52 @@ export default function ContactPage() {
             </div>
 
             <div className="card-quiet p-6">
-              <div className="eyebrow">Office</div>
-              <ul className="mt-4 space-y-3 text-[14px] text-ink-800">
-                <li className="flex items-start gap-3">
-                  <MapPin className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
+              <div className="eyebrow">Founder</div>
+              <div className="mt-4 text-[14px] text-ink-800">
+                <div className="text-ink-900 font-medium">Steve Louis-Jean</div>
+                <div className="text-[12.5px] text-ink-500 mt-0.5">
+                  AI Integration Engineer · Founder, Dissertation Editing Center
+                </div>
+                <div className="mt-3 text-[13.5px] space-y-1">
                   <div>
-                    Dissertation Editing Center<br />
-                    228 Park Avenue South #57828<br />
-                    New York, NY 10003-1502
+                    Direct:{" "}
+                    <a href="mailto:slouisjean@nxaihorizon.com" className="underline underline-offset-4">
+                      slouisjean@nxaihorizon.com
+                    </a>
                   </div>
-                </li>
+                  <div>
+                    Phone:{" "}
+                    <a href="tel:+14078508823" className="underline underline-offset-4">
+                      (407) 850-8823
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-quiet p-6">
+              <div className="eyebrow">Operating entity</div>
+              <ul className="mt-4 space-y-3 text-[14px] text-ink-800">
                 <li className="flex items-start gap-3">
                   <Building2 className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
                   <div>
-                    Service area: New York · New Jersey · Connecticut and remote nationwide
+                    <div className="text-ink-900 font-medium">Nexus AI Horizon</div>
+                    <div className="text-[12.5px] text-ink-500 mt-0.5">
+                      Operator of Dissertation Editing Center ·{" "}
+                      <a href="https://nexusaihorizon.com" className="underline underline-offset-4">
+                        nexusaihorizon.com
+                      </a>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
+                  <div>
+                    8315 Northern Blvd, Suite 2<br />
+                    Jackson Heights, NY 11372
+                    <div className="text-[12.5px] text-ink-500 mt-0.5">
+                      Service area: NYC · NJ · CT and remote nationwide
+                    </div>
                   </div>
                 </li>
               </ul>

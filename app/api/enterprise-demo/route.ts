@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const ENTERPRISE_INBOX =
-  process.env.ENTERPRISE_INBOX_ADDRESS ?? "enterprise@dissertationeditingcenter.com";
+  process.env.ENTERPRISE_INBOX_ADDRESS ?? "slouisjean@nxaihorizon.com";
 
 /**
  * Enterprise demo request endpoint. Persists the request to the database when

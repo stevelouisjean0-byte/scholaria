@@ -87,6 +87,70 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Founder section — named principal, the single highest-impact trust
+          fix the audit called for. Placed above the Editorial Board so the
+          person who actually answers the phone is the first human a reader
+          sees on the page. */}
+      <section className="section bg-paper">
+        <div className="container max-w-4xl">
+          <header className="chapter">
+            <span className="roman">I.</span>
+            <span className="label">Founder</span>
+          </header>
+
+          <div className="grid grid-cols-12 gap-x-10 gap-y-6">
+            <div className="col-span-12 lg:col-span-7">
+              <h2 className="font-serif text-[32px] lg:text-[40px] leading-tight text-ink-900">
+                Steve Louis-Jean — AI Integration Engineer
+              </h2>
+              <p className="mt-4 text-[15px] leading-[1.7] text-ink-700">
+                Steve is the founder and operator of Dissertation Editing Center. He builds and
+                runs the underlying review platform, sets the editorial standards alongside the
+                board, and is the named human you reach when you have a question that's not
+                covered by the FAQ.
+              </p>
+              <p className="mt-3 text-[15px] leading-[1.7] text-ink-700">
+                Dissertation Editing Center is operated by{" "}
+                <a
+                  href="https://nexusaihorizon.com"
+                  className="underline underline-offset-4"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Nexus AI Horizon
+                </a>
+                , a New York–based AI integration practice that designs and deploys agentic
+                systems for regulated and education-adjacent industries.
+              </p>
+            </div>
+
+            <div className="col-span-12 lg:col-span-5">
+              <div className="card-quiet p-6">
+                <div className="eyebrow">Direct contact</div>
+                <ul className="mt-3 space-y-2 text-[14px] text-ink-800">
+                  <li>
+                    <a
+                      href="mailto:slouisjean@nxaihorizon.com"
+                      className="underline underline-offset-4"
+                    >
+                      slouisjean@nxaihorizon.com
+                    </a>
+                  </li>
+                  <li>
+                    <a href="tel:+14078508823" className="underline underline-offset-4">
+                      (407) 850-8823
+                    </a>
+                  </li>
+                  <li className="text-[12.5px] text-ink-500 pt-2 border-t border-ink-100">
+                    8315 Northern Blvd, Suite 2 · Jackson Heights, NY 11372
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <EditorialBoard />
       <QualityFeatures />
     </>

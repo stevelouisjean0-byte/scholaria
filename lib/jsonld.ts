@@ -33,15 +33,31 @@ export function siteGraph() {
         ],
         address: {
           "@type": "PostalAddress",
-          addressLocality: "New York",
+          streetAddress: "8315 Northern Blvd, Suite 2",
+          addressLocality: "Jackson Heights",
           addressRegion: "NY",
+          postalCode: "11372",
           addressCountry: "US"
+        },
+        founder: {
+          "@type": "Person",
+          name: "Steve Louis-Jean",
+          jobTitle: "AI Integration Engineer · Founder",
+          email: "slouisjean@nxaihorizon.com",
+          telephone: "+1-407-850-8823",
+          worksFor: { "@type": "Organization", name: "Nexus AI Horizon", url: "https://nexusaihorizon.com" }
+        },
+        parentOrganization: {
+          "@type": "Organization",
+          name: "Nexus AI Horizon",
+          url: "https://nexusaihorizon.com"
         },
         contactPoint: [
           {
             "@type": "ContactPoint",
             contactType: "customer support",
-            email: "concierge@dissertationeditingcenter.com",
+            telephone: "+1-407-850-8823",
+            email: "slouisjean@nxaihorizon.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
             availableLanguage: ["en"],
             hoursAvailable: "Mo-Fr 09:00-19:00, Sa 10:00-16:00 America/New_York"
@@ -49,14 +65,9 @@ export function siteGraph() {
           {
             "@type": "ContactPoint",
             contactType: "sales",
-            email: "enterprise@dissertationeditingcenter.com",
+            telephone: "+1-407-850-8823",
+            email: "slouisjean@nxaihorizon.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
-            availableLanguage: ["en"]
-          },
-          {
-            "@type": "ContactPoint",
-            contactType: "privacy",
-            email: "privacy@dissertationeditingcenter.com",
             availableLanguage: ["en"]
           }
         ],

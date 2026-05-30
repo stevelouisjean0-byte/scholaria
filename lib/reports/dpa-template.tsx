@@ -68,7 +68,7 @@ function DPA() {
           This template is provided as a starting point for institutional procurement review. It
           is not executed until both parties countersign. Institutional counsel must review and
           mark up. Not legal advice. Final executable version available on request from
-          enterprise@dissertationeditingcenter.com.
+          slouisjean@nxaihorizon.com.
         </Text>
 
         <Text style={styles.h2}>1. Parties &amp; scope</Text>
@@ -151,7 +151,7 @@ function DPA() {
         </Text>
 
         <View style={styles.footer} fixed>
-          <Text>Template — not executed. Final version: enterprise@dissertationeditingcenter.com</Text>
+          <Text>Template — not executed. Final version: slouisjean@nxaihorizon.com · Nexus AI Horizon, 8315 Northern Blvd Ste 2, Jackson Heights, NY 11372</Text>
           <Text>v1.0 · 2026</Text>
         </View>
       </Page>
