@@ -75,13 +75,13 @@ async function getJob(jobId: string): Promise<JobRow | null> {
 
 async function getEvents(jobId: string): Promise<EventRow[]> {
   try {
-    const { rows } = await db.query<EventRow>(
+    const { rows } = await db.query(
       `select event, created_at from workflow_events
         where job_id = $1
         order by created_at asc`,
       [jobId]
     );
-    return rows;
+    return rows as EventRow[];
   } catch {
     return [];
   }

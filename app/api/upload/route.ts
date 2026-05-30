@@ -129,8 +129,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate the sequential DEC-YYYY-NNNNNN display id.
-    const seqRow = await db.query<{ n: string }>(`select nextval('submission_seq')::text as n`);
-    const seq = parseInt(seqRow.rows[0].n, 10);
+    const seqRow = await db.query(`select nextval('submission_seq')::text as n`);
+    const seq = parseInt(seqRow.rows[0].n as string, 10);
     const year = receivedAt.getUTCFullYear();
     displayId = `DEC-${year}-${String(seq).padStart(6, "0")}`;
 
