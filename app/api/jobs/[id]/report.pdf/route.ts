@@ -15,6 +15,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   let filename: string;
   let manuscript: { wordCount: number; pageCount: number };
   let memory: any;
+  let displayIdExt: string | undefined;
+  let clientNameExt: string | undefined;
+  let serviceExt: string | undefined;
 
   if (params.id === SAMPLE_JOB_ID) {
     // Public sample report — anyone may download it.
@@ -44,7 +47,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
     try {
       const { rows } = await db.query(
-        `select user_id, filename, word_count, upload_meta, memory from jobs where id=$1`,
+        `select user_id, filename, word_count, upload_meta, memory, display_id from jobs where id=$1`,
         [params.id]
       );
       if (!rows.length) return NextResponse.json({ error: "not found" }, { status: 404 });
@@ -60,6 +63,11 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
         pageCount: rows[0].upload_meta?.pageCount ?? 0
       };
       memory = rows[0].memory ?? { jobId: params.id, reviews: {}, updatedAt: new Date().toISOString() };
+      displayIdExt = rows[0].display_id ?? undefined;
+      const intakeExt = (rows[0].upload_meta?.intake ?? {}) as Record<string, any>;
+      clientNameExt =
+        [intakeExt.firstName, intakeExt.lastName].filter(Boolean).join(" ").trim() || undefined;
+      serviceExt = intakeExt.serviceRequested ?? undefined;
     } catch (err) {
       return NextResponse.json({ error: "database_unavailable" }, { status: 503 });
     }
@@ -70,7 +78,10 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     jobId: params.id,
     manuscript,
     memory,
-    generatedAt: new Date()
+    generatedAt: new Date(),
+    displayId: displayIdExt,
+    clientName: clientNameExt,
+    servicePurchased: serviceExt
   });
 
   return new NextResponse(pdf as unknown as BodyInit, {

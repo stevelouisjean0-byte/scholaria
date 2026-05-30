@@ -105,9 +105,15 @@ export default async function StatusPage({ params }: { params: { jobId: string }
 
   const currentIdx = STAGE_ORDER.indexOf(job.stage as typeof STAGE_ORDER[number]);
   const isDelivered = job.stage === "delivered";
+  const isManualReview = job.stage === "needs_manual_review";
   const display = job.display_id ?? job.id;
-  const summary = job.memory?.report?.executiveSummary as string | undefined;
+  const formal = job.memory?.formalReport as any;
+  const summary = (formal?.executiveSummary ?? job.memory?.report?.executiveSummary) as string | undefined;
   const revisionPlan = (job.memory?.report?.revisionPlan ?? []) as string[];
+  const formalFirst = (formal?.revisionPlan?.first ?? []) as string[];
+  const formalSecond = (formal?.revisionPlan?.second ?? []) as string[];
+  const formalThird = (formal?.revisionPlan?.third ?? []) as string[];
+  const finalRec = formal?.finalRecommendation as string | undefined;
   const readiness = job.memory?.qa?.submissionReadiness as number | string | undefined;
   const quality = job.memory?.qa?.qualityScore as number | string | undefined;
   const pdfUrl = `/api/jobs/${job.id}/report.pdf`;
@@ -239,6 +245,19 @@ export default async function StatusPage({ params }: { params: { jobId: string }
           </aside>
         </div>
 
+        {/* Manual review notice — paid customer should never see a stuck state */}
+        {isManualReview && (
+          <div className="mt-8 card p-7">
+            <div className="eyebrow">Final review in progress</div>
+            <p className="mt-4 text-[15px] leading-[1.7] text-ink-800">
+              We are reviewing your document. Your report is still being prepared and will be sent to
+              you as soon as the editorial team has finalized the package. No further action is needed
+              on your part. If you have a question, please reach us at{" "}
+              <a href="mailto:support@doctoralediting.com" className="text-ink-900 underline">support@doctoralediting.com</a>.
+            </p>
+          </div>
+        )}
+
         {/* Delivered package */}
         {isDelivered && summary && (
           <div className="mt-8 card p-7">
@@ -253,7 +272,41 @@ export default async function StatusPage({ params }: { params: { jobId: string }
               {summary}
             </div>
 
-            {revisionPlan.length > 0 && (
+            {(formalFirst.length + formalSecond.length + formalThird.length) > 0 ? (
+              <div className="mt-7 pt-5 border-t border-ink-100">
+                <div className="eyebrow">Revision plan</div>
+                {formalFirst.length > 0 && (
+                  <div className="mt-4">
+                    <div className="text-[12.5px] text-ink-500 uppercase tracking-wider">First — revise these before anything else</div>
+                    <ol className="mt-2 space-y-1.5 text-[14px] leading-[1.65] text-ink-800 list-decimal pl-5">
+                      {formalFirst.map((step, i) => <li key={i}>{step}</li>)}
+                    </ol>
+                  </div>
+                )}
+                {formalSecond.length > 0 && (
+                  <div className="mt-5">
+                    <div className="text-[12.5px] text-ink-500 uppercase tracking-wider">Second — strengthen these areas</div>
+                    <ol className="mt-2 space-y-1.5 text-[14px] leading-[1.65] text-ink-800 list-decimal pl-5">
+                      {formalSecond.map((step, i) => <li key={i}>{step}</li>)}
+                    </ol>
+                  </div>
+                )}
+                {formalThird.length > 0 && (
+                  <div className="mt-5">
+                    <div className="text-[12.5px] text-ink-500 uppercase tracking-wider">Third — polish final details</div>
+                    <ol className="mt-2 space-y-1.5 text-[14px] leading-[1.65] text-ink-800 list-decimal pl-5">
+                      {formalThird.map((step, i) => <li key={i}>{step}</li>)}
+                    </ol>
+                  </div>
+                )}
+                {finalRec && (
+                  <div className="mt-6 pt-4 border-t border-ink-100">
+                    <div className="text-[12.5px] text-ink-500 uppercase tracking-wider">Final recommendation</div>
+                    <p className="mt-2 text-[14px] leading-[1.65] text-ink-800 whitespace-pre-wrap">{finalRec}</p>
+                  </div>
+                )}
+              </div>
+            ) : revisionPlan.length > 0 && (
               <div className="mt-7 pt-5 border-t border-ink-100">
                 <div className="eyebrow">Revision plan</div>
                 <ol className="mt-4 space-y-2.5 text-[14px] leading-[1.65] text-ink-800 list-decimal pl-5">

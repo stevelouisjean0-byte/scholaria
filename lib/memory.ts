@@ -13,7 +13,10 @@ export interface JobMemory {
   scope?: ScopeSnapshot;
   reviews: Partial<Record<string, AgentReview>>;
   qa?: QASnapshot;
+  /** Legacy. Newly delivered jobs populate `formalReport` instead. */
   report?: FinalReport;
+  /** Executive-level deliverable. Populated by runDelivery for all new jobs. */
+  formalReport?: FormalReport;
   updatedAt: string;
 }
 
@@ -64,10 +67,88 @@ export interface QASnapshot {
   notes: string;
 }
 
+/**
+ * Legacy shape — preserved for backward compatibility with already-delivered
+ * jobs whose memory predates the formal 12-section deliverable. New jobs use
+ * FormalReport (below); the PDF renderer falls back to FinalReport when only
+ * the legacy field is present.
+ */
 export interface FinalReport {
   executiveSummary: string;
   revisionPlan: string[];
   deliverables: { label: string; url: string; kind: string }[];
+}
+
+/**
+ * Executive-level client deliverable. Every delivered job produces a
+ * FormalReport that maps 1:1 to the 12 required sections of the client-
+ * facing PDF: cover, executive summary, score explanations, strengths,
+ * priority revisions, APA review, citation integrity, scholarly tone,
+ * alignment, chapter-specific, revision plan, and final recommendation.
+ *
+ * Schema is intentionally strict: optional fields use empty arrays /
+ * empty strings so the renderer can always assume a shape. Validation
+ * happens at the orchestrator boundary via formalReportSchema.
+ */
+export interface FormalReport {
+  /** Cover-page metadata. Populated by the orchestrator from DB facts. */
+  cover: {
+    documentTitle?: string;
+    servicePurchased?: string;
+    completedAt: string;
+  };
+  /** 250–400 words. Formal academic register. Replaces the legacy field. */
+  executiveSummary: string;
+  /** Paragraph-form rationale for the readiness and quality scores. */
+  scoreExplanations: {
+    readiness: string;
+    quality: string;
+  };
+  /** At least five document-specific strengths. */
+  strengths: Array<{
+    heading: string;
+    explanation: string;
+    evidence?: string;
+    academicSignificance: string;
+  }>;
+  /** At least five prioritized revisions with concrete remedies. */
+  priorityRevisions: Array<{
+    issue: string;
+    rationale: string;
+    location?: string;
+    remedy: string;
+    exampleRewrite?: string;
+  }>;
+  apaReview: {
+    overall: string;
+    findings: Array<{ area: string; finding: string; recommendation: string }>;
+  };
+  citationIntegrity: {
+    overall: string;
+    missingReferences: string[];
+    uncitedReferences: string[];
+    weakOrOutdatedSources: string[];
+    notes: string;
+  };
+  scholarlyTone: {
+    overall: string;
+    observations: string[];
+    suggestedEdits: Array<{ excerpt: string; revised: string; rationale: string }>;
+  };
+  alignmentReview: {
+    overall: string;
+    elements: Array<{ element: string; assessment: string }>;
+  };
+  chapterSpecificReview: {
+    sectionType: string;
+    sections: Array<{ topic: string; finding: string; recommendation: string }>;
+  };
+  revisionPlan: {
+    first: string[];
+    second: string[];
+    third: string[];
+  };
+  finalRecommendation: string;
 }
 
 export async function readMemory(jobId: string): Promise<JobMemory> {
