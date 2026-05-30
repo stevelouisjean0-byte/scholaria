@@ -25,7 +25,7 @@ export function EnterpriseDemoForm() {
       const res = await fetch("/api/enterprise-demo", { method: "POST", body: fd });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(data?.error ?? "Could not submit. Please email enterprise@dissertationeditingcenter.com directly.");
+        setError(data?.error ?? "Could not submit. Please email support@doctoralediting.com directly.");
         setStage("error");
         return;
       }

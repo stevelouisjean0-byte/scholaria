@@ -52,7 +52,7 @@ export default function SecurityPage() {
             <li>
               <strong className="text-ink-900 font-medium">How to delete it on demand:</strong>{" "}
               Dashboard → Manuscripts → ⋯ → Delete permanently. Or email{" "}
-              <a href="mailto:privacy@dissertationeditingcenter.com" className="underline underline-offset-4">privacy@dissertationeditingcenter.com</a>{" "}
+              <a href="mailto:support@doctoralediting.com" className="underline underline-offset-4">support@doctoralediting.com</a>{" "}
               with your confirmation ID; we respond within 1 business day.
             </li>
           </ol>
@@ -64,7 +64,7 @@ export default function SecurityPage() {
                 <strong className="text-ink-900">FERPA-aware</strong> — student-record-grade controls applied to every job.
               </li>
               <li className="rounded-lg ring-1 ring-ink-200 bg-paper px-4 py-3">
-                <strong className="text-ink-900">GDPR posture</strong> — lawful basis: contract performance + consent. EU data subjects: write to <a href="mailto:dpo@dissertationeditingcenter.com" className="underline underline-offset-4">dpo@dissertationeditingcenter.com</a>.
+                <strong className="text-ink-900">GDPR posture</strong> — lawful basis: contract performance + consent. EU data subjects: write to <a href="mailto:support@doctoralediting.com" className="underline underline-offset-4">support@doctoralediting.com</a>.
               </li>
               <li className="rounded-lg ring-1 ring-ink-200 bg-paper px-4 py-3">
                 <strong className="text-ink-900">SOC 2 Type II</strong> — in progress. Target audit window: Q4 2026. Trust Center launches at start.

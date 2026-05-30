@@ -59,12 +59,8 @@ export default function PressPage() {
           <h2>Direct contact</h2>
           <ul>
             <li>
-              Press:{" "}
-              <a href="mailto:press@dissertationeditingcenter.com">press@dissertationeditingcenter.com</a>
-            </li>
-            <li>
-              Founder:{" "}
-              <a href="mailto:founder@dissertationeditingcenter.com">founder@dissertationeditingcenter.com</a>
+              Email:{" "}
+              <a href="mailto:support@doctoralediting.com">support@doctoralediting.com</a>
             </li>
             <li>
               Phone: <a href="tel:+14078508823">(407) 850-8823</a>
@@ -83,7 +79,7 @@ export default function PressPage() {
 
           <div className="not-prose mt-10 flex flex-wrap gap-4">
             <a
-              href="mailto:press@dissertationeditingcenter.com?subject=Press%20kit%20request%20%E2%80%94%20Dissertation%20Editing%20Center"
+              href="mailto:support@doctoralediting.com?subject=Press%20kit%20request%20%E2%80%94%20Dissertation%20Editing%20Center"
               className="btn-primary inline-flex items-center gap-2"
             >
               <Mail className="h-4 w-4" />

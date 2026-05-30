@@ -33,28 +33,13 @@ export default function ContactPage() {
                 <li className="flex items-start gap-3">
                   <Mail className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
                   <div>
-                    <div className="text-ink-900 font-medium">Concierge support</div>
-                    <a href="mailto:concierge@dissertationeditingcenter.com" className="underline underline-offset-4">
-                      concierge@dissertationeditingcenter.com
+                    <div className="text-ink-900 font-medium">All inquiries</div>
+                    <a href="mailto:support@doctoralediting.com" className="underline underline-offset-4">
+                      support@doctoralediting.com
                     </a>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Mail className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
-                  <div>
-                    <div className="text-ink-900 font-medium">Enterprise & universities</div>
-                    <a href="mailto:enterprise@dissertationeditingcenter.com" className="underline underline-offset-4">
-                      enterprise@dissertationeditingcenter.com
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Mail className="h-4 w-4 mt-1 text-ink-500 shrink-0" />
-                  <div>
-                    <div className="text-ink-900 font-medium">Privacy & data requests</div>
-                    <a href="mailto:privacy@dissertationeditingcenter.com" className="underline underline-offset-4">
-                      privacy@dissertationeditingcenter.com
-                    </a>
+                    <div className="text-[12.5px] text-ink-500 mt-0.5">
+                      Concierge support · Enterprise &amp; universities · Privacy &amp; data requests · Press
+                    </div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -96,8 +81,8 @@ export default function ContactPage() {
                 <div className="mt-3 text-[13.5px] space-y-1">
                   <div>
                     Direct:{" "}
-                    <a href="mailto:founder@dissertationeditingcenter.com" className="underline underline-offset-4">
-                      founder@dissertationeditingcenter.com
+                    <a href="mailto:support@doctoralediting.com" className="underline underline-offset-4">
+                      support@doctoralediting.com
                     </a>
                   </div>
                   <div>

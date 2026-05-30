@@ -100,7 +100,7 @@ export function uploadConfirmationEmail(opts: {
   <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;" />
 
   <p style="font-size: 13px; color: #6b7280;">
-    Questions? Reply to this email or contact founder Steve Louis-Jean at <a href="mailto:concierge@dissertationeditingcenter.com" style="color: #1a1d2b;">concierge@dissertationeditingcenter.com</a> · (407) 850-8823.<br />
+    Questions? Reply to this email or contact founder Steve Louis-Jean at <a href="mailto:support@doctoralediting.com" style="color: #1a1d2b;">support@doctoralediting.com</a> · (407) 850-8823.<br />
     14-day money-back guarantee · Cancel anytime
   </p>
 </body></html>`;
@@ -128,7 +128,7 @@ export function uploadConfirmationEmail(opts: {
     `Track your review: ${BASE}/status/${opts.jobId}`,
     "",
     "Questions? Reply to this email or contact founder Steve Louis-Jean directly:",
-    "  concierge@dissertationeditingcenter.com  ·  (407) 850-8823",
+    "  support@doctoralediting.com  ·  (407) 850-8823",
     "",
     "14-day money-back guarantee. Cancel anytime."
   ].join("\n");
@@ -138,7 +138,7 @@ export function uploadConfirmationEmail(opts: {
     subject: `Submission confirmed — ${display}`,
     html,
     text,
-    replyTo: "concierge@dissertationeditingcenter.com"
+    replyTo: "support@doctoralediting.com"
   };
 }
 

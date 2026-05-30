@@ -70,8 +70,8 @@ export function LocationPageBody(props: LocationPageProps) {
             We do not claim institutional partnership with the universities listed; we work with
             individual candidates and programs on a per-engagement basis. For institutional pilot
             inquiries, please contact{" "}
-            <a href="mailto:enterprise@dissertationeditingcenter.com" className="underline underline-offset-4">
-              enterprise@dissertationeditingcenter.com
+            <a href="mailto:support@doctoralediting.com" className="underline underline-offset-4">
+              support@doctoralediting.com
             </a>.
           </p>
         </div>

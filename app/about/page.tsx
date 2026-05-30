@@ -123,10 +123,10 @@ export default function AboutPage() {
                 <ul className="mt-3 space-y-2 text-[14px] text-ink-800">
                   <li>
                     <a
-                      href="mailto:founder@dissertationeditingcenter.com"
+                      href="mailto:support@doctoralediting.com"
                       className="underline underline-offset-4"
                     >
-                      founder@dissertationeditingcenter.com
+                      support@doctoralediting.com
                     </a>
                   </li>
                   <li>

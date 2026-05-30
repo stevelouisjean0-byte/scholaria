@@ -7,7 +7,7 @@ export const maxDuration = 60;
 
 const databaseConfigured = Boolean(process.env.DATABASE_URL);
 const redisConfigured = Boolean(process.env.REDIS_URL);
-const OWNER_INBOX = process.env.OWNER_INBOX_ADDRESS ?? "concierge@dissertationeditingcenter.com";
+const OWNER_INBOX = process.env.OWNER_INBOX_ADDRESS ?? "support@doctoralediting.com";
 
 /**
  * Upload endpoint with graduated capability levels.

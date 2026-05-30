@@ -50,7 +50,7 @@ export function siteGraph() {
             "@type": "ContactPoint",
             contactType: "customer support",
             telephone: "+1-407-850-8823",
-            email: "concierge@dissertationeditingcenter.com",
+            email: "support@doctoralediting.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
             availableLanguage: ["en"],
             hoursAvailable: "Mo-Fr 09:00-19:00, Sa 10:00-16:00 America/New_York"
@@ -59,7 +59,7 @@ export function siteGraph() {
             "@type": "ContactPoint",
             contactType: "sales",
             telephone: "+1-407-850-8823",
-            email: "enterprise@dissertationeditingcenter.com",
+            email: "support@doctoralediting.com",
             areaServed: ["US", "GB", "CA", "AU", "EU"],
             availableLanguage: ["en"]
           }

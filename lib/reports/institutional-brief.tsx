@@ -144,7 +144,7 @@ function Brief() {
 
         <View style={styles.footer} fixed>
           <Text>Dissertation Editing Center · dissertationeditingcenter.com</Text>
-          <Text>Steve Louis-Jean, Founder · founder@dissertationeditingcenter.com · (407) 850-8823</Text>
+          <Text>Steve Louis-Jean, Founder · support@doctoralediting.com · (407) 850-8823</Text>
         </View>
       </Page>
     </Document>

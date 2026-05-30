@@ -59,7 +59,7 @@ export function SiteFooter() {
       <div className="border-t border-ink-200">
         <div className="container py-5 grid grid-cols-12 gap-6 text-[12px] text-ink-500">
           <span className="col-span-12 md:col-span-5">
-            © {new Date().getFullYear()} Dissertation Editing Center · concierge@dissertationeditingcenter.com
+            © {new Date().getFullYear()} Dissertation Editing Center · support@doctoralediting.com
           </span>
           <span className="col-span-12 md:col-span-4">
             8315 Northern Blvd, Suite 2 · Jackson Heights, NY 11372 · (407) 850-8823

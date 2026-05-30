@@ -84,7 +84,7 @@ export function UploadZone() {
     }
     if (selected.size > 50 * 1024 * 1024) {
       setError("Files larger than 50 MB require Dissertation Intensive or Enterprise.");
-      setErrorHint("Email concierge@dissertationeditingcenter.com for a custom upload link.");
+      setErrorHint("Email support@doctoralediting.com for a custom upload link.");
       setStage("error");
       setFile(null);
       return;
@@ -363,7 +363,7 @@ function SuccessCard({
             <p className="mt-3 text-[12.5px] text-ink-300">
               📧 A confirmation email has been sent. If you don't see it within 5 minutes, check
               spam or write to{" "}
-              <span className="underline underline-offset-4">concierge@dissertationeditingcenter.com</span>{" "}
+              <span className="underline underline-offset-4">support@doctoralediting.com</span>{" "}
               with your submission ID.
             </p>
             <div className="mt-4 flex flex-wrap gap-4">

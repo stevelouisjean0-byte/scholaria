@@ -11,7 +11,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "What is your refund policy?",
-    a: "Every paid plan includes a 14-day money-back guarantee. If your first APA report and annotated review do not meet committee-grade quality, write to concierge@dissertationeditingcenter.com within 14 days of your first paid charge and we refund in full, no questions asked. Cancel anytime from your dashboard."
+    a: "Every paid plan includes a 14-day money-back guarantee. If your first APA report and annotated review do not meet committee-grade quality, write to support@doctoralediting.com within 14 days of your first paid charge and we refund in full, no questions asked. Cancel anytime from your dashboard."
   },
   {
     q: "Can I see a sample annotated review before I upload?",
