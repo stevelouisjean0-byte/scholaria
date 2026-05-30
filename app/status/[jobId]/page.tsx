@@ -107,8 +107,10 @@ export default async function StatusPage({ params }: { params: { jobId: string }
   const isDelivered = job.stage === "delivered";
   const display = job.display_id ?? job.id;
   const summary = job.memory?.report?.executiveSummary as string | undefined;
+  const revisionPlan = (job.memory?.report?.revisionPlan ?? []) as string[];
   const readiness = job.memory?.qa?.submissionReadiness as number | string | undefined;
   const quality = job.memory?.qa?.qualityScore as number | string | undefined;
+  const pdfUrl = `/api/jobs/${job.id}/report.pdf`;
   const intake = (job.upload_meta?.intake ?? {}) as Record<string, string>;
   const clientName = [intake.firstName, intake.lastName].filter(Boolean).join(" ") || null;
 
@@ -250,10 +252,33 @@ export default async function StatusPage({ params }: { params: { jobId: string }
             <div className="mt-5 prose-academic text-[14.5px] leading-[1.7] text-ink-800 whitespace-pre-wrap">
               {summary}
             </div>
+
+            {revisionPlan.length > 0 && (
+              <div className="mt-7 pt-5 border-t border-ink-100">
+                <div className="eyebrow">Revision plan</div>
+                <ol className="mt-4 space-y-2.5 text-[14px] leading-[1.65] text-ink-800 list-decimal pl-5">
+                  {revisionPlan.map((step, i) => (
+                    <li key={i}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
             <div className="mt-7 pt-5 border-t border-ink-100 flex flex-wrap gap-3">
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener"
+                className="btn-primary"
+              >
+                Download full PDF report
+              </a>
               <Link href="/dashboard" className="btn-secondary">Open dashboard</Link>
-              <Link href="/upload" className="btn-primary">Submit another chapter</Link>
+              <Link href="/upload" className="btn-ghost">Submit another chapter</Link>
             </div>
+            <p className="mt-3 text-[12px] text-ink-500">
+              PDF download is gated to the signed-in account that submitted this manuscript.
+            </p>
           </div>
         )}
 

@@ -320,6 +320,75 @@ export async function runDelivery(jobId: string) {
   await setStage(jobId, "delivered");
   await queue(QUEUE_NAMES.notify).add("notify", { jobId });
   await recordWorkflowEvent(jobId, "delivery.complete");
+
+  // Send completion email to the student and a delivery-confirmation
+  // ping to the owner inbox. Failures are non-fatal — the deliverable
+  // is already persisted and viewable via /status and /dashboard.
+  try {
+    const intake = (mem.intake ?? {}) as Record<string, any>;
+    const studentEmail = String(intake.email ?? "").trim();
+    const firstName = String(intake.firstName ?? "").trim() || undefined;
+    const fullName = [intake.firstName, intake.lastName].filter(Boolean).join(" ").trim();
+
+    // Pull the canonical display_id and filename from Postgres so the
+    // email matches the on-site display exactly.
+    const { rows } = await db.query(
+      "select display_id, filename from jobs where id=$1",
+      [jobId]
+    );
+    const displayId = (rows[0]?.display_id as string | undefined) ?? jobId;
+    const filename = (rows[0]?.filename as string | undefined) ?? "your manuscript";
+
+    const { sendMail, reviewReadyEmail, ownerDeliveryEmail } = await import("./email");
+
+    if (studentEmail) {
+      const mail = reviewReadyEmail({
+        to: studentEmail,
+        jobId,
+        displayId,
+        filename,
+        firstName,
+        readiness: mem.qa?.submissionReadiness,
+        quality: mem.qa?.qualityScore,
+        executiveSummary: report.executiveSummary,
+        revisionPlan: report.revisionPlan
+      });
+      const res = await sendMail(mail);
+      await recordWorkflowEvent(jobId, "notify.student", {
+        to: studentEmail,
+        ok: res.ok,
+        id: res.id,
+        error: res.error
+      });
+    } else {
+      await recordWorkflowEvent(jobId, "notify.student.skipped", { reason: "no_email" });
+    }
+
+    const ownerInbox = process.env.OWNER_INBOX_ADDRESS;
+    if (ownerInbox) {
+      const ownerMail = ownerDeliveryEmail({
+        to: ownerInbox,
+        jobId,
+        displayId,
+        studentEmail,
+        fullName,
+        filename,
+        readiness: mem.qa?.submissionReadiness,
+        quality: mem.qa?.qualityScore
+      });
+      const res = await sendMail(ownerMail);
+      await recordWorkflowEvent(jobId, "notify.owner", {
+        to: ownerInbox,
+        ok: res.ok,
+        id: res.id,
+        error: res.error
+      });
+    }
+  } catch (err) {
+    await recordWorkflowEvent(jobId, "notify.error", {
+      message: err instanceof Error ? err.message : String(err)
+    });
+  }
 }
 
 function reviewTaskFor(agent: AgentKey): string {
