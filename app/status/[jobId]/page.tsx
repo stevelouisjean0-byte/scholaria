@@ -116,9 +116,10 @@ export default async function StatusPage({
   const formal = job.memory?.formalReport as any;
   const summary = (formal?.executiveSummary ?? job.memory?.report?.executiveSummary) as string | undefined;
   const revisionPlan = (job.memory?.report?.revisionPlan ?? []) as string[];
-  const formalFirst = (formal?.revisionPlan?.first ?? []) as string[];
-  const formalSecond = (formal?.revisionPlan?.second ?? []) as string[];
-  const formalThird = (formal?.revisionPlan?.third ?? []) as string[];
+  // Support both v1 (first/second/third) and v2 (immediate/highImpact/finalPolish) shapes.
+  const formalFirst = (formal?.revisionPlan?.immediate ?? formal?.revisionPlan?.first ?? []) as string[];
+  const formalSecond = (formal?.revisionPlan?.highImpact ?? formal?.revisionPlan?.second ?? []) as string[];
+  const formalThird = (formal?.revisionPlan?.finalPolish ?? formal?.revisionPlan?.third ?? []) as string[];
   const finalRec = formal?.finalRecommendation as string | undefined;
   const readiness = job.memory?.qa?.submissionReadiness as number | string | undefined;
   const quality = job.memory?.qa?.qualityScore as number | string | undefined;

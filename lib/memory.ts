@@ -80,75 +80,162 @@ export interface FinalReport {
 }
 
 /**
- * Executive-level client deliverable. Every delivered job produces a
- * FormalReport that maps 1:1 to the 12 required sections of the client-
- * facing PDF: cover, executive summary, score explanations, strengths,
- * priority revisions, APA review, citation integrity, scholarly tone,
- * alignment, chapter-specific, revision plan, and final recommendation.
+ * Executive-level client deliverable v2 — 18-section formal report.
  *
- * Schema is intentionally strict: optional fields use empty arrays /
- * empty strings so the renderer can always assume a shape. Validation
- * happens at the orchestrator boundary via formalReportSchema.
+ * Structure maps 1:1 to the PDF the client receives. Produced by two
+ * sequential LLM calls plus programmatic assembly:
+ *
+ *   Call A (analytical):  executiveSummary, scoreOverview, qaReview,
+ *                         majorStrengths, priorityRevisions, finalRecommendation
+ *   Call B (sectioned):   apaReview, citationIntegrity, literatureReview,
+ *                         theoreticalFramework, alignmentReview,
+ *                         chapterSpecificReview, scholarlyTone, revisionPlan
+ *   Programmatic:         cover, submissionDetails, agentActivity,
+ *                         qualityGate, supportAndNextSteps
+ *
+ * The qualityGate.passed flag MUST be true for a job to be marked delivered;
+ * otherwise the job is routed to needs_manual_review.
  */
 export interface FormalReport {
-  /** Cover-page metadata. Populated by the orchestrator from DB facts. */
+  /** Cover-page metadata. Filled programmatically from DB + intake. */
   cover: {
     documentTitle?: string;
     servicePurchased?: string;
+    studentName?: string;
+    submissionId: string;
     completedAt: string;
+    filename: string;
+    wordCount?: number;
   };
-  /** 250–400 words. Formal academic register. Replaces the legacy field. */
+
+  /** Submission details from intake. Filled programmatically. */
+  submissionDetails: {
+    chapterUploaded?: string;
+    degreeProgram?: string;
+    dissertationStage?: string;
+    university?: string;
+    deadline?: string;
+    professorFeedback?: string;
+    areasOfConcern?: string[];
+  };
+
+  /** 300–500 words. Formal academic register. */
   executiveSummary: string;
-  /** Paragraph-form rationale for the readiness and quality scores. */
-  scoreExplanations: {
-    readiness: string;
-    quality: string;
+
+  /** Score Overview with the canonical 9 categories. */
+  scoreOverview: {
+    submissionReadiness: { score: number; explanation: string };
+    overallQuality: { score: number; explanation: string };
+    categories: Array<{
+      name: string; // e.g. "Scholarly Tone", "APA 7 Compliance"
+      score: number; // 0–100
+      reason: string;
+      evidence?: string;
+      recommendation: string;
+    }>;
   };
+
+  /** Paragraph-form QA review explanation. */
+  qaReview: string;
+
   /** At least five document-specific strengths. */
-  strengths: Array<{
+  majorStrengths: Array<{
     heading: string;
     explanation: string;
     evidence?: string;
     academicSignificance: string;
   }>;
-  /** At least five prioritized revisions with concrete remedies. */
+
+  /** At least five prioritized revisions with rich per-finding metadata. */
   priorityRevisions: Array<{
-    issue: string;
-    rationale: string;
+    findingNumber: number;
     location?: string;
-    remedy: string;
-    exampleRewrite?: string;
+    severity: "high" | "moderate" | "minor";
+    category: string;
+    excerpt?: string;
+    issue: string;
+    whyItMatters: string;
+    recommendedFix: string;
+    exampleRevision?: string;
+    relatedStandard?: string;
   }>;
+
   apaReview: {
     overall: string;
-    findings: Array<{ area: string; finding: string; recommendation: string }>;
+    areas: Array<{ area: string; status: string; finding: string; recommendation: string }>;
   };
+
   citationIntegrity: {
     overall: string;
-    missingReferences: string[];
-    uncitedReferences: string[];
-    weakOrOutdatedSources: string[];
+    verificationDisclaimer: string;
+    requiresVerification: string[];
+    missingFromReferences: string[];
+    uncitedInBody: string[];
     notes: string;
   };
+
+  literatureReview: {
+    overall: string;
+    organization: string;
+    synthesis: string;
+    themes: string;
+    gapArticulation: string;
+  };
+
+  theoreticalFramework: {
+    overall: string;
+    frameworkIdentified?: string;
+    integration: string;
+    operationalization: string;
+  };
+
+  alignmentReview: {
+    overall: string;
+    elements: Array<{ element: string; assessment: string }>;
+  };
+
+  chapterSpecificReview: {
+    sectionType: string;
+    sections: Array<{ topic: string; finding: string; recommendation: string }>;
+  };
+
   scholarlyTone: {
     overall: string;
     observations: string[];
     suggestedEdits: Array<{ excerpt: string; revised: string; rationale: string }>;
   };
-  alignmentReview: {
-    overall: string;
-    elements: Array<{ element: string; assessment: string }>;
-  };
-  chapterSpecificReview: {
-    sectionType: string;
-    sections: Array<{ topic: string; finding: string; recommendation: string }>;
-  };
+
   revisionPlan: {
-    first: string[];
-    second: string[];
-    third: string[];
+    immediate: string[];
+    highImpact: string[];
+    finalPolish: string[];
   };
+
   finalRecommendation: string;
+
+  /** Client-safe agent activity log. Filled programmatically from
+   *  workflow_events + memory.reviews. */
+  agentActivity: Array<{
+    agentName: string;
+    reviewArea: string;
+    status: "completed" | "skipped" | "not_applicable";
+    findingsIncluded: boolean;
+    completedAt?: string;
+    note?: string;
+  }>;
+
+  /** Quality gate result. Filled by the QA validator after generation. */
+  qualityGate: {
+    passed: boolean;
+    checks: Array<{ name: string; status: "pass" | "fail"; note?: string }>;
+  };
+
+  supportAndNextSteps: {
+    contactEmail: string;
+    statusUrl: string;
+    pdfUrl: string;
+    note: string;
+  };
 }
 
 export async function readMemory(jobId: string): Promise<JobMemory> {
