@@ -1,0 +1,20 @@
+name: Production Cron Tick
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger production workflow worker
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          test -n "$CRON_SECRET"
+          curl --fail-with-body --show-error --silent --max-time 70 \
+            --request POST "https://dissertationeditingcenter.com/api/cron/tick" \
+            --header "Authorization: Bearer $CRON_SECRET"
