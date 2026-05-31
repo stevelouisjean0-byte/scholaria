@@ -1298,9 +1298,12 @@ export async function runDelivery(jobId: string) {
     failedChecks
   });
 
-  if (!passed) {
+  const hasCoreDeliverable = hasClientDeliverableCore(assembled);
+  if (!passed && !hasCoreDeliverable) {
     // Still persist the formalReport so an admin can inspect what was produced,
-    // but route the job to needs_manual_review so the client never sees it.
+    // but route the job to needs_manual_review if the client-facing core is
+    // missing. Count/coverage issues remain advisory and should not block a
+    // paying client from receiving a usable report.
     await writeMemory(jobId, { formalReport: assembled });
     await setStage(jobId, "needs_manual_review");
     await recordWorkflowEvent(jobId, "report.escalated_manual_review", {
@@ -1308,6 +1311,11 @@ export async function runDelivery(jobId: string) {
       failedChecks
     });
     return;
+  }
+  if (!passed) {
+    await recordWorkflowEvent(jobId, "report.quality_gate_advisory_delivery", {
+      failedChecks
+    });
   }
 
   const formal = assembled;
@@ -1416,6 +1424,21 @@ export async function runDelivery(jobId: string) {
       message: err instanceof Error ? err.message : String(err)
     });
   }
+}
+
+function hasClientDeliverableCore(report: FormalReport): boolean {
+  const revisionItems =
+    (report.revisionPlan?.immediate?.length ?? 0) +
+    (report.revisionPlan?.highImpact?.length ?? 0) +
+    (report.revisionPlan?.finalPolish?.length ?? 0);
+
+  return Boolean(
+    report.cover?.filename &&
+      (report.executiveSummary ?? "").trim().length >= 100 &&
+      (report.finalRecommendation ?? "").trim().length >= 50 &&
+      revisionItems > 0 &&
+      report.supportAndNextSteps?.contactEmail
+  );
 }
 
 function reviewTaskFor(agent: AgentKey): string {
