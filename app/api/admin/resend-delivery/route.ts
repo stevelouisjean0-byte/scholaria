@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/admin";
 import { readMemory } from "@/lib/memory";
 import { recordWorkflowEvent } from "@/lib/telemetry";
 import { sendMail, reviewReadyEmail, ownerDeliveryEmail } from "@/lib/email";
+import { randomBytes } from "crypto";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,6 +58,17 @@ export async function POST(req: NextRequest) {
   const fullName = [intake.firstName, intake.lastName].filter(Boolean).join(" ").trim();
   const displayId = job.display_id ?? job.id;
   const filename = job.filename ?? "your manuscript";
+  let deliveryToken = (job.upload_meta?.deliveryToken as string | undefined) ?? undefined;
+  if (!deliveryToken) {
+    deliveryToken = randomBytes(24).toString("base64url");
+    await db.query(
+      `update jobs
+          set upload_meta = coalesce(upload_meta, '{}'::jsonb) || jsonb_build_object('deliveryToken', $2::text),
+              updated_at = now()
+        where id = $1`,
+      [job.id, deliveryToken]
+    );
+  }
 
   const results: Record<string, any> = {};
 
@@ -70,7 +82,8 @@ export async function POST(req: NextRequest) {
       readiness: mem.qa?.submissionReadiness,
       quality: mem.qa?.qualityScore,
       executiveSummary: mem.report.executiveSummary,
-      revisionPlan: mem.report.revisionPlan
+      revisionPlan: mem.report.revisionPlan,
+      deliveryToken
     });
     const res = await sendMail(mail);
     results.student = { to: studentEmail, ...res };
