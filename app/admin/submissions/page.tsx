@@ -2,6 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
 import { CheckCircle2, Clock, Loader2, AlertTriangle, ArrowUpRight, Download } from "lucide-react";
+import { JobActions } from "./JobActions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -170,9 +171,12 @@ export default async function SubmissionsPage() {
                       </td>
                       <td className="py-3.5 pr-4 align-top text-ink-600 whitespace-nowrap">{fmtTime(j.created_at)}</td>
                       <td className="py-3.5 pr-5 align-top text-right">
-                        <Link href={`/status/${j.id}`} className="inline-flex items-center gap-1 text-ink-900 hover:underline underline-offset-4 text-[12px]">
-                          Open <ArrowUpRight className="h-3 w-3" />
-                        </Link>
+                        <div className="flex flex-col items-end gap-2">
+                          <Link href={`/status/${j.id}`} className="inline-flex items-center gap-1 text-ink-900 hover:underline underline-offset-4 text-[12px]">
+                            Open <ArrowUpRight className="h-3 w-3" />
+                          </Link>
+                          <JobActions jobId={j.id} stage={j.stage} />
+                        </div>
                       </td>
                     </tr>
                   );
