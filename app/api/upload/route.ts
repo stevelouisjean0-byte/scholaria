@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import { nanoid } from "nanoid";
 import { parseDocument } from "@/lib/document";
 
@@ -368,10 +369,10 @@ function triggerCron(req: NextRequest) {
       console.warn("[upload] CRON_SECRET is not configured; scheduled cron must advance the job.");
       return;
     }
-    fetch(cronUrl, {
+    waitUntil(fetch(cronUrl, {
       method: "POST",
       headers: { authorization: `Bearer ${cronSecret}` }
-    }).catch(() => undefined);
+    }).catch(() => undefined));
   } catch {
     /* non-fatal */
   }

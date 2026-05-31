@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import { db } from "@/lib/db";
 import { readMemory } from "@/lib/memory";
 import { runIntake, runScoping, runReview, runQA, runDelivery, WorkflowStage } from "@/lib/orchestrator";
@@ -118,10 +119,10 @@ export async function GET(req: NextRequest) {
       if (host) {
         const url = `${proto}://${host}/api/cron/tick`;
         const cronSecret = process.env.CRON_SECRET;
-        fetch(url, {
+        waitUntil(fetch(url, {
           method: "POST",
           headers: cronSecret ? { authorization: `Bearer ${cronSecret}` } : undefined
-        }).catch(() => undefined);
+        }).catch(() => undefined));
       }
     } catch {
       // If self-chain fails, the daily cron heartbeat will catch any stragglers.
