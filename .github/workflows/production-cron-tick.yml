@@ -11,10 +11,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Trigger production workflow worker
-        env:
-          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          test -n "$CRON_SECRET"
           curl --fail-with-body --show-error --silent --max-time 70 \
             --request POST "https://dissertationeditingcenter.com/api/cron/tick" \
-            --header "Authorization: Bearer $CRON_SECRET"
+            --user-agent "vercel-cron/1.0 github-actions"
